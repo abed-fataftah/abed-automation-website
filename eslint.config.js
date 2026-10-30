@@ -55,7 +55,7 @@ export default defineConfig(
   {
     files: ['scripts/**'],
     languageOptions: {
-      globals: { console: 'readonly', process: 'readonly' },
+      globals: { console: 'readonly', process: 'readonly', URL: 'readonly' },
     },
   },
 

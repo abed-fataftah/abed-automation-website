@@ -1,11 +1,14 @@
 // @ts-check
 import { defineConfig, envField, fontProviders } from 'astro/config';
 
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://abedautomation.com',
+  // Lists the built pages; skips the 404 page and the image and icon endpoints.
+  integrations: [sitemap()],
   // Schibsted Grotesk, downloaded at build time and served from the site's own domain.
   fonts: [
     {

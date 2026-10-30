@@ -6,7 +6,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 
 const GLOBAL_CSS = resolve('src/styles/global.css');
-const SCAN_DIRS = ['src/components', 'src/layouts', 'src/pages', 'src/content'];
+const SCAN_DIRS = ['src/components', 'src/layouts', 'src/pages', 'src/content', 'src/seo'];
 const SCAN_EXTENSIONS = ['.astro', '.ts', '.css'];
 
 // Foreground on background, minimum ratio: 4.5 for text, 3.0 for non text.

@@ -22,6 +22,13 @@ export interface SiteContent {
   meta: {
     title: string;
     description: string;
+    // The Person in the JSON-LD block (spec 0011).
+    founder: string;
+    // The 1200×630 sharing card drawn at build (spec 0011).
+    card: {
+      tagline: string;
+      alt: string;
+    };
   };
   a11y: {
     skipLink: string;
@@ -99,8 +106,14 @@ export const site = {
     bookEvent: 'book-call',
   },
   meta: {
-    title: 'Abed Automation',
-    description: 'AI automation, websites, and custom web apps for small businesses.',
+    title: 'Abed Automation · AI automation, websites, and web apps',
+    description:
+      'Abed Fataftah builds AI automation, websites, and custom web apps for small businesses. Start with a free 30 minute call.',
+    founder: 'Abed Fataftah',
+    card: {
+      tagline: 'AI automation, websites, and web apps for small businesses.',
+      alt: 'Abed Automation: AI automation, websites, and web apps for small businesses.',
+    },
   },
   a11y: {
     skipLink: 'Skip to content',
