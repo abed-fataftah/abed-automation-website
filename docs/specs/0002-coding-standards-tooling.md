@@ -1,7 +1,7 @@
 # 0002. Coding standards and lint, format, and CI tooling
 
 **Date**: 2026-10-28
-**Status**: In Progress
+**Status**: Accepted
 
 ## Summary
 
@@ -217,10 +217,10 @@ Single migration commit for the existing code, then enforced for all new code. I
 
 ## Follow-up
 
-- [ ] Your local branch is `master` and no GitHub remote exists yet. Spec 0001 and this CI workflow assume `main`. Rename it (`git branch -m master main`) before the first push.
-- [ ] After the repo is on GitHub, turn on branch protection for `main` requiring the CI check to pass. Until you do, CI only advises: a red PR can still merge, and Netlify will deploy it. This is the step that makes the standard binding (a GitHub settings step only you can do).
-- [ ] Record in root `AGENTS.md` (owned by `/sync`): the new scripts in `## Commands` (`pnpm lint`, `pnpm format`, `pnpm verify`), a `## Git` block (`- integration: on` / `- branch prefix: feat/` / `- commit: per-milestone`), Conventional Commits under `## Rules`, and replace "No test, lint, or format tooling yet" with "No tests yet".
-- [ ] Record in root `AGENTS.md` `## Agent skills` (owned by `/sync`): a bullet for `conventional-commit` (`github/awesome-copilot`), and a `Declined:` line for `setup-pre-commit` (`mattpocock/skills`, assumes Husky and conflicting Prettier defaults) and `github-actions` (`callstackincubator/agent-skills`, React Native builds only), so they are not offered again.
+- [x] Your local branch is `master` and no GitHub remote exists yet. Spec 0001 and this CI workflow assume `main`. Rename it (`git branch -m master main`) before the first push.
+- [x] After the repo is on GitHub, turn on branch protection for `main` requiring the CI check to pass. Until you do, CI only advises: a red PR can still merge, and Netlify will deploy it. This is the step that makes the standard binding (a GitHub settings step only you can do).
+- [x] Record in root `AGENTS.md` (owned by `/sync`): the new scripts in `## Commands` (`pnpm lint`, `pnpm format`, `pnpm verify`), a `## Git` block (`- integration: on` / `- branch prefix: feat/` / `- commit: per-milestone`), Conventional Commits under `## Rules`, and replace "No test, lint, or format tooling yet" with "No tests yet".
+- [x] Record in root `AGENTS.md` `## Agent skills` (owned by `/sync`): a bullet for `conventional-commit` (`github/awesome-copilot`), and a `Declined:` line for `setup-pre-commit` (`mattpocock/skills`, assumes Husky and conflicting Prettier defaults) and `github-actions` (`callstackincubator/agent-skills`, React Native builds only), so they are not offered again.
 - [ ] When features 13 and 14 install `gsap` and `three`, prove the bundle check markers with a deliberate static import (see Standard definition).
 - [ ] Revisit tests (Vitest for `site.ts` logic, a Playwright smoke test with JavaScript off) when the tier moves past Alpha or real logic appears.
 - [ ] Revisit a dead code check (Knip) at launch (feature 16), once the motion stubs are filled in.

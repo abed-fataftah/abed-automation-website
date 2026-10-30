@@ -14,7 +14,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | # | Feature | Phase | Status |
 |---|---------|-------|--------|
 | 1 | Stack & architecture | Foundation | in-progress |
-| 2 | Coding standards & tooling | Foundation | in-progress |
+| 2 | Coding standards & tooling | Foundation | done |
 | 3 | Design system & UI foundation | Foundation | in-progress |
 | 4 | Site copy | Foundation | in-progress |
 | 5 | Booking page setup | Release 1 | in-progress |
@@ -40,7 +40,7 @@ spec [0001](../specs/0001-astro-static-site-netlify/index.md) · code in `src/`,
 - [x] Scaffold from the decision: `/develop stack & architecture`
 - [x] Verify it: `/check verify stack & architecture`
 
-### 2. Coding standards & tooling · in-progress
+### 2. Coding standards & tooling · done
 Capture conventions from the real scaffolded project, then install lint and format tooling.
 **Done when:** root `AGENTS.md` reflects the real stack, and lint and format run clean.
 spec [0002](../specs/0002-coding-standards-tooling.md) · code in `eslint.config.js`, `.prettierrc.json`, `scripts/check-bundle.mjs`, `.github/workflows/ci.yml`
