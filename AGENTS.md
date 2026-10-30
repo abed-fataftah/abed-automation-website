@@ -42,7 +42,7 @@ Stored in `docs/specs/` as folders: `docs/specs/NNNN-title/` with `index.md`, `r
 - No third party requests on first load (self host fonts and images) and no cookies.
 - Brief ground rules: English only; Abed is one person, never a team; no invented testimonials, logos, figures, or results; no pricing; no contact forms or accounts.
 - The repo is public: never commit secrets; keep unapproved copy on branches.
-- Production builds fail on purpose while `BOOKING_PLACEHOLDER` is set (until feature 5). Use branch previews until then.
+- `site.ts` checks `bookingUrl` at build time: anything other than an https `cal.com` link fails the build.
 - Astro 7 is recent and most examples online are older; trust the `astro` skill and the Astro docs over blog posts.
 
 ## Git
@@ -60,6 +60,9 @@ Stored in `docs/specs/` as folders: `docs/specs/NNNN-title/` with `index.md`, `r
 - [performance](.claude/skills/performance/), [core-web-vitals](.claude/skills/core-web-vitals/), [accessibility](.claude/skills/accessibility/), [seo](.claude/skills/seo/), [best-practices](.claude/skills/best-practices/), [web-quality-audit](.claude/skills/web-quality-audit/): `addyosmani/web-quality-skills`, web quality checks
 - [web-design-guidelines](.claude/skills/web-design-guidelines/): `vercel-labs/agent-skills`, UI review against interface guidelines
 - [conventional-commit](.claude/skills/conventional-commit/): `github/awesome-copilot`, Conventional Commits messages
+- [og-images](.claude/skills/og-images/): `richtabor/agent-skills`, social card layout, fonts, and Satori rules
+- [satori](.claude/skills/satori/): `usenotra/skills`, Satori markup, supported CSS, fonts, and errors
+- [seo-sitemap](.claude/skills/seo-sitemap/): `agricidaniel/claude-seo`, XML sitemap generation and validation
 
 Declined: `setup-pre-commit` (`mattpocock/skills`, assumes Husky and conflicting Prettier defaults) · `github-actions` (`callstackincubator/agent-skills`, React Native builds only)
 

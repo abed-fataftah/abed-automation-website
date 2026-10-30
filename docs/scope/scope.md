@@ -13,17 +13,17 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 
 | # | Feature | Phase | Status |
 |---|---------|-------|--------|
-| 1 | Stack & architecture | Foundation | in-progress |
+| 1 | Stack & architecture | Foundation | done |
 | 2 | Coding standards & tooling | Foundation | done |
-| 3 | Design system & UI foundation | Foundation | in-progress |
+| 3 | Design system & UI foundation | Foundation | done |
 | 4 | Site copy | Foundation | in-progress |
 | 5 | Booking page setup | Release 1 | in-progress |
-| 6 | Header, navigation & hero | Release 1 | in-progress |
+| 6 | Header, navigation & hero | Release 1 | done |
 | 7 | Tools I Work With | Release 1 | in-progress |
-| 8 | Services | Release 1 | in-progress |
-| 9 | About | Release 1 | in-progress |
-| 10 | Final CTA & footer | Release 1 | in-progress |
-| 11 | SEO & sharing metadata | Release 1 | planned |
+| 8 | Services | Release 1 | done |
+| 9 | About | Release 1 | done |
+| 10 | Final CTA & footer | Release 1 | done |
+| 11 | SEO & sharing metadata | Release 1 | in-progress |
 | 12 | Privacy notice | Release 1 | in-progress |
 | 13 | GSAP motion | Release 2 | in-progress |
 | 14 | Three.js 3D scene | Release 2 | in-progress |
@@ -32,7 +32,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 
 ## Foundations
 
-### 1. Stack & architecture · in-progress
+### 1. Stack & architecture · done
 Choose the frontend framework and the host (Vercel or Netlify), confirmed with you, then scaffold a runnable static site. Also decide where page content and the shared booking URL live so they are easy to update, and how heavy animation code loads only when needed.
 **Done when:** the choices are recorded in a spec you approved, the scaffold runs locally, and a production build passes.
 spec [0001](../specs/0001-astro-static-site-netlify/index.md) · code in `src/`, `netlify.toml`
@@ -49,7 +49,7 @@ spec [0002](../specs/0002-coding-standards-tooling.md) · code in `eslint.config
 - [x] Build it: `/develop coding standards & tooling`
 - [x] Verify it: `/check verify coding standards & tooling`
 
-### 3. Design system & UI foundation · in-progress
+### 3. Design system & UI foundation · done
 Turn your design files into a design spec: colors, type, spacing, layout, buttons, and focus states. LeftClick is a structural reference only, never a design to copy. Waits on the design files you will share.
 **Done when:** `design.md` matches your approved direction, works at mobile, tablet, and desktop widths, meets contrast targets, and base components handle keyboard focus.
 spec [0003](../specs/0003-design-system-ui-foundation/index.md) · code in `src/styles/global.css`, `src/layouts/Base.astro`, `src/components/`, `src/pages/`, `scripts/check-design.mjs`, `design.md`
@@ -87,7 +87,7 @@ spec [0005](../specs/0005-booking-page-setup/index.md) · code in `src/content/s
   - [x] Real URL in `site.ts`, placeholder guard replaced by the cal.com check, `pnpm verify` and a production build pass (AC-1, AC-2, AC-3)
 - [ ] Verify it: `/check verify booking page setup`
 
-### 6. Header, navigation & hero · in-progress
+### 6. Header, navigation & hero · done
 Business name or logo, simple navigation to sections on the page, the headline, supporting description, and the "Book a Free Call" button.
 **Done when:** navigation jumps to each section and works with a keyboard, the hero uses the approved copy, and the CTA opens the shared booking URL.
 code in `src/components/SiteHeader.astro`, `src/pages/index.astro`, `src/pages/404.astro`
@@ -104,28 +104,37 @@ spec [0006](../specs/0006-tools-line/index.md) · code in `src/content/site.ts`,
   - [x] `check:copy` tools rule, design docs updated, `pnpm verify` passes (AC-6, AC-7)
 - [ ] Verify it: `/check verify tools i work with`
 
-### 8. Services · in-progress
+### 8. Services · done
 The two service categories: AI Automation (reduce repetitive work, connect workflows) and Websites & Web Apps (business websites and custom applications).
 **Done when:** both categories are clearly explained in concise approved copy, with no unconfirmed promises.
 code in `src/pages/index.astro` (copy in `src/content/site.ts`, spec [0004](../specs/0004-site-copy/index.md))
 - [x] Build it: `/develop services`
 
-### 9. About · in-progress
+### 9. About · done
 A short introduction to you, the person behind Abed Automation, so visitors know who they will work with.
 **Done when:** it uses only facts you supplied, and any photo is optimized with alt text.
 code in `src/pages/index.astro`, `src/assets/abed.png` (copy in `src/content/site.ts`, spec [0004](../specs/0004-site-copy/index.md))
 - [x] Build it: `/develop about`
 
-### 10. Final CTA & footer · in-progress
+### 10. Final CTA & footer · done
 A brief invitation to talk about a website, web app, or automation need, then the footer: business name, email, copyright, and verified social or GitHub links if you supply them.
 **Done when:** the CTA opens the same shared booking URL, the email link works, and no link is a placeholder.
 code in `src/pages/index.astro`, `src/components/SiteFooter.astro`, `src/pages/404.astro` (copy in `src/content/site.ts`, spec [0004](../specs/0004-site-copy/index.md))
 - [x] Build it: `/develop final cta & footer` (the footer Privacy link lands with feature 12, together with its target)
 
-### 11. SEO & sharing metadata
+### 11. SEO & sharing metadata · in-progress
 Page title, meta description, favicon, and social sharing card so the site looks right in search and when shared.
 **Done when:** title, description, favicon, and social card render correctly, and headings follow a clean semantic order.
+spec [0011](../specs/0011-seo-sharing-metadata/index.md) · code in `src/layouts/Base.astro`, `src/seo/`, `src/pages/og.png.ts`, `src/pages/favicon.svg.ts`, `src/pages/favicon.ico.ts`, `src/pages/apple-touch-icon.png.ts`, `src/pages/robots.txt.ts`, `src/content/site.ts`, `scripts/check-seo.mjs`
+- [x] Design it (spec): `/architect seo & sharing metadata`
 - [ ] Build it: `/develop seo & sharing metadata`
+  - [x] New title and description in `site.ts`, canonical, Open Graph and Twitter tags in `Base.astro` (AC-1, AC-2, AC-3)
+  - [x] Shared monogram, token reader, and build time icons replacing Astro's default favicon (AC-5)
+  - [x] Social card drawn at build with Satori and sharp from `site.ts` and the tokens (AC-4)
+  - [x] JSON-LD, `@astrojs/sitemap`, robots endpoint, and the `check:seo` guard in `pnpm verify` (AC-6, AC-7, AC-8, AC-9)
+  - [x] Card reworked to the centered full logo, monogram over the AUTOMATION wordmark, drawn as vectors (AC-4)
+  - [ ] Live share and Rich Results checks on abedautomation.com after feature 16 (AC-6, AC-10)
+- [ ] Verify it: `/check verify seo & sharing metadata`
 
 ### 12. Privacy notice · in-progress
 A short privacy note linked from the footer, explaining the cookieless visit counting and that booking happens on Cal.com. Decide how it is shown on a single page site.
