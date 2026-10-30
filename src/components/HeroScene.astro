@@ -1,0 +1,46 @@
+---
+// The hero's decorative workflow graph (spec 0009). This static SVG is the whole
+// picture with JavaScript off, below 1024px, and whenever 3D is unavailable. On
+// desktop, src/motion/scene.ts fades a live canvas in over it from the same pose.
+// Both are drawn from src/motion/graph.ts; a graph that breaks its rules fails the build.
+import { assertGraph, GRAPH, project, SCENE } from '@/motion/graph';
+
+assertGraph(GRAPH);
+
+const W = 1600;
+const H = 1000;
+const round = (value: number) => Math.round(value * 100) / 100;
+const points = new Map(
+  GRAPH.nodes.map((node) => {
+    const { x, y } = project(node);
+    return [node.id, { x: round(x * W), y: round(y * H) }];
+  }),
+);
+const at = (id: string) => points.get(id) ?? { x: 0, y: 0 };
+const radius = round((SCENE.nodeSize / 2) * W);
+---
+
+<div
+  data-scene
+  aria-hidden="true"
+  class="relative aspect-[16/10] w-full overflow-hidden max-lg:max-w-160"
+>
+  <svg data-scene-fallback viewBox={`0 0 ${W} ${H}`} focusable="false" class="block size-full">
+    <g class="stroke-muted" stroke-opacity={SCENE.edgeOpacity} stroke-width="1">
+      {GRAPH.edges.map(({ from, to }) => (
+        <line
+          x1={at(from).x}
+          y1={at(from).y}
+          x2={at(to).x}
+          y2={at(to).y}
+          vector-effect="non-scaling-stroke"
+        />
+      ))}
+    </g>
+    <g class="fill-fg">
+      {GRAPH.nodes.map((node) => (
+        <circle cx={at(node.id).x} cy={at(node.id).y} r={radius} />
+      ))}
+    </g>
+  </svg>
+</div>

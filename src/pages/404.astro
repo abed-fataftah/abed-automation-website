@@ -1,0 +1,25 @@
+---
+import Base from '@/layouts/Base.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import { site } from '@/content/site';
+---
+
+<Base title={site.notFound.title} noindex>
+  <SiteHeader slot="header" home="/" />
+
+  <div class="site-wrap pt-12 pb-16">
+    <p class="text-small text-muted">{site.notFound.code}</p>
+    <h1 class="mt-4 max-w-140 text-hero font-bold tracking-hero sm:text-hero-lg">
+      {site.notFound.heading}
+    </h1>
+    <p class="mt-4 max-w-115 text-body text-muted">{site.notFound.body}</p>
+    <div class="mt-6">
+      <a href="/" class="btn-secondary">
+        {site.notFound.homeLabel}
+      </a>
+    </div>
+  </div>
+
+  <SiteFooter slot="footer" />
+</Base>

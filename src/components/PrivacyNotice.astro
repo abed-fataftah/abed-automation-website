@@ -1,0 +1,51 @@
+---
+// The privacy notice (spec 0007): a short headed section at the end of the home
+// page, linked from the footer. Every word comes from `site.privacy`; the email
+// parts show `site.footer.email`, so the address lives in one place.
+import { site } from '@/content/site';
+
+const { title, updatedLabel, updated, sections } = site.privacy;
+
+// Formatted once at build time, in UTC, so the date never shifts by time zone.
+const updatedText = new Date(updated).toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
+// Inline links sit inside a sentence, so they are exempt from the 44px target rule.
+const linkClass = 'text-fg underline underline-offset-4 hover:decoration-accent';
+---
+
+<section id="privacy" class="section-line" data-line>
+  <div class="site-wrap py-8" data-reveal>
+    <h2 class="text-title font-bold">{title}</h2>
+    <div class="mt-4 flex max-w-160 flex-col gap-4 text-small text-muted">
+      {sections.map((section) => (
+        <div>
+          <h3 class="mb-1 text-body font-bold text-fg">{section.heading}</h3>
+          {/* Parts join with no added spaces; set:text keeps link text free of template whitespace. */}
+          <p>
+            {section.body.map((part) =>
+              typeof part === 'string' ? (
+                part
+              ) : 'email' in part ? (
+                <a
+                  href={`mailto:${site.footer.email}`}
+                  class={linkClass}
+                  set:text={site.footer.email}
+                />
+              ) : (
+                <a href={part.href} class={linkClass} set:text={part.text} />
+              ),
+            )}
+          </p>
+        </div>
+      ))}
+      <p>
+        {updatedLabel} <time datetime={updated}>{updatedText}</time>
+      </p>
+    </div>
+  </div>
+</section>

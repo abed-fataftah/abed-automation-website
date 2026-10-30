@@ -1,0 +1,23 @@
+---
+// The site footer: copyright, the email link, and the Privacy link, on every page.
+// Privacy points to `/#privacy`, so it reaches the home page section from the 404 page too.
+import { site } from '@/content/site';
+
+const copyright = site.footer.copyright.replace('{year}', String(new Date().getFullYear()));
+const linkClass =
+  'inline-flex min-h-(--target-min) items-center self-start no-underline hover:text-fg hover:underline hover:underline-offset-4 sm:self-auto';
+---
+
+<footer class="border-t border-line">
+  <div class="site-wrap flex flex-col gap-3 pt-4 pb-6 text-small text-muted sm:flex-row sm:items-center sm:justify-between">
+    <p>{copyright}</p>
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+      <a href={`mailto:${site.footer.email}`} class={linkClass}>
+        {site.footer.email}
+      </a>
+      <a href="/#privacy" class={linkClass}>
+        {site.footer.privacyLabel}
+      </a>
+    </div>
+  </div>
+</footer>
