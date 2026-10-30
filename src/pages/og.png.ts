@@ -6,7 +6,6 @@ import { CARD_TYPE, renderCard } from '@/seo/card';
 export const GET: APIRoute = async ({ site: origin }) => {
   if (!origin) throw new Error('og.png needs the `site` setting in astro.config.mjs');
   const png = await renderCard({
-    name: site.name,
     tagline: site.meta.card.tagline,
     hostname: origin.hostname,
   });
