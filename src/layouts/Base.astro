@@ -1,0 +1,108 @@
+---
+import '@/styles/global.css';
+import { Font } from 'astro:assets';
+import { CONTEXT } from 'astro:env/server';
+import { site } from '@/content/site';
+import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from '@/seo/card';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = site.meta.title,
+  description = site.meta.description,
+  noindex = false,
+} = Astro.props;
+
+// Count visits only on Netlify's production deploy (spec 0010), so previews,
+// local builds, and CI never load the tracker.
+const countVisits = CONTEXT === 'production';
+
+// Search and sharing tags (spec 0011). Every URL resolves against the `site`
+// setting, so deploy previews still point at the live domain. Only indexable
+// pages get a canonical, og:url, and structured data.
+const canonical = noindex ? undefined : new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/og.png', Astro.site).href;
+
+const jsonLd =
+  canonical &&
+  JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${canonical}#organization`,
+        name: site.name,
+        url: canonical,
+        logo: new URL('/apple-touch-icon.png', Astro.site).href,
+        email: site.footer.email,
+        founder: { '@id': `${canonical}#founder` },
+      },
+      {
+        '@type': 'Person',
+        '@id': `${canonical}#founder`,
+        name: site.meta.founder,
+        url: canonical,
+        worksFor: { '@id': `${canonical}#organization` },
+      },
+    ],
+    // Escape `<` so no value can close the script tag.
+  }).replace(/</g, '\\u003c');
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={String(CARD_WIDTH)} />
+    <meta property="og:image:height" content={String(CARD_HEIGHT)} />
+    <meta property="og:image:type" content={CARD_TYPE} />
+    <meta property="og:image:alt" content={site.meta.card.alt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image:alt" content={site.meta.card.alt} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {jsonLd && <script type="application/ld+json" is:inline set:html={jsonLd} />}
+    <meta name="generator" content={Astro.generator} />
+    <Font cssVariable="--font-schibsted" preload />
+    {countVisits && (
+      <script
+        is:inline
+        defer
+        src={site.analytics.scriptUrl}
+        data-website-id={site.analytics.websiteId}
+        data-domains={site.analytics.domain}
+      />
+    )}
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only rounded-button bg-fg text-body font-bold text-bg focus:not-sr-only focus:fixed focus:top-2 focus:left-4 focus:z-(--z-skip-link) focus:px-4 focus:py-3"
+    >
+      {site.a11y.skipLink}
+    </a>
+    <slot name="header" />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <slot name="footer" />
+    <script>
+      import '@/motion/loader';
+    </script>
+  </body>
+</html>

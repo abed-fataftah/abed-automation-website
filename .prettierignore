@@ -1,0 +1,13 @@
+dist/
+.astro/
+pnpm-lock.yaml
+skills-lock.json
+.claude/
+public/
+config/
+
+# Workflow skills edit Markdown by matching exact lines (spec 0002).
+**/*.md
+
+# Design reference from the handoff, kept exactly as delivered (spec 0003).
+docs/design/prototype/

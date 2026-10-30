@@ -1,0 +1,22 @@
+---
+// The AD monogram as an inline SVG. The paths live in src/seo/monogram.ts, shared
+// with the favicons and the sharing card.
+// Decorative: the name "Abed Automation" always sits next to it.
+import { brackets, letters, viewBox } from '@/seo/monogram';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg
+  viewBox={viewBox}
+  aria-hidden="true"
+  focusable="false"
+  class:list={['h-[34px] w-auto text-fg', className]}
+>
+  <path fill="currentColor" d={letters}></path>
+  <path class="fill-accent" d={brackets}></path>
+</svg>
