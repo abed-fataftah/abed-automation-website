@@ -1,43 +1,19 @@
-# Astro Starter Kit: Minimal
+# Abed Automation website
 
-```sh
-npm create astro@latest -- --template minimal
-```
+The single page site for abedautomation.com. Built with Astro and Tailwind CSS, hosted on Netlify.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- Every line of copy and the booking URL live in `src/content/site.ts`.
+- Architecture decisions: `docs/specs/0001-astro-static-site-netlify/`.
+- Feature plan: `docs/scope/scope.md`.
 
-## 🚀 Project Structure
+## Commands
 
-Inside of your Astro project, you'll see the following folders and files:
+Use Node 24 (see `.nvmrc`) and pnpm 12 (pinned in `package.json`).
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Command | What it does |
+|---|---|
+| `pnpm install` | Install dependencies |
+| `pnpm dev` | Start the local dev server at `localhost:4321` |
+| `pnpm check` | Type check the project |
+| `pnpm build` | Build the static site into `dist/` |
+| `pnpm preview` | Serve the built site locally |
