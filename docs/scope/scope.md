@@ -47,7 +47,7 @@ spec [0002](../specs/0002-coding-standards-tooling.md) · code in `eslint.config
 - [x] Capture conventions and tooling choices: `/audit`
 - [x] Decide the tooling (spec): `/architect coding standards & tooling`
 - [x] Build it: `/develop coding standards & tooling`
-- [ ] Verify it: `/check verify coding standards & tooling`
+- [x] Verify it: `/check verify coding standards & tooling`
 
 ### 3. Design system & UI foundation · in-progress
 Turn your design files into a design spec: colors, type, spacing, layout, buttons, and focus states. LeftClick is a structural reference only, never a design to copy. Waits on the design files you will share.
