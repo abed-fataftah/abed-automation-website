@@ -1,0 +1,30 @@
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+  # The git hook is for local commits; GitHub Actions runs the checks.
+  SKIP_INSTALL_SIMPLE_GIT_HOOKS = "1"
+
+# Headers in this file apply to every deploy context, so previews get their
+# noindex header from a _headers file copied in by their own build command.
+[context.deploy-preview]
+  command = "pnpm build && cp config/preview-headers dist/_headers"
+
+[context.branch-deploy]
+  command = "pnpm build && cp config/preview-headers dist/_headers"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Hashed build files never change, so browsers may cache them for a year.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

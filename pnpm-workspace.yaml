@@ -1,0 +1,10 @@
+minimumReleaseAgeExclude:
+  - '@astrojs/markdown-satteri@0.4.6'
+  - '@astrojs/prism@4.1.2'
+  - '@astrojs/telemetry@3.4.2'
+  - astro@7.4.3
+
+# The root `prepare` script installs the git hook, so the package's own
+# postinstall (which would also write hooks, including in CI) stays off.
+allowBuilds:
+  simple-git-hooks: false
