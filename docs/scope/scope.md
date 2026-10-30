@@ -28,7 +28,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 13 | GSAP motion | Release 2 | in-progress |
 | 14 | Three.js 3D scene | Release 2 | in-progress |
 | 15 | Visit & booking click analytics | Launch | in-progress |
-| 16 | Deploy & go live | Launch | planned |
+| 16 | Deploy & go live | Launch | in-progress |
 
 ## Foundations
 
@@ -180,10 +180,15 @@ spec [0010](../specs/0010-visit-booking-click-analytics/index.md) · code in `sr
   - [ ] Live checks on abedautomation.com after feature 16: page views, booking click events per location, no storage, Umami only requests (AC-3, AC-4, AC-6, AC-7)
 - [ ] Verify it: `/check verify visit & booking click analytics`
 
-### 16. Deploy & go live
+### 16. Deploy & go live · in-progress
 Deploy the static site to the host chosen in feature 1, connect abedautomation.com, and run the launch acceptance checklist from the brief. Includes clear setup, local development, build, and deployment instructions.
 **Done when:** the site is live on abedautomation.com over HTTPS, the production build passes, every item on the launch checklist passes, and the instructions are written.
+spec [0001](../specs/0001-astro-static-site-netlify/index.md) · code in `netlify.toml`, `README.md`
 - [ ] Build it: `/develop deploy & go live`
+  - [x] Content Security Policy in `netlify.toml` (self plus Umami's `cloud.umami.is` and `gateway.umami.is`), checked against a production build, `pnpm verify` clean
+  - [x] Setup, local development, deploy, go live, and launch check instructions in `README.md`
+  - [ ] Abed: Netlify terms checked, site connected to GitHub, abedautomation.com and DNS added, HTTPS issued, launch branch merged to `main`
+  - [ ] Launch checks in `README.md` pass on abedautomation.com (also unblocks feature 15's live checks)
 
 ## Deferred
 Out of scope for launch, kept so the plan stays honest.
