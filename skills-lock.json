@@ -91,6 +91,12 @@
       "skillPath": "skills/netlify-frameworks/SKILL.md",
       "computedHash": "88c1c234014a3b8dcdc6ca59a412e69cfb5a8675baf80028da7ece17dec53b7b"
     },
+    "og-images": {
+      "source": "richtabor/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/og-images/SKILL.md",
+      "computedHash": "970e019c69bdc01152aa0519e42e3a9763fdd4b733ebc3ff7422797eba60d19a"
+    },
     "performance": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "github",
@@ -103,11 +109,23 @@
       "skillPath": "skills/pnpm/SKILL.md",
       "computedHash": "10f97a882328fe50c481ca1a4045d431e59f877463880efb75461b16a346d0fc"
     },
+    "satori": {
+      "source": "usenotra/skills",
+      "sourceType": "github",
+      "skillPath": "skills/satori/SKILL.md",
+      "computedHash": "e3ced15290aca9c97e68d4d9b16229e48cbc9e26130cd95e75c130010826fc95"
+    },
     "seo": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "github",
       "skillPath": "skills/seo/SKILL.md",
       "computedHash": "aa081d7ee9f44d1b09ac521051630adac2fca0e595e3d0d0ec881d0b2644676f"
+    },
+    "seo-sitemap": {
+      "source": "agricidaniel/claude-seo",
+      "sourceType": "github",
+      "skillPath": "skills/seo-sitemap/SKILL.md",
+      "computedHash": "3aa575cf0b14e1f6df9614954ae225fec406d156eeb6cb31342fe73ef9fe3421"
     },
     "tailwind-4-docs": {
       "source": "lombiq/tailwind-agent-skills",
