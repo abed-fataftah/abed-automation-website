@@ -1,0 +1,45 @@
+---
+// The site header: logo and name linking to the top, then the in page nav.
+// On the home page the links are plain anchors; other pages pass `home="/"`
+// so they jump to the sections on the home page instead.
+import Logo from '@/components/Logo.astro';
+import { site } from '@/content/site';
+
+interface Props {
+  home?: string;
+}
+
+const { home = '' } = Astro.props;
+
+const links = [
+  { href: `${home}#tools`, label: site.nav.tools },
+  { href: `${home}#services`, label: site.nav.services },
+  { href: `${home}#about`, label: site.nav.about },
+];
+---
+
+<header id="top" class="border-b border-line">
+  <div class="site-wrap flex flex-col items-start gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+    <a
+      href={`${home}#top`}
+      class="flex min-h-(--target-min) items-center gap-3 text-body font-bold no-underline"
+    >
+      <Logo />
+      {site.name}
+    </a>
+    <nav aria-label={site.nav.label}>
+      <ul class="-ml-2 flex gap-2 sm:ml-0 sm:gap-4">
+        {links.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class="inline-flex min-h-(--target-min) items-center px-2 text-small text-muted no-underline hover:text-fg hover:underline hover:underline-offset-4"
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>

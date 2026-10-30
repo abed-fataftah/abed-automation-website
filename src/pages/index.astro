@@ -1,16 +1,109 @@
 ---
+import Base from '@/layouts/Base.astro';
+import { Image } from 'astro:assets';
+import abedPhoto from '@/assets/abed.png';
+import BookCta from '@/components/BookCta.astro';
+import HeroScene from '@/components/HeroScene.astro';
+import PrivacyNotice from '@/components/PrivacyNotice.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import { site } from '@/content/site';
+
+const { before, emphasis, after } = site.home.heading;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base>
+  <SiteHeader slot="header" />
+
+  <section class="site-wrap grid gap-8 py-12 sm:py-14 lg:grid-cols-2 lg:items-center lg:gap-6 lg:py-16">
+    <div>
+      <p class="text-small text-muted">{site.home.eyebrow}</p>
+      <!-- Keep the parts on one line: a line break between them renders as a space. -->
+      <!-- prettier-ignore -->
+      <h1 class="mt-4 max-w-160 text-hero font-bold tracking-hero sm:text-hero-lg">
+        {before}<u class="hero-underline" data-underline>{emphasis}</u>{after}
+      </h1>
+      <p class="mt-4 max-w-115 text-body text-muted">{site.home.intro}</p>
+      <div class="mt-6">
+        <BookCta location="hero" />
+      </div>
+    </div>
+    <HeroScene />
+  </section>
+
+  <section id="tools" class="section-line" data-line>
+    <div class="site-wrap py-4 text-small text-muted" data-reveal>
+      <p class="inline">{site.tools.label}</p>{' '}
+      {/* Safari drops list semantics from a ul without markers, so the role stays. */}
+      {/* eslint-disable-next-line astro/jsx-a11y/no-redundant-roles */}
+      <ul role="list" class="inline">
+        {site.tools.items.map((item, i) => (
+          <li class="inline">
+            {/* Name and separator never split; the space after is the only wrap point. */}
+            <span class="whitespace-nowrap">
+              <span class="text-fg">{item}</span>
+              {i < site.tools.items.length - 1 && <span aria-hidden="true"> /</span>}
+            </span>{' '}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <div id="services" class="section-line" data-line>
+    <div class="site-wrap grid sm:grid-cols-2" data-reveal>
+      {[site.services.automation, site.services.web].map((service, i) => (
+        <section
+          class:list={[
+            'py-8 sm:px-6',
+            i === 0 ? 'sm:pl-0' : 'border-t border-line sm:border-t-0 sm:border-l',
+          ]}
+          data-reveal-item
+        >
+          <h2 class="mb-2 text-title font-bold">{service.title}</h2>
+          <p class="text-small text-muted">{service.body}</p>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <section id="about" class="section-line" data-line>
+    <div
+      class="site-wrap grid items-start gap-4 py-10 sm:grid-cols-2 sm:py-12 lg:grid-cols-[1fr_2fr_1fr] lg:gap-6"
+      data-reveal
+    >
+      <h2 class="text-title font-bold sm:col-span-full lg:col-span-1" data-reveal-item>
+        {site.about.title}
+      </h2>
+      <div class="flex flex-col gap-4 text-body text-muted">
+        {site.about.body.map((paragraph) => (
+          <p data-reveal-item>{paragraph}</p>
+        ))}
+      </div>
+      <Image
+        src={abedPhoto}
+        alt={site.about.photoAlt}
+        widths={[160, 320, 512]}
+        sizes="(min-width: 1024px) 256px, 160px"
+        class="aspect-square w-full max-w-40 object-cover lg:max-w-none"
+        data-reveal-item
+      />
+    </div>
+  </section>
+
+  <section class="section-line" data-line>
+    <div class="site-wrap py-10 sm:py-12" data-reveal>
+      <h2 class="max-w-130 text-final font-bold tracking-final sm:text-final-lg">
+        {site.finalCta.title}
+      </h2>
+      <p class="mt-4 max-w-115 text-body text-muted">{site.finalCta.body}</p>
+      <div class="mt-6">
+        <BookCta location="final" />
+      </div>
+    </div>
+  </section>
+
+  <PrivacyNotice />
+
+  <SiteFooter slot="footer" />
+</Base>

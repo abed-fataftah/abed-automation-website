@@ -1,0 +1,244 @@
+@import 'tailwindcss';
+
+/* Design tokens from the approved handoff (direction I2, "Charcoal coral, plainer").
+   This file is the only place a color value may live; `pnpm check:design` enforces it
+   and checks every contrast pair. See design.md for how each token is used. */
+@theme {
+  /* Remove Tailwind's default palette, so only the tokens below exist. */
+  --color-*: initial;
+
+  --color-bg: #1a1816; /* page background */
+  --color-fg: #f2ede4; /* headings, body text, secondary button text and border */
+  --color-muted: #b9b1a4; /* intro, descriptions, nav links, footer; never below 14px */
+  --color-line: #3a3631; /* 1px dividers only */
+  --color-accent: #ff6b57; /* primary button fill, hero underline, focus ring; never text */
+  --color-on-accent: #1a1816; /* text on the primary button */
+  --color-accent-hover: #ff8571;
+  --color-accent-pressed: #e85a47;
+
+  --text-hero: 2rem;
+  --text-hero--line-height: 1.1;
+  --text-hero-lg: 2.5rem; /* from 640px */
+  --text-hero-lg--line-height: 1.08;
+  --text-final: 1.5rem;
+  --text-final--line-height: 1.15;
+  --text-final-lg: 1.75rem; /* from 640px */
+  --text-final-lg--line-height: 1.15;
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.25;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-note: 0.8125rem; /* placeholder labels only */
+  --text-note--line-height: 1.5;
+
+  --tracking-hero: -1px;
+  --tracking-final: -0.5px;
+
+  --radius-button: 6px; /* buttons only; everything else has no radius */
+
+  --container-site: 70rem; /* 1120px */
+}
+
+/* Schibsted Grotesk, self hosted through the `fonts` option in astro.config.mjs. */
+@theme inline {
+  --font-sans: var(--font-schibsted);
+}
+
+:root {
+  color-scheme: dark;
+
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
+  --target-min: 44px; /* every link and button is at least this tall */
+  --button-height: 48px;
+  --z-skip-link: 50;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: anywhere;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: var(--focus-ring-width) solid var(--color-accent);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  /* Focus lands on <main> from the skip link; it is not a control, so no ring. */
+  main:focus,
+  main:focus-visible {
+    outline: none;
+  }
+
+  /* The header is static, so an in page jump only needs a little breathing room. */
+  [id] {
+    scroll-margin-top: 1rem;
+  }
+
+  /* Soft color fades on every link (spec 0008). The focus ring is not listed, so it
+     appears at once; with reduced motion on, every change is instant. */
+  @media (prefers-reduced-motion: no-preference) {
+    a {
+      transition-property: color, background-color, border-color, text-decoration-color;
+      transition-duration: 150ms;
+      transition-timing-function: ease-out;
+    }
+  }
+}
+
+/* Motion hooks always print in their finished state, even where beforeprint never
+   fires (iOS Safari). Wins over the inline styles src/motion/gsap.ts sets. */
+@media print {
+  [data-reveal],
+  [data-reveal-item],
+  [data-line],
+  [data-underline] {
+    opacity: 1 !important;
+    transform: none !important;
+    --line-scale: 1 !important;
+    --underline-scale: 1 !important;
+  }
+
+  /* The hero scene always prints as its static drawing (spec 0009). */
+  [data-scene] canvas {
+    display: none !important;
+  }
+
+  [data-scene-fallback] {
+    display: block !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Inner container for every section: max 1120px, 16px side padding, 24px from 640px. */
+@utility site-wrap {
+  margin-inline: auto;
+  max-width: var(--container-site);
+  padding-inline: 1rem;
+
+  @variant sm {
+    padding-inline: 1.5rem;
+  }
+}
+
+/* Top divider of a home page section, drawn by a pseudo element so motion can grow it
+   from the left through --line-scale (1, fully drawn, unless src/motion/gsap.ts sets it).
+   The transparent border keeps today's 1px of layout, and in forced colors it shows
+   as a full line on its own, under the pseudo element. */
+@utility section-line {
+  position: relative;
+  border-top: 1px solid transparent;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-top: 1px solid var(--color-line);
+    transform: scaleX(var(--line-scale, 1));
+    transform-origin: left;
+    pointer-events: none;
+  }
+}
+
+/* The 3px coral stroke under the hero emphasis. A one color gradient renders as a flat
+   stroke (allowed under design.md principle 3) whose width --underline-scale controls;
+   clone gives each wrapped line its own stroke. Padding 0 puts the stroke within 1px of
+   the old 6px offset underline at 320, 390, and 1280 (measured against screenshots);
+   inline padding never moves layout. Forced colors fall back to a real underline. */
+@utility hero-underline {
+  padding-bottom: 0;
+  background-image: linear-gradient(var(--color-accent), var(--color-accent));
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  background-size: calc(var(--underline-scale, 1) * 100%) 3px;
+  text-decoration: none;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+
+  @media (forced-colors: active) {
+    background: none;
+    text-decoration: underline 3px;
+    text-underline-offset: 6px;
+  }
+}
+
+/* The one filled button. Used only through BookCta.astro. Its color fades come from the
+   link transition rule in the base layer.
+   The transparent border keeps the edge visible in Windows high contrast mode. */
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--button-height);
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-button);
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  @variant sm {
+    width: auto;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--color-accent-hover);
+    }
+  }
+
+  &:active {
+    background-color: var(--color-accent-pressed);
+  }
+}
+
+/* Outlined button, used only on the 404 page. */
+@utility btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--button-height);
+  padding: 0 20px;
+  border: 1px solid var(--color-fg);
+  border-radius: var(--radius-button);
+  background-color: transparent;
+  color: var(--color-fg);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  @variant sm {
+    width: auto;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--color-accent);
+    }
+  }
+}
