@@ -2,7 +2,7 @@
 
 **Date**: 2026-10-31
 **Updated**: 2026-10-31, Netlify's badge switch needs a paid plan on this account, so the badge goes away by moving host ([spec 0013](../0013-cloudflare-pages-hosting-move/index.md)); the daily live check stays
-**Status**: Proposed
+**Status**: In Progress
 
 ## Summary
 

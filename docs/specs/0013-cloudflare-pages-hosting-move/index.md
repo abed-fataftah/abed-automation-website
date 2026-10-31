@@ -1,7 +1,7 @@
 # 0013. Move hosting from Netlify Free to Cloudflare Pages
 
 **Date**: 2026-10-31
-**Status**: Proposed
+**Status**: In Progress
 
 ## Summary
 
