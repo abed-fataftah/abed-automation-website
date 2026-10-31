@@ -18,6 +18,7 @@
     "check:copy": "node scripts/check-copy.mjs",
     "check:design": "node scripts/check-design.mjs",
     "check:seo": "node scripts/check-seo.mjs",
+    "check:live": "node scripts/check-live.mjs",
     "verify": "pnpm check && pnpm lint && pnpm format:check && pnpm check:design && pnpm check:copy && pnpm build && pnpm check:seo && pnpm check:bundle",
     "prepare": "simple-git-hooks"
   },

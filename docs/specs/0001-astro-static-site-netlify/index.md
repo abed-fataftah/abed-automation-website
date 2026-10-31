@@ -2,6 +2,7 @@
 
 **Date**: 2026-10-28
 **Status**: In Progress
+**Hosting superseded by**: [0013](../0013-cloudflare-pages-hosting-move/index.md) (2026-10-31, Netlify Free now shows a badge; the site moves to Cloudflare Pages). Everything else in this spec stands.
 
 ## Summary
 

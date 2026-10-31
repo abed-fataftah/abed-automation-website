@@ -25,8 +25,13 @@ export default defineConfig({
   ],
   env: {
     schema: {
-      // Netlify's deploy context, set during its builds ("production" on the main
-      // deploy). Unset locally and in CI. Read at build time only.
+      // Cloudflare Pages sets these during its builds: CF_PAGES is "1" and
+      // CF_PAGES_BRANCH the branch built ("main" for production). Unset locally
+      // and in CI. Read at build time only.
+      CF_PAGES: envField.string({ context: 'server', access: 'public', optional: true }),
+      CF_PAGES_BRANCH: envField.string({ context: 'server', access: 'public', optional: true }),
+      // Netlify's deploy context ("production" on the main deploy), kept until
+      // Netlify is removed (spec 0013 phase 4).
       CONTEXT: envField.string({ context: 'server', access: 'public', optional: true }),
     },
   },

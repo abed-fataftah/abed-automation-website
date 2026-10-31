@@ -1,6 +1,6 @@
 # Abed Automation website
 
-The single page site for abedautomation.com. Built with Astro and Tailwind CSS, hosted on Netlify.
+The single page site for abedautomation.com. Built with Astro and Tailwind CSS, hosted on Cloudflare Pages (moving from Netlify, see spec 0013).
 
 - Every line of copy and the booking URL live in `src/content/site.ts`.
 - Architecture decisions: `docs/specs/0001-astro-static-site-netlify/`.
@@ -25,7 +25,7 @@ pnpm dev
 
 The site runs at `localhost:4321` and reloads as you edit. Copy changes go in `src/content/site.ts`; the look is governed by `design.md` and the tokens in `src/styles/global.css`.
 
-The Umami analytics script is left out of every build except Netlify's production deploy, so local visits are never counted.
+The Umami analytics script is left out of every build except the production deploy, so local visits are never counted.
 
 ## Commands
 
@@ -40,36 +40,103 @@ The Umami analytics script is left out of every build except Netlify's productio
 | `pnpm format` | Format with Prettier (`pnpm format:check` only checks) |
 | `pnpm verify` | The full gate CI runs: type check, lint, format, design and copy checks, build, bundle budget |
 
+| `pnpm check:live` | Compare the live site's scripts and frames with a fresh build (needs the network; not part of `verify`) |
+
 A change is ready when `pnpm verify` exits clean.
 
 ## How deploys work
 
-Netlify builds the site from GitHub using `netlify.toml`, so there are no build settings to keep in the Netlify dashboard and no environment variables or secrets.
+The site is moving from Netlify to Cloudflare Pages (spec 0013), because Netlify Free now adds a "Powered by Netlify" badge to every page and only a paid plan removes it. Until the move is finished, both hosts build `main` from GitHub: Netlify serves the live site, and Cloudflare serves the same build at `abedautomation.pages.dev`. Neither needs secrets.
 
-- A push to `main` deploys the live site.
-- Every pull request gets a deploy preview, and other pushed branches get a branch deploy. Both send `X-Robots-Tag: noindex`, so search engines skip them.
+- A push to `main` deploys production on both hosts.
+- Every pull request gets a preview on both. Previews send `X-Robots-Tag: noindex`, so search engines skip them (Cloudflare adds it on its own; Netlify copies in `config/preview-headers`).
 - GitHub Actions runs `pnpm verify` on every pull request and on `main`.
 
-The usual flow: work on a branch, open a pull request, check the deploy preview, then merge. To roll back, open the site's **Deploys** list in Netlify and publish an earlier deploy.
+The usual flow: work on a branch, open a pull request, check the preview, then merge. To roll back, open the project's **Deployments** list in Cloudflare and choose *Rollback to this deployment* on an earlier one (on Netlify: the **Deploys** list, then publish an earlier deploy).
 
-Security headers, including the Content Security Policy, live in `netlify.toml`. If you ever add a script, font, or image from another host, add that host to the policy there, or the browser will block it.
+Security headers, including the Content Security Policy, live in two places for now:
 
-## Going live (one time setup)
+- `public/_headers` for Cloudflare, with the strict policy (no inline scripts).
+- `netlify.toml` for Netlify, with the same values plus `'unsafe-inline'` in `script-src`, a stopgap so Netlify's badge draws instead of leaving an empty frame that blocks taps. Netlify's build deletes `_headers`, so it never serves the Cloudflare file.
 
-These steps happen in your Netlify account and at your domain registrar, so only you can do them. Take them in order.
+If you ever add a script, font, or image from another host, add that host to the policy in both files, or the browser will block it.
 
-1. **Check the plan.** Read Netlify's terms of service and confirm the Free plan allows a commercial business site. If it does not, use Netlify Pro (or another static host) and update spec 0001.
-2. **Create the site.** In Netlify, choose *Add new project*, then *Import an existing project*, connect GitHub, and pick this repository. Netlify reads the build command, publish folder, and Node version from `netlify.toml`; leave the form as it is. Set the production branch to `main`.
-3. **Check a preview first.** Open a pull request from your launch branch and look over its deploy preview.
-4. **Add the domain.** In the project's *Domain management*, add `abedautomation.com`. Netlify adds `www.abedautomation.com` too and redirects it to the bare domain, which matches the canonical address in `astro.config.mjs`.
-5. **Point DNS at Netlify.** Pick one:
-   - **Netlify DNS** (simplest): follow Netlify's prompt and change the nameservers at your registrar to the four Netlify shows you.
-   - **Keep your registrar's DNS**: add an `A` record for `abedautomation.com` pointing to Netlify's load balancer, and a `CNAME` record for `www` pointing to your `*.netlify.app` address. Use the exact values Netlify shows in *Domain management*.
+The Umami tag is only built into production: a Cloudflare build of `main` (`CF_PAGES=1` and `CF_PAGES_BRANCH=main`, both set by Cloudflare) or, until Netlify is removed, Netlify's `CONTEXT=production`.
 
-   DNS changes can take up to a day to spread.
-6. **Wait for HTTPS.** Once DNS resolves, Netlify issues a free Let's Encrypt certificate on its own. *Domain management* shows it under *HTTPS*.
-7. **Merge to `main`.** Merging the launch pull request deploys the live site.
-8. **Run the launch checks** below.
+## Going live on Cloudflare Pages (one time setup)
+
+These steps happen in your Cloudflare and Namecheap accounts, so only you can do them. Take them in order; each phase leaves a working live site.
+
+### Before you start
+
+1. **Check the terms.** Read Cloudflare's Self Serve Subscription Agreement and the Pages terms it links, and confirm a commercial business site may run on the Free plan. If it may not, stop here and run `/architect` again (the next option is Firebase Hosting). Result: _not checked yet_.
+2. **Check that Pages is still offered.** The dashboard must still let you create a Pages project connected to GitHub, with preview deployments. If new static sites are only offered as Workers, stop and run `/architect` again; the build variables and preview behaviour would change.
+3. **Set up the account.** Sign up with an email address that is not on abedautomation.com, so you can still sign in if domain email ever breaks. Turn on two factor sign in on Cloudflare and on Namecheap.
+
+### Side by side (Netlify keeps serving the domain)
+
+4. **Create the Pages project** with these settings:
+
+   | Setting | Value |
+   |---|---|
+   | Project name | `abedautomation` (public as `abedautomation.pages.dev`) |
+   | Source | GitHub `abed-fataftah/abed-automation-website`, this repository only; production branch `main`; previews for all pull requests |
+   | Framework preset | None |
+   | Root directory | blank |
+   | Build command | `pnpm build` |
+   | Output directory | `dist` |
+   | Environment variables (production and preview) | `NODE_VERSION=24`, `SKIP_INSTALL_SIMPLE_GIT_HOOKS=1` |
+
+5. **Read the first build log.** Check it shows Node 24 and pnpm 12, and that `sharp` installs. If pnpm is the wrong version or `sharp` fails, change the build command to `corepack enable && pnpm install --frozen-lockfile && pnpm build`.
+6. **Check a pull request preview.** Both preview addresses (the deploy hash one and the branch one) should answer with `X-Robots-Tag: noindex` (`curl -sI <url>`), and the page should have no Umami tag.
+7. **Check `abedautomation.pages.dev`.** The five security headers are there, with no `'unsafe-inline'` in `script-src`; `/_astro/` files carry `Cache-Control: public, max-age=31536000, immutable`; `/nope` and `/nope/` show the 404 page with status 404. Then run the live check against it:
+
+   ```bash
+   CF_PAGES=1 CF_PAGES_BRANCH=main pnpm build
+   LIVE_URL=https://abedautomation.pages.dev pnpm check:live
+   ```
+
+### Switch the domain (one sitting)
+
+8. **A day ahead,** lower the TTL of every record at Namecheap to the minimum and confirm DNSSEC is off.
+9. **Add `abedautomation.com` to Cloudflare** (Free plan) and let it import the records. Then fix the zone:
+   - Delete the imported Netlify records (apex `A` or `ALIAS`, `www` `CNAME` to `*.netlify.app`) and any Namecheap parking or URL redirect records.
+   - Add `www` as `AAAA 100::`, proxied (only the redirect rule below answers it).
+   - Keep every mail and verification record (MX, SPF, Google site verification, DMARC, DKIM, CAA, any others) with the same values, set to **DNS only**, not proxied.
+10. **Compare every record twice.** First ask Namecheap's own nameservers, then the two nameservers Cloudflare assigned you, and check each answer matches:
+
+    ```bash
+    dig MX abedautomation.com @dns1.registrar-servers.com
+    dig TXT abedautomation.com @dns1.registrar-servers.com
+    dig TXT _dmarc.abedautomation.com @dns1.registrar-servers.com
+    dig TXT google._domainkey.abedautomation.com @dns1.registrar-servers.com
+    dig CAA abedautomation.com @dns1.registrar-servers.com
+    ```
+
+    Repeat each with `@<your Cloudflare nameserver>`. Do not go on until every mail record matches.
+11. **Set the zone settings.**
+
+    | Setting | State |
+    |---|---|
+    | Email Address Obfuscation, Rocket Loader, Web Analytics automatic setup, Zaraz, Always Online, Speed Brain, Cloudflare Fonts, Hotlink Protection, Bot Fight Mode | Off |
+    | SSL/TLS mode | Full (strict) |
+    | Always Use HTTPS | On |
+    | Redirect Rule `www to apex` | `http.host eq "www.abedautomation.com"` → 301 to `concat("https://abedautomation.com", http.request.uri.path)`, query kept |
+    | HSTS | Off for now |
+
+    Each of the features turned off would add code, cookies, or rewrites to the page.
+12. **Approve the privacy wording** in spec 0013 (*Privacy wording*) and confirm the link to Cloudflare's privacy policy, so the change is ready on a branch.
+13. **Change the nameservers** at Namecheap to the two Cloudflare assigned. When the zone shows *Active*, add `abedautomation.com` as a custom domain on the Pages project (never `www`).
+14. **Within the hour** of the domain resolving to Cloudflare, merge the privacy change.
+15. **Send a test email** to and from `abed@abedautomation.com`, then run the launch checks below.
+
+### Roll back (within 7 days of the switch)
+
+Set the Namecheap nameservers back to `dns1.registrar-servers.com` and `dns2.registrar-servers.com` and revert the privacy commit. Netlify still serves `main` and keeps its custom domain, and the old records at Namecheap stay untouched. Make no DNS changes at Namecheap or Cloudflare during these 7 days, so a rollback lands on the same records. It can take up to 48 hours to spread.
+
+### Remove Netlify (7 days after the switch)
+
+If no rollback was needed, run `/develop deploy & go live` again to remove `netlify.toml`, `config/preview-headers`, and `CONTEXT`. Once that is merged, delete the Netlify project and uninstall Netlify's GitHub app.
 
 ## Launch checks
 
@@ -82,6 +149,7 @@ Run these on `https://abedautomation.com` after the first production deploy. The
 - [ ] A made up path such as `/nope` shows the 404 page with HTTP status 404.
 - [ ] The response headers include `Content-Security-Policy`, `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, and `Permissions-Policy`, and not `X-Robots-Tag`.
 - [ ] The DevTools console shows no Content Security Policy errors, and the 3D scene and motion still run on desktop.
+- [ ] `CF_PAGES=1 CF_PAGES_BRANCH=main pnpm build && pnpm check:live` passes: no script, frame, `/cdn-cgi/` rewrite, or cookie the build did not make.
 
 **Page** (from `docs/design/handoff.md`)
 
