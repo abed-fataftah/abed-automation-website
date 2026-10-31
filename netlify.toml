@@ -24,8 +24,11 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     # Everything is self hosted except Umami (spec 0010): the script loads from
     # cloud.umami.is and posts to gateway.umami.is. Styles allow inline for the
-    # font face block Astro writes into the head; no script is ever inline.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+    # font face block Astro writes into the head.
+    # Stopgap until the move to Cloudflare Pages (spec 0013 AC-1): inline scripts
+    # are allowed here only, so Netlify's badge draws instead of leaving an empty
+    # frame that blocks taps. public/_headers keeps the strict policy.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
 
 # Hashed build files never change, so browsers may cache them for a year.
 [[headers]]
