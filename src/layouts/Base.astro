@@ -1,7 +1,7 @@
 ---
 import '@/styles/global.css';
 import { Font } from 'astro:assets';
-import { CONTEXT } from 'astro:env/server';
+import { CF_PAGES, CF_PAGES_BRANCH, CONTEXT } from 'astro:env/server';
 import { site } from '@/content/site';
 import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from '@/seo/card';
 
@@ -17,9 +17,10 @@ const {
   noindex = false,
 } = Astro.props;
 
-// Count visits only on Netlify's production deploy (spec 0010), so previews,
-// local builds, and CI never load the tracker.
-const countVisits = CONTEXT === 'production';
+// Count visits only on the production deploy (spec 0010, spec 0013), so
+// previews, local builds, and CI never load the tracker. Netlify's CONTEXT
+// stays until Netlify is removed.
+const countVisits = (CF_PAGES === '1' && CF_PAGES_BRANCH === 'main') || CONTEXT === 'production';
 
 // Search and sharing tags (spec 0011). Every URL resolves against the `site`
 // setting, so deploy previews still point at the live domain. Only indexable

@@ -1,5 +1,7 @@
 [build]
-  command = "pnpm build"
+  # public/_headers is for Cloudflare Pages (spec 0013). Netlify would apply it
+  # on top of the headers below, so every Netlify build removes it.
+  command = "pnpm build && rm -f dist/_headers"
   publish = "dist"
 
 [build.environment]
@@ -8,12 +10,13 @@
   SKIP_INSTALL_SIMPLE_GIT_HOOKS = "1"
 
 # Headers in this file apply to every deploy context, so previews get their
-# noindex header from a _headers file copied in by their own build command.
+# noindex header from a _headers file copied in by their own build command
+# (after the Cloudflare one is removed).
 [context.deploy-preview]
-  command = "pnpm build && cp config/preview-headers dist/_headers"
+  command = "pnpm build && rm -f dist/_headers && cp config/preview-headers dist/_headers"
 
 [context.branch-deploy]
-  command = "pnpm build && cp config/preview-headers dist/_headers"
+  command = "pnpm build && rm -f dist/_headers && cp config/preview-headers dist/_headers"
 
 [[headers]]
   for = "/*"
