@@ -69,8 +69,18 @@ These steps happen in your Cloudflare and Namecheap accounts, so only you can do
 
 ### Before you start
 
-1. **Check the terms.** Read Cloudflare's Self Serve Subscription Agreement and the Pages terms it links, and confirm a commercial business site may run on the Free plan. If it may not, stop here and run `/architect` again (the next option is Firebase Hosting). Result: _not checked yet_.
+1. **Check the terms.** Read Cloudflare's Self Serve Subscription Agreement and the Pages terms it links, and confirm a commercial business site may run on the Free plan. If it may not, stop here and run `/architect` again (the next option is Firebase Hosting).
+
+   **Result (checked 2026-10-31): allowed.** No Cloudflare term limits the Free plan to personal or non commercial use, so this business site may run on it.
+   - [Self Serve Subscription Agreement](https://www.cloudflare.com/terms/) (last updated 2025-09-12): nothing restricts Free to non commercial use. Section 2.6 (Free and Trial Services) only says Cloudflare carries no liability for harm from Free Services, and section 11 provides every service "as is" and "as available".
+   - [Service Specific Terms, Developer Platform](https://www.cloudflare.com/service-specific-terms-developer-platform/) (last updated 2026-09-28), which covers Pages: it says the platform "can be used to host content" and does not address commercial websites. Cloudflare may temporarily limit storage or requests, may change `pages.dev` subdomain names (usually with a week's notice), and may remove illegal or harmful content.
+   - [Pages limits](https://developers.cloudflare.com/pages/platform/limits/) (last updated 2026-09-05): on Free, 500 builds a month, 1 build at a time, 20,000 files per site, 25 MiB per file, 100 custom domains per project. No bandwidth cap and no commercial use rule.
+   - Positioning, not a rule: third party summaries quote Cloudflare describing Free as suited to projects that "aren't business critical", with no uptime guarantee (that starts on Business). The current [plans page](https://www.cloudflare.com/plans/) does not use that wording. This site accepts that tradeoff (spec 0013, *Consequences*).
+
+   Check again if Cloudflare's terms change, or before you depend on the site for anything that needs an uptime guarantee.
 2. **Check that Pages is still offered.** The dashboard must still let you create a Pages project connected to GitHub, with preview deployments. If new static sites are only offered as Workers, stop and run `/architect` again; the build variables and preview behaviour would change.
+
+   **Result (checked 2026-10-31): offered.** The `abedautomation` Pages project was created, connected to GitHub, and deployed `main` to `abedautomation.pages.dev`.
 3. **Set up the account.** Sign up with an email address that is not on abedautomation.com, so you can still sign in if domain email ever breaks. Turn on two factor sign in on Cloudflare and on Namecheap.
 
 ### Side by side (Netlify keeps serving the domain)
