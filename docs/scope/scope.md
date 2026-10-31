@@ -192,12 +192,18 @@ spec [0010](../specs/0010-visit-booking-click-analytics/index.md) · code in `sr
 ### 16. Deploy & go live · in-progress
 Deploy the static site to the host chosen in feature 1, connect abedautomation.com, and run the launch acceptance checklist from the brief. Includes clear setup, local development, build, and deployment instructions.
 **Done when:** the site is live on abedautomation.com over HTTPS, the production build passes, every item on the launch checklist passes, and the instructions are written.
-spec [0001](../specs/0001-astro-static-site-netlify/index.md) · code in `netlify.toml`, `README.md`
+spec [0001](../specs/0001-astro-static-site-netlify/index.md), [0012](../specs/0012-netlify-badge-live-check/index.md), [0013](../specs/0013-cloudflare-pages-hosting-move/index.md) · code in `netlify.toml`, `public/_headers`, `astro.config.mjs`, `src/layouts/Base.astro`, `src/content/site.ts`, `README.md`, `scripts/check-live.mjs`, `.github/workflows/live-check.yml`
+- [x] Design it (spec): `/architect deploy & go live: handle the Netlify Free badge`, then `/architect deploy & go live: move off Netlify Free`
 - [ ] Build it: `/develop deploy & go live`
   - [x] Content Security Policy in `netlify.toml` (self plus Umami's `cloud.umami.is` and `gateway.umami.is`), checked against a production build, `pnpm verify` clean
   - [x] Setup, local development, deploy, go live, and launch check instructions in `README.md`
   - [ ] Abed: Netlify terms checked, site connected to GitHub, abedautomation.com and DNS added, HTTPS issued, launch branch merged to `main`
-  - [ ] Launch checks in `README.md` pass on abedautomation.com (also unblocks feature 15's live checks)
+  - [ ] Stopgap: `'unsafe-inline'` in Netlify `script-src` only, badge draws, no CSP error, no storage (spec 0013 AC-1)
+  - [ ] Side by side on Cloudflare Pages: terms and Pages gate checked, `public/_headers`, `CF_PAGES` production check, Netlify drops `_headers`, `check:live` script passing against `abedautomation.pages.dev` (spec 0013 AC-2 to AC-6, spec 0012 AC-4, AC-5)
+  - [ ] Abed: switch: DNSSEC off, every email record copied and confirmed, zone settings and `www` redirect, nameservers changed, Pages custom domain, privacy wording merged within the hour, test email (spec 0013 AC-7 to AC-9)
+  - [ ] Daily `live-check.yml` on the domain and README live check note; launch checks in `README.md` pass on abedautomation.com (spec 0012 AC-1 to AC-3, AC-6, AC-7; also unblocks feature 15's live checks)
+  - [ ] Teardown after 7 days: Netlify files and `CONTEXT` removed, Netlify project deleted, `pnpm verify` clean (spec 0013 AC-10)
+- [ ] Verify it: `/check verify deploy & go live`
 
 ## Deferred
 Out of scope for launch, kept so the plan stays honest.
