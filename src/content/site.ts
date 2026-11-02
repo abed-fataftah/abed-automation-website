@@ -193,8 +193,11 @@ export const site = {
         body: [
           'The site sets no cookies. To see how many people visit and which booking button they use, it counts visits with Umami, a privacy friendly service that works without cookies. Umami records the page you open, the site that sent you, and your country, browser, and device type, never your name or email address. This data is stored in the EU and kept for six months. See ',
           { text: 'Umami’s privacy policy', href: 'https://umami.is/privacy' },
-          '. Apart from Umami, the site loads nothing from other companies while you read it. It is hosted by Netlify, which processes technical details of each visit, such as your IP address, browser, and the page you open, to deliver the site and keep it secure. See ',
-          { text: 'Netlify’s privacy policy', href: 'https://www.netlify.com/privacy/' },
+          '. Apart from Umami, the site loads nothing from other companies while you read it. It is hosted by Cloudflare, which processes technical details of each visit, such as your IP address, browser, and the page you open, to deliver the site and keep it secure. See ',
+          {
+            text: 'Cloudflare’s privacy policy',
+            href: 'https://www.cloudflare.com/privacypolicy/',
+          },
           '.',
         ],
       },
@@ -217,7 +220,7 @@ export const site = {
       {
         heading: 'How I use and keep your details',
         body: [
-          'I use your details only to reply to you, prepare the call, and do any work you ask me to do. I never sell them or send you marketing emails. I keep them for as long as that conversation or project needs them, and if no work follows, I delete them within 12 months of the last contact. Netlify, Cal.com, and Google may store data outside your country, including in the United States.',
+          'I use your details only to reply to you, prepare the call, and do any work you ask me to do. I never sell them or send you marketing emails. I keep them for as long as that conversation or project needs them, and if no work follows, I delete them within 12 months of the last contact. Cloudflare, Cal.com, and Google may store data outside your country, including in the United States.',
         ],
       },
       {
