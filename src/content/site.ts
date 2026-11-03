@@ -178,7 +178,7 @@ export const site = {
   privacy: {
     title: 'Privacy',
     updatedLabel: 'Last updated',
-    updated: '2026-10-30',
+    updated: '2026-11-03',
     sections: [
       {
         heading: 'Who runs this site',
