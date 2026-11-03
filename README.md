@@ -106,6 +106,8 @@ These steps happen in your Cloudflare and Namecheap accounts, so only you can do
    LIVE_URL=https://abedautomation.pages.dev pnpm check:live
    ```
 
+   **Result (checked 2026-11-02): steps 6 and 7 pass.** The branch preview answers with `X-Robots-Tag: noindex` and has no Umami script. `abedautomation.pages.dev` sends the five security headers with no `'unsafe-inline'` in `script-src`, `/_astro/` files are cached for a year, `/nope` and `/nope/` return 404, and `check:live` matches a fresh production build. The step 5 build log was not read here; the deploys succeed.
+
 ### Switch the domain (one sitting)
 
 8. **A day ahead,** lower the TTL of every record at Namecheap to the minimum and confirm DNSSEC is off.
