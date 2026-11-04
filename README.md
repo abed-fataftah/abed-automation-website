@@ -159,31 +159,31 @@ Run these on `https://abedautomation.com` after the first production deploy. The
 
 **Hosting**
 
-- [ ] `https://abedautomation.com` loads with a valid certificate.
-- [ ] `http://abedautomation.com` and `https://www.abedautomation.com` both redirect to `https://abedautomation.com`.
-- [ ] A made up path such as `/nope` shows the 404 page with HTTP status 404.
-- [ ] The response headers include `Content-Security-Policy`, `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, and `Permissions-Policy`, and not `X-Robots-Tag`.
-- [ ] The DevTools console shows no Content Security Policy errors, and the 3D scene and motion still run on desktop.
-- [ ] `CF_PAGES=1 CF_PAGES_BRANCH=main pnpm build && pnpm check:live` passes: no script, frame, `/cdn-cgi/` rewrite, or cookie the build did not make.
+- [x] `https://abedautomation.com` loads with a valid certificate.
+- [x] `http://abedautomation.com` and `https://www.abedautomation.com` both redirect to `https://abedautomation.com`.
+- [x] A made up path such as `/nope` shows the 404 page with HTTP status 404.
+- [x] The response headers include `Content-Security-Policy`, `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, and `Permissions-Policy`, and not `X-Robots-Tag`.
+- [x] The DevTools console shows no Content Security Policy errors, and the 3D scene and motion still run on desktop.
+- [x] `CF_PAGES=1 CF_PAGES_BRANCH=main pnpm build && pnpm check:live` passes: no script, frame, `/cdn-cgi/` rewrite, or cookie the build did not make.
 
-**Result (checked 2026-11-04 from the command line): the hosting checks that need no browser pass.** HTTPS loads with a valid certificate; `http://abedautomation.com/a?b=1` and `https://www.abedautomation.com/x?y=1` answer 301 to the same path and query on `https://abedautomation.com`; `/nope` and `/nope/` return 404; `/` sends the five security headers with no `'unsafe-inline'` in `script-src`, no `X-Robots-Tag`, and no cookie; `check:live` matches a fresh production build. The console check and the page checks below still need a browser.
+**Result (checked 2026-11-04, after Netlify was removed): every check passes.** HTTPS loads with a valid certificate; `http://abedautomation.com/a?b=1` and `https://www.abedautomation.com/x?y=1` answer 301 to the same path and query on `https://abedautomation.com`; `/nope` and `/nope/` return 404; `/` sends the five security headers with no `'unsafe-inline'` in `script-src`, no `X-Robots-Tag`, and no cookie; `check:live` matches a fresh production build. In headless Chrome the console has no errors, the 3D scene and motion load at 1280px, and the page checks below pass at 320, 390, 768, and 1280px, with JavaScript off, and with reduced motion on. Both booking buttons send a `book-call` event (`hero`, `final`) and open Cal.com in the same tab. Lighthouse (mobile) and the Umami dashboard were checked by Abed the same day (noted on each line).
 
 **Page** (from `docs/design/handoff.md`)
 
-- [ ] At 320px and 390px there is no sideways scroll; at 390px the header sits on two rows and both buttons are full width and 48px tall.
-- [ ] At 768px, About is in 2 columns and services in 2 columns; at 1280px, content is at most 1120px wide, About is in 3 columns, services in 2.
-- [ ] The first Tab press shows "Skip to content", and Enter moves focus to `<main>`; tab order matches `design.md` section 9 and every focus ring is visible.
-- [ ] Every link and button is at least 44px tall; one `<h1>` per page; landmarks present.
-- [ ] Both "Book a Free Call" buttons open the Cal.com intro call in the same tab.
-- [ ] With JavaScript off, all text is visible and the booking buttons work.
-- [ ] With reduced motion on, smooth scrolling is off and no motion code loads.
-- [ ] No placeholder text in square brackets anywhere.
-- [ ] Lighthouse (mobile) shows no accessibility, best practices, or SEO failures.
+- [x] At 320px and 390px there is no sideways scroll; at 390px the header sits on two rows and both buttons are full width and 48px tall.
+- [x] At 768px, About is in 2 columns and services in 2 columns; at 1280px, content is at most 1120px wide, About is in 3 columns, services in 2.
+- [x] The first Tab press shows "Skip to content", and Enter moves focus to `<main>`; tab order matches `design.md` section 9 and every focus ring is visible.
+- [x] Every link and button is at least 44px tall; one `<h1>` per page; landmarks present.
+- [x] Both "Book a Free Call" buttons open the Cal.com intro call in the same tab.
+- [x] With JavaScript off, all text is visible and the booking buttons work.
+- [x] With reduced motion on, smooth scrolling is off and no motion code loads.
+- [x] No placeholder text in square brackets anywhere.
+- [x] Lighthouse (mobile) shows no accessibility, best practices, or SEO failures. Reported by Abed on 2026-11-04: Performance 99, Accessibility 100, Best Practices 100, SEO 100.
 
 **Analytics and privacy** (spec 0010)
 
-- [ ] No cookies and no local or session storage after a visit and a booking click.
-- [ ] Every request on first load goes to `abedautomation.com` or a host under `umami.is`.
-- [ ] The Umami dashboard shows the page view, and a `book-call` event with the right `location` for each booking button.
+- [x] No cookies and no local or session storage after a visit and a booking click.
+- [x] Every request on first load goes to `abedautomation.com` or a host under `umami.is`.
+- [x] The Umami dashboard shows the page view, and a `book-call` event with the right `location` for each booking button. Reported by Abed on 2026-11-04: one `book-call` for `hero` and one for `final`.
 
 The automated items (contrast tokens, raw colors, banned components, the booking URL living in one file, the bundle budget) already run in `pnpm verify`.
