@@ -17,7 +17,7 @@ _Steps derived from spec 0013 acceptance criteria and its Value sourcing table. 
 - [ ] **live (pages.dev)**: first build log shows Node 24 and pnpm 12 and `sharp` installed; `curl -sI https://abedautomation.pages.dev/` shows the five headers with a CSP without `'unsafe-inline'`; an `/_astro/` file has the immutable cache header; `/nope` and `/nope/` return 404 with the site's page → AC-2, AC-3, AC-5
 - [ ] **live (pages.dev)**: `LIVE_URL=https://abedautomation.pages.dev pnpm check:live` passes → AC-6
 - [ ] **live**: DNSSEC off at Namecheap; for each record, `dig <type> <name> @dns1.registrar-servers.com` and `dig <type> <name> @<cloudflare assigned ns>` agree; mail records show DNS only → AC-7
-- [ ] **live**: after the switch, a test email both ways arrives → AC-7
+- [x] **live**: after the switch, a test email both ways arrives → AC-7 (sent and replied by Abed, reported 2026-11-04)
 - [ ] **live**: `curl -sI http://abedautomation.com/` and `https://www.abedautomation.com/x?y=1` → 301 to `https://abedautomation.com/` and `/x?y=1`; certificate valid; README launch checks pass → AC-8
 - [ ] **live**: *Visiting this site* names Cloudflare with a working policy link; *Last updated* is the switch date → AC-9
 
