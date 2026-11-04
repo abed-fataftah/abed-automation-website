@@ -46,7 +46,7 @@ A change is ready when `pnpm verify` exits clean.
 
 ## How deploys work
 
-The site is moving from Netlify to Cloudflare Pages (spec 0013), because Netlify Free now adds a "Powered by Netlify" badge to every page and only a paid plan removes it. Until the move is finished, both hosts build `main` from GitHub: Netlify serves the live site, and Cloudflare serves the same build at `abedautomation.pages.dev`. Neither needs secrets.
+The site moved from Netlify to Cloudflare Pages (spec 0013), because Netlify Free now adds a "Powered by Netlify" badge to every page and only a paid plan removes it. Since 2026-11-03 Cloudflare serves abedautomation.com (and the same build at `abedautomation.pages.dev`). Until Netlify is removed (see *Remove Netlify* below), Netlify still builds `main` too, so a rollback has somewhere to land. Neither needs secrets.
 
 - A push to `main` deploys production on both hosts.
 - Every pull request gets a preview on both. Previews send `X-Robots-Tag: noindex`, so search engines skip them (Cloudflare adds it on its own; Netlify copies in `config/preview-headers`).
@@ -150,6 +150,18 @@ Set the Namecheap nameservers back to `dns1.registrar-servers.com` and `dns2.reg
 
 If no rollback was needed, run `/develop deploy & go live` again to remove `netlify.toml`, `config/preview-headers`, and `CONTEXT`. Once that is merged, delete the Netlify project and uninstall Netlify's GitHub app.
 
+## Live check
+
+Once a day (06:17 UTC), GitHub Actions builds `main` the way Cloudflare does and runs `pnpm check:live` against `https://abedautomation.com` (`.github/workflows/live-check.yml`, spec 0012). It compares the scripts and frames on the live home page and 404 page with the build, and also fails on a `/cdn-cgi/` rewrite or a cookie. You can run it any time from the **Actions** tab with *Run workflow*.
+
+When a run fails, GitHub emails you. Open the run and read the output:
+
+- **`injected by host`**: the host added something the build did not make. Find the zone setting or host feature behind it and turn it off. Never work around it in the page, and never loosen the security policy for it (spec 0012).
+- **`live differs from main`**: the live site is behind `main`, often because a deploy was still publishing. Check the latest Cloudflare deploy, then rerun the workflow.
+- **`could not reach`**: the site did not answer twice in a row. Open it in a browser and check Cloudflare's status page.
+
+GitHub pauses scheduled workflows in a public repository after 60 days without a commit. It emails you first; turn the workflow back on from the **Actions** tab.
+
 ## Launch checks
 
 Run these on `https://abedautomation.com` after the first production deploy. The design checks come from the acceptance checklist in `docs/design/handoff.md` (section 11).
@@ -162,6 +174,8 @@ Run these on `https://abedautomation.com` after the first production deploy. The
 - [ ] The response headers include `Content-Security-Policy`, `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, and `Permissions-Policy`, and not `X-Robots-Tag`.
 - [ ] The DevTools console shows no Content Security Policy errors, and the 3D scene and motion still run on desktop.
 - [ ] `CF_PAGES=1 CF_PAGES_BRANCH=main pnpm build && pnpm check:live` passes: no script, frame, `/cdn-cgi/` rewrite, or cookie the build did not make.
+
+**Result (checked 2026-11-04 from the command line): the hosting checks that need no browser pass.** HTTPS loads with a valid certificate; `http://abedautomation.com/a?b=1` and `https://www.abedautomation.com/x?y=1` answer 301 to the same path and query on `https://abedautomation.com`; `/nope` and `/nope/` return 404; `/` sends the five security headers with no `'unsafe-inline'` in `script-src`, no `X-Robots-Tag`, and no cookie; `check:live` matches a fresh production build. The console check and the page checks below still need a browser.
 
 **Page** (from `docs/design/handoff.md`)
 
