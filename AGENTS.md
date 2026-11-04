@@ -2,11 +2,11 @@
 
 ## Stack
 
-- **Language / Runtime**: TypeScript, strict (`astro/tsconfigs/strict`); Node 24, pinned in `.nvmrc` and `netlify.toml` only
+- **Language / Runtime**: TypeScript, strict (`astro/tsconfigs/strict`); Node 24, pinned in `.nvmrc` and the Cloudflare Pages `NODE_VERSION` setting only
 - **Framework**: Astro 7.4, static output, no UI framework (Astro components plus `<script>` modules)
 - **Key dependencies**: Tailwind CSS 4.3 via `@tailwindcss/vite` (tokens in the `@theme` block of `src/styles/global.css`); GSAP and Three.js later, lazy loaded (see `src/motion/AGENTS.md`)
 - **Package manager**: pnpm 12, pinned by `packageManager` in `package.json`
-- **Hosting**: Netlify Free from GitHub; `main` deploys production, other branches and PRs get previews. No server, database, forms, or functions.
+- **Hosting**: Cloudflare Pages Free from GitHub (spec 0013); `main` deploys production, PRs get previews; headers in `public/_headers`. No server, database, forms, or functions.
 
 ## Build approach
 

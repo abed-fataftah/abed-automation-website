@@ -29,7 +29,7 @@ All animation and 3D code for the site. The page must be complete and readable w
 - Done check after any change here: `pnpm check && pnpm build`, then confirm the entry JavaScript chunk in `dist/_astro/` contains no `gsap` or `three` code.
 - `pnpm check:bundle` (part of `pnpm verify`) also fails when the Three.js scene's gzipped import closure goes over its budget.
 - `gsap` 3.15.x and `three` 0.186.x (plus `@types/three`) are pinned with `~`; keep them on those minors unless a spec says otherwise.
-- Keep 3D assets small: Netlify Free bills bandwidth from a 300 credit monthly budget.
+- Keep 3D assets small: every byte is download time on a phone (Cloudflare Pages has no bandwidth cap, but caps files at 25 MiB).
 
 ## Agent skills
 

@@ -1,6 +1,6 @@
 # Abed Automation website
 
-The single page site for abedautomation.com. Built with Astro and Tailwind CSS, hosted on Cloudflare Pages (moving from Netlify, see spec 0013).
+The single page site for abedautomation.com. Built with Astro and Tailwind CSS, hosted on Cloudflare Pages (moved from Netlify, see spec 0013).
 
 - Every line of copy and the booking URL live in `src/content/site.ts`.
 - Architecture decisions: `docs/specs/0001-astro-static-site-netlify/`.
@@ -46,22 +46,17 @@ A change is ready when `pnpm verify` exits clean.
 
 ## How deploys work
 
-The site moved from Netlify to Cloudflare Pages (spec 0013), because Netlify Free now adds a "Powered by Netlify" badge to every page and only a paid plan removes it. Since 2026-11-03 Cloudflare serves abedautomation.com (and the same build at `abedautomation.pages.dev`). Until Netlify is removed (see *Remove Netlify* below), Netlify still builds `main` too, so a rollback has somewhere to land. Neither needs secrets.
+The site moved from Netlify to Cloudflare Pages (spec 0013), because Netlify Free now adds a "Powered by Netlify" badge to every page and only a paid plan removes it. Since 2026-11-03 Cloudflare serves abedautomation.com (and the same build at `abedautomation.pages.dev`). Netlify was removed on 2026-11-04. No secrets are needed.
 
-- A push to `main` deploys production on both hosts.
-- Every pull request gets a preview on both. Previews send `X-Robots-Tag: noindex`, so search engines skip them (Cloudflare adds it on its own; Netlify copies in `config/preview-headers`).
+- A push to `main` deploys production.
+- Every pull request gets a preview. Previews send `X-Robots-Tag: noindex` (Cloudflare adds it on its own), so search engines skip them.
 - GitHub Actions runs `pnpm verify` on every pull request and on `main`.
 
-The usual flow: work on a branch, open a pull request, check the preview, then merge. To roll back, open the project's **Deployments** list in Cloudflare and choose *Rollback to this deployment* on an earlier one (on Netlify: the **Deploys** list, then publish an earlier deploy).
+The usual flow: work on a branch, open a pull request, check the preview, then merge. To roll back, open the project's **Deployments** list in Cloudflare and choose *Rollback to this deployment* on an earlier one.
 
-Security headers, including the Content Security Policy, live in two places for now:
+Security headers, including the Content Security Policy, live in `public/_headers`, with the strict policy (no inline scripts). If you ever add a script, font, or image from another host, add that host to the policy there, or the browser will block it.
 
-- `public/_headers` for Cloudflare, with the strict policy (no inline scripts).
-- `netlify.toml` for Netlify, with the same values plus `'unsafe-inline'` in `script-src`, a stopgap so Netlify's badge draws instead of leaving an empty frame that blocks taps. Netlify's build deletes `_headers`, so it never serves the Cloudflare file.
-
-If you ever add a script, font, or image from another host, add that host to the policy in both files, or the browser will block it.
-
-The Umami tag is only built into production: a Cloudflare build of `main` (`CF_PAGES=1` and `CF_PAGES_BRANCH=main`, both set by Cloudflare) or, until Netlify is removed, Netlify's `CONTEXT=production`.
+The Umami tag is only built into production: a Cloudflare build of `main` (`CF_PAGES=1` and `CF_PAGES_BRANCH=main`, both set by Cloudflare).
 
 ## Going live on Cloudflare Pages (one time setup)
 
@@ -142,13 +137,9 @@ These steps happen in your Cloudflare and Namecheap accounts, so only you can do
 14. **Within the hour** of the domain resolving to Cloudflare, merge the privacy change.
 15. **Send a test email** to and from `abed@abedautomation.com`, then run the launch checks below.
 
-### Roll back (within 7 days of the switch)
+### Remove Netlify
 
-Set the Namecheap nameservers back to `dns1.registrar-servers.com` and `dns2.registrar-servers.com` and revert the privacy commit. Netlify still serves `main` and keeps its custom domain, and the old records at Namecheap stay untouched. Make no DNS changes at Namecheap or Cloudflare during these 7 days, so a rollback lands on the same records. It can take up to 48 hours to spread.
-
-### Remove Netlify (7 days after the switch)
-
-If no rollback was needed, run `/develop deploy & go live` again to remove `netlify.toml`, `config/preview-headers`, and `CONTEXT`. Once that is merged, delete the Netlify project and uninstall Netlify's GitHub app.
+Done on 2026-11-04, a few days early by choice, so there is no Netlify fallback to roll back to any more. `netlify.toml`, `config/preview-headers`, and the `CONTEXT` production check are gone from the repo. Then delete the Netlify project and uninstall Netlify's GitHub app.
 
 ## Live check
 
