@@ -14,6 +14,15 @@ const DIST = resolve('dist');
 const MISSING_PATH = '/__live-check-404';
 const TIMEOUT_MS = 15_000;
 const RETRY_AFTER_MS = 30_000;
+// Ask like a browser: Cloudflare injects some snippets (Web Analytics) only into
+// responses for browser requests, so a bare fetch would miss them.
+const BROWSER_HEADERS = {
+  'Cache-Control': 'no-cache',
+  'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36',
+  Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'Accept-Language': 'en',
+};
 
 const base = process.env.LIVE_URL || config.site;
 if (!base) {
@@ -65,7 +74,7 @@ function missingFrom(a, b) {
 
 async function fetchOnce(url) {
   const response = await fetch(url, {
-    headers: { 'Cache-Control': 'no-cache' },
+    headers: BROWSER_HEADERS,
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
   if (response.status >= 500) throw new Error(`status ${response.status}`);

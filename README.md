@@ -156,7 +156,7 @@ Once a day (06:17 UTC), GitHub Actions builds `main` the way Cloudflare does and
 
 When a run fails, GitHub emails you. Open the run and read the output:
 
-- **`injected by host`**: the host added something the build did not make. Find the zone setting or host feature behind it and turn it off. Never work around it in the page, and never loosen the security policy for it (spec 0012).
+- **`injected by host`**: the host added something the build did not make. Find the zone setting or host feature behind it and turn it off. Never work around it in the page, and never loosen the security policy for it (spec 0012). A known case: `static.cloudflareinsights.com/beacon.min.js` is Cloudflare Web Analytics; turn it off for the site in the Cloudflare dashboard (*Analytics & Logs*, *Web Analytics*).
 - **`live differs from main`**: the live site is behind `main`, often because a deploy was still publishing. Check the latest Cloudflare deploy, then rerun the workflow.
 - **`could not reach`**: the site did not answer twice in a row. Open it in a browser and check Cloudflare's status page.
 
