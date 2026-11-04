@@ -166,7 +166,7 @@ Run these on `https://abedautomation.com` after the first production deploy. The
 - [x] The DevTools console shows no Content Security Policy errors, and the 3D scene and motion still run on desktop.
 - [x] `CF_PAGES=1 CF_PAGES_BRANCH=main pnpm build && pnpm check:live` passes: no script, frame, `/cdn-cgi/` rewrite, or cookie the build did not make.
 
-**Result (checked 2026-11-04, after Netlify was removed): every check passes except the two still unticked.** HTTPS loads with a valid certificate; `http://abedautomation.com/a?b=1` and `https://www.abedautomation.com/x?y=1` answer 301 to the same path and query on `https://abedautomation.com`; `/nope` and `/nope/` return 404; `/` sends the five security headers with no `'unsafe-inline'` in `script-src`, no `X-Robots-Tag`, and no cookie; `check:live` matches a fresh production build. In headless Chrome the console has no errors, the 3D scene and motion load at 1280px, and the page checks below pass at 320, 390, 768, and 1280px, with JavaScript off, and with reduced motion on. Both booking buttons send a `book-call` event (`hero`, `final`) and open Cal.com in the same tab. Lighthouse and the Umami dashboard still need you.
+**Result (checked 2026-11-04, after Netlify was removed): every check passes.** HTTPS loads with a valid certificate; `http://abedautomation.com/a?b=1` and `https://www.abedautomation.com/x?y=1` answer 301 to the same path and query on `https://abedautomation.com`; `/nope` and `/nope/` return 404; `/` sends the five security headers with no `'unsafe-inline'` in `script-src`, no `X-Robots-Tag`, and no cookie; `check:live` matches a fresh production build. In headless Chrome the console has no errors, the 3D scene and motion load at 1280px, and the page checks below pass at 320, 390, 768, and 1280px, with JavaScript off, and with reduced motion on. Both booking buttons send a `book-call` event (`hero`, `final`) and open Cal.com in the same tab. Lighthouse (mobile) and the Umami dashboard were checked by Abed the same day (noted on each line).
 
 **Page** (from `docs/design/handoff.md`)
 
@@ -178,12 +178,12 @@ Run these on `https://abedautomation.com` after the first production deploy. The
 - [x] With JavaScript off, all text is visible and the booking buttons work.
 - [x] With reduced motion on, smooth scrolling is off and no motion code loads.
 - [x] No placeholder text in square brackets anywhere.
-- [ ] Lighthouse (mobile) shows no accessibility, best practices, or SEO failures.
+- [x] Lighthouse (mobile) shows no accessibility, best practices, or SEO failures. Reported by Abed on 2026-11-04: Performance 99, Accessibility 100, Best Practices 100, SEO 100.
 
 **Analytics and privacy** (spec 0010)
 
 - [x] No cookies and no local or session storage after a visit and a booking click.
 - [x] Every request on first load goes to `abedautomation.com` or a host under `umami.is`.
-- [ ] The Umami dashboard shows the page view, and a `book-call` event with the right `location` for each booking button.
+- [x] The Umami dashboard shows the page view, and a `book-call` event with the right `location` for each booking button. Reported by Abed on 2026-11-04: one `book-call` for `hero` and one for `final`.
 
 The automated items (contrast tokens, raw colors, banned components, the booking URL living in one file, the bundle budget) already run in `pnpm verify`.
