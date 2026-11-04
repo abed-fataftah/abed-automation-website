@@ -1,4 +1,12 @@
-# Verify: move hosting to Cloudflare Pages · spec 0013 · updated 2026-10-31
+# Verify: move hosting to Cloudflare Pages · spec 0013 · updated 2026-11-04
+
+## Accepted exceptions (2026-11-04)
+
+Abed accepted these as documented exceptions when marking the feature done. The evidence below was never observed and is not claimed as passed; the unticked steps stay unticked.
+
+- **Netlify stopgap (AC-1, and the two Netlify phase steps):** not observed. Netlify was deleted on 2026-11-04 (AC-10), so it can no longer be checked.
+- **Pre switch Namecheap DNS comparison (AC-7):** not observed. Namecheap's nameservers no longer answer for the domain. Current evidence: no DS record, Cloudflare nameservers answer every mail record, email both ways works.
+- **First build log review (AC-2):** not observed. Current evidence is the latest successful production build log (`c330984`, reported by Abed): Node 24.22.1, pnpm 12.16.1, `sharp` 0.35.5, deploy succeeded.
 
 _Steps derived from spec 0013 acceptance criteria and its Value sourcing table. Steps marked **live** need the named host online._
 
