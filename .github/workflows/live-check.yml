@@ -1,0 +1,33 @@
+name: Live check
+
+# Compares the live site's scripts and frames with a fresh production build of
+# main, so a host that starts adding code to the page fails a run (spec 0012).
+# GitHub emails the failure to whoever last changed the cron line.
+on:
+  schedule:
+    # Daily, off the hour to dodge GitHub's busy top of the hour (UTC).
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    env:
+      SKIP_INSTALL_SIMPLE_GIT_HOOKS: '1'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # The same production check Cloudflare Pages makes, so the build carries the Umami tag.
+      - run: pnpm build
+        env:
+          CF_PAGES: '1'
+          CF_PAGES_BRANCH: main
+      - run: pnpm check:live
