@@ -1,5 +1,4 @@
-# Cloudflare Pages headers (spec 0013). Netlify deletes this file in its build
-# commands, so it only ever applies on Cloudflare.
+# Cloudflare Pages headers (spec 0013).
 #
 # Everything is self hosted except Umami (spec 0010): the script loads from
 # cloud.umami.is and posts to gateway.umami.is. Styles allow inline for the

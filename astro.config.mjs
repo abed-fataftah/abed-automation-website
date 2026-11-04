@@ -30,9 +30,6 @@ export default defineConfig({
       // and in CI. Read at build time only.
       CF_PAGES: envField.string({ context: 'server', access: 'public', optional: true }),
       CF_PAGES_BRANCH: envField.string({ context: 'server', access: 'public', optional: true }),
-      // Netlify's deploy context ("production" on the main deploy), kept until
-      // Netlify is removed (spec 0013 phase 4).
-      CONTEXT: envField.string({ context: 'server', access: 'public', optional: true }),
     },
   },
   vite: {
