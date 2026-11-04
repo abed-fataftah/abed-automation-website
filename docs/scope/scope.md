@@ -202,7 +202,7 @@ spec [0001](../specs/0001-astro-static-site-netlify/index.md), [0012](../specs/0
   - [x] Side by side on Cloudflare Pages: terms and Pages gate checked, `public/_headers`, `CF_PAGES` production check, Netlify drops `_headers`, `check:live` script passing against `abedautomation.pages.dev` (spec 0013 AC-2 to AC-6, spec 0012 AC-4, AC-5)
   - [ ] Abed: switch: DNSSEC off, every email record copied and confirmed, zone settings and `www` redirect, nameservers changed, Pages custom domain, privacy wording merged within the hour, test email (spec 0013 AC-7 to AC-9)
   - [ ] Daily `live-check.yml` on the domain and README live check note; launch checks in `README.md` pass on abedautomation.com (spec 0012 AC-1 to AC-3, AC-6, AC-7; also unblocks feature 15's live checks)
-  - [ ] Teardown after 7 days: Netlify files and `CONTEXT` removed, Netlify project deleted, `pnpm verify` clean (spec 0013 AC-10)
+  - [x] Teardown after 7 days: Netlify files and `CONTEXT` removed, Netlify project deleted, `pnpm verify` clean (spec 0013 AC-10)
 - [ ] Verify it: `/check verify deploy & go live`
 
 ## Deferred
