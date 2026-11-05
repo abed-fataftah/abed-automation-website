@@ -29,7 +29,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 14 | Three.js 3D scene | Release 2 | in-progress |
 | 15 | Visit & booking click analytics | Launch | in-progress |
 | 16 | Deploy & go live | Launch | done |
-| 17 | Homepage redesign | Release 3 | in-progress |
+| 17 | Homepage redesign | Release 3 | done |
 
 ## Foundations
 
@@ -210,7 +210,7 @@ spec [0001](../specs/0001-astro-static-site-netlify/index.md), [0012](../specs/0
 
 The approved homepage redesign (design board approved 2026-11-04): visitors see real work and a clear process before they are asked to book. Brand, stack, and ground rules stay the same.
 
-### 17. Homepage redesign · in-progress
+### 17. Homepage redesign · done
 Apply the new design from the handoff in `docs/design/handoff/` (read `handoff.md` first): new page order (Header, Hero, Services, Work, How it works, About, Final CTA, Footer), a dotted portrait in the hero whose eyes follow the pointer (replacing the Three.js scene), the tools line moved into About, the privacy notice moved to its own `/privacy` page, a new header booking button, and the 404 page restyled. It changes the decisions in specs 0004, 0006, 0007, 0008, 0009, and 0010, and absorbs the deferred Selected Work item as the Work section.
 **Done when:** the page matches `docs/design/handoff/design.md` at 320, 390, 768, and 1280 with no sideways scrolling; the hero works with JavaScript off (still portrait) and with reduced motion (static portrait, no drawing); the portrait code and its data stay out of the entry chunk; all three booking buttons use the `site.ts` URL with their own analytics location; `/privacy` holds the full notice and is in the sitemap; no placeholder ships (the Work section and its links stay out until your real content exists); and `pnpm verify` passes.
 spec [0014](../specs/0014-homepage-redesign/index.md) · code in `src/`, `scripts/`, `astro.config.mjs`
@@ -220,7 +220,7 @@ spec [0014](../specs/0014-homepage-redesign/index.md) · code in `src/`, `script
   - [x] The readable new page without the live portrait: header, hero still image, Services, gated Work, How it works, About, final CTA, `/privacy`, 404 (AC-1, AC-3, AC-4, AC-11 to AC-19, AC-21)
   - [x] Live dotted portrait through the loader, with its bundle marker and budget (AC-5 to AC-9)
   - [x] Remove Three.js, add your LinkedIn and GitHub URLs, `pnpm verify` clean (AC-10, AC-15, AC-22)
-- [ ] Verify it: `/check verify homepage redesign`
+- [x] Verify it: `/check verify homepage redesign`
 
 ## Deferred
 Out of scope for launch, kept so the plan stays honest.

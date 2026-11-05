@@ -24,3 +24,7 @@ Replaces the Three.js hero with a lazy loaded dotted canvas portrait, rebuilds t
 
 ## Test coverage
 none-by-design; gate is `pnpm verify` plus /check verify. Real phone touch check and production Umami check remain pending per author.
+
+## Follow up (2026-11-05, after PR #14 merged)
+- Production AC-11 passed. On https://abedautomation.com, each booking button (header, hero, final CTA, 404 body) opened Cal.com in the same tab (no booking made), and the Umami Events activity showed four `book-call` events with `location` `header`, `hero`, `final`, `not-found`.
+- Touch testing of the portrait tap still used Chromium touch emulation (Pixel 7 profile) only, not a physical phone. That has not been tried on a real device.
