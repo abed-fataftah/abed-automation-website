@@ -2,10 +2,10 @@
 // The site header: logo and name linking to the top, the in page nav, and the
 // header booking button. On the home page the links are plain anchors; other
 // pages pass `home="/"` so they jump to the sections on the home page instead.
-// Below 900px: logo and button on the first row, nav links wrapping on the second
-// (on screens too narrow for both, the button wraps under the logo instead of
-// covering it). From 900px: one row. The DOM order (logo, nav, button) is the
-// tab order; only the visual order changes.
+// Below 900px: logo and button on the first row, nav links wrapping on the second.
+// Below 390px the name is visually hidden (still read by screen readers) so the
+// monogram and button fit on row 1. From 900px: one row. The DOM order (logo,
+// nav, button) is the tab order; only the visual order changes.
 import BookCta from '@/components/BookCta.astro';
 import Logo from '@/components/Logo.astro';
 import { site } from '@/content/site';
@@ -34,7 +34,7 @@ const links = [
       class="mr-auto flex min-h-(--target-min) items-center gap-3 text-body font-bold no-underline"
     >
       <Logo class="shrink-0" />
-      {site.name}
+      <span class="max-[390px]:sr-only">{site.name}</span>
     </a>
     <nav
       aria-label={site.nav.label}
