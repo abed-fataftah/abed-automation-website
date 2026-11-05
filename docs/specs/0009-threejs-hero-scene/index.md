@@ -1,7 +1,7 @@
 # 0009. Three.js hero scene: a swaying workflow graph with travelling pulses
 
 **Date**: 2026-10-30 (updated 2026-10-30: cross check fixes; SVG only below 1024px; line and dot sizing and the dynamic import regex corrected to match Three.js 0.186 and the minified output)
-**Status**: In Progress
+**Status**: Superseded by [0014](../0014-homepage-redesign/index.md) (2026-11-05, the dotted portrait replaces the scene and Three.js is removed)
 
 ## Summary
 

@@ -7,6 +7,9 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://abedautomation.com',
+  // Pages build to `privacy.html`, which Cloudflare Pages serves at `/privacy`
+  // with no trailing slash (spec 0014).
+  build: { format: 'file' },
   // Lists the built pages; skips the 404 page and the image and icon endpoints.
   integrations: [sitemap()],
   // Schibsted Grotesk, downloaded at build time and served from the site's own domain.

@@ -1,0 +1,23 @@
+---
+// The privacy notice on its own page (spec 0014). Indexable, in the sitemap,
+// with no JSON-LD (only the home page carries it).
+import Base from '@/layouts/Base.astro';
+import PrivacyNotice from '@/components/PrivacyNotice.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import { site } from '@/content/site';
+---
+
+<Base title={site.privacy.metaTitle} description={site.privacy.metaDescription}>
+  <SiteHeader slot="header" home="/" />
+
+  <div class="site-wrap pt-hero-top pb-section-y">
+    <h1 class="text-section font-bold">{site.privacy.title}</h1>
+    <PrivacyNotice />
+    <a href="/" class="text-link mt-7">
+      {site.privacy.back}
+    </a>
+  </div>
+
+  <SiteFooter slot="footer" />
+</Base>

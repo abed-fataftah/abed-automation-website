@@ -2,6 +2,7 @@
 
 **Date**: 2026-10-30
 **Status**: In Progress
+**Updated by**: [0014](../0014-homepage-redesign/index.md) (2026-11-05), new booking locations header and not-found; hero and final are unchanged.
 
 ## Summary
 

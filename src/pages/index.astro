@@ -1,109 +1,215 @@
 ---
 import Base from '@/layouts/Base.astro';
 import { Image } from 'astro:assets';
-import abedPhoto from '@/assets/abed.png';
+import type { ImageMetadata } from 'astro';
+import aboutPhoto from '@/assets/abed-about.jpg';
 import BookCta from '@/components/BookCta.astro';
-import HeroScene from '@/components/HeroScene.astro';
-import PrivacyNotice from '@/components/PrivacyNotice.astro';
+import DottedPortrait from '@/components/DottedPortrait.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
-import { site } from '@/content/site';
+import { site, type WorkItem } from '@/content/site';
 
 const { before, emphasis, after } = site.home.heading;
+
+// Work renders only with at least one complete item; with none, the section, its
+// nav link (SiteHeader), and "See my work" are all left out (spec 0014 AC-12).
+const workItems: WorkItem[] = site.work.items;
+const hasWork = workItems.length > 0;
+
+// Work screenshots live in src/assets/work/; a missing file fails the build.
+const workImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/work/*.{png,webp,jpg}',
+  { eager: true },
+);
+const works = workItems.map((item) => {
+  const image = workImages[`/src/assets/work/${item.image}`]?.default;
+  if (!image) {
+    throw new Error(
+      `Work item "${item.title}": image "${item.image}" not found in src/assets/work/.`,
+    );
+  }
+  return { ...item, image };
+});
+
+// Both cards share one markup path, web first, so neither can stand out.
+const services = [site.services.web, site.services.automation];
+
+const heading2 = 'text-section font-bold';
 ---
 
 <Base>
   <SiteHeader slot="header" />
 
-  <section class="site-wrap grid gap-8 py-12 sm:py-14 lg:grid-cols-2 lg:items-center lg:gap-6 lg:py-16">
-    <div>
-      <p class="text-small text-muted">{site.home.eyebrow}</p>
-      <!-- Keep the parts on one line: a line break between them renders as a space. -->
-      <!-- prettier-ignore -->
-      <h1 class="mt-4 max-w-160 text-hero font-bold tracking-hero sm:text-hero-lg">
-        {before}<u class="hero-underline" data-underline>{emphasis}</u>{after}
-      </h1>
-      <p class="mt-4 max-w-115 text-body text-muted">{site.home.intro}</p>
-      <div class="mt-6">
-        <BookCta location="hero" />
+  <section class="site-wrap pt-hero-top pb-section-y">
+    <!-- From 900px: text grows from 440px, the portrait from 320px up to 460px (the board). -->
+    <div class="flex flex-col gap-12 two-col:flex-row two-col:items-center">
+      <div class="min-w-0 two-col:flex-[1_1_27.5rem]">
+        <p class="text-greeting text-muted">{site.home.eyebrow}</p>
+        <!-- Keep the parts on one line: a line break between them renders as a space. -->
+        <!-- prettier-ignore -->
+        <h1 class="mt-4 max-w-[18ch] text-hero font-bold">
+          {before}<u class="hero-underline" data-underline>{emphasis}</u>{after}
+        </h1>
+        <p class="mt-6 max-w-[34em] text-lead text-muted">{site.home.intro}</p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3">
+          <BookCta location="hero" />
+          {hasWork && (
+            <a href="#work" class="text-link">
+              {site.home.secondary}
+            </a>
+          )}
+        </div>
+      </div>
+      <div class="w-full max-w-115 two-col:flex-[1_1_20rem]">
+        <DottedPortrait />
       </div>
     </div>
-    <HeroScene />
   </section>
 
-  <section id="tools" class="section-line" data-line>
-    <div class="site-wrap py-4 text-small text-muted" data-reveal>
-      <p class="inline">{site.tools.label}</p>{' '}
-      {/* Safari drops list semantics from a ul without markers, so the role stays. */}
+  <section id="services" class="section-line" data-line>
+    <div class="site-wrap py-section-y" data-reveal>
+      <h2 class={heading2}>{site.services.heading}</h2>
+      <div class="mt-10 grid gap-6 two-col:grid-cols-2">
+        {services.map((service) => (
+          <article class="rounded-card bg-surface p-8" data-reveal-item>
+            <h3 class="text-card-title font-semibold">{service.title}</h3>
+            <p class="mt-3 text-body-lg text-muted">{service.body}</p>
+            <p class="mt-6 mb-2 text-small font-semibold">{site.services.startLabel}</p>
+            <ul class="list-disc pl-5 text-body leading-[1.8]">
+              {service.starts.map((start) => (
+                <li>{start}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {hasWork && (
+    <section id="work" class="section-line" data-line>
+      <div class="site-wrap py-section-y" data-reveal>
+        <h2 class={heading2}>{site.work.heading}</h2>
+        <p class="mt-3 text-body-lg text-muted">{site.work.intro}</p>
+        <div class="mt-10 grid gap-6 two-col:grid-cols-2">
+          {works.map((item) => (
+            <article
+              class:list={[
+                'overflow-hidden rounded-card border border-line',
+                works.length === 1 && 'two-col:col-span-2 two-col:max-w-180',
+              ]}
+              data-reveal-item
+            >
+              <Image
+                src={item.image}
+                alt={item.imageAlt}
+                widths={[560, 1120]}
+                sizes="(min-width: 56.25rem) 560px, 100vw"
+                class="block aspect-[16/10] w-full bg-surface object-cover"
+              />
+              <div class="px-7 pt-6 pb-7">
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <p class="text-caption font-semibold text-accent">{item.category}</p>
+                  {item.inProgress && (
+                    <p class="pill border-accent px-2.5 py-0.5 text-caption text-accent">
+                      {site.work.inProgressLabel}
+                    </p>
+                  )}
+                </div>
+                <h3 class="mt-2 text-card-title font-semibold">{item.title}</h3>
+                <p class="mt-2.5 text-body text-muted">{item.body}</p>
+                {item.link && (
+                  <a href={item.link.href} class="text-link mt-2 text-small">
+                    {item.link.label}
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section id="how" class="section-line" data-line>
+    <div class="site-wrap py-section-y" data-reveal>
+      <h2 class={heading2}>{site.how.heading}</h2>
+      {/* Safari drops list semantics from a list without markers, so the role stays. */}
       {/* eslint-disable-next-line astro/jsx-a11y/no-redundant-roles */}
-      <ul role="list" class="inline">
-        {site.tools.items.map((item, i) => (
-          <li class="inline">
-            {/* Name and separator never split; the space after is the only wrap point. */}
-            <span class="whitespace-nowrap">
-              <span class="text-fg">{item}</span>
-              {i < site.tools.items.length - 1 && <span aria-hidden="true"> /</span>}
-            </span>{' '}
+      <ol role="list" class="mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+        {site.how.steps.map((step, i) => (
+          <li class="step-rule" data-reveal-item>
+            {/* The list already numbers the steps for assistive tech. */}
+            <p class="text-small font-semibold text-accent" aria-hidden="true">
+              {i + 1}
+            </p>
+            <h3 class="mt-2 text-step-title font-semibold">{step.title}</h3>
+            <p class="mt-2 text-body text-muted">{step.body}</p>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   </section>
 
-  <div id="services" class="section-line" data-line>
-    <div class="site-wrap grid sm:grid-cols-2" data-reveal>
-      {[site.services.automation, site.services.web].map((service, i) => (
-        <section
-          class:list={[
-            'py-8 sm:px-6',
-            i === 0 ? 'sm:pl-0' : 'border-t border-line sm:border-t-0 sm:border-l',
-          ]}
-          data-reveal-item
-        >
-          <h2 class="mb-2 text-title font-bold">{service.title}</h2>
-          <p class="text-small text-muted">{service.body}</p>
-        </section>
-      ))}
-    </div>
-  </div>
-
   <section id="about" class="section-line" data-line>
-    <div
-      class="site-wrap grid items-start gap-4 py-10 sm:grid-cols-2 sm:py-12 lg:grid-cols-[1fr_2fr_1fr] lg:gap-6"
-      data-reveal
-    >
-      <h2 class="text-title font-bold sm:col-span-full lg:col-span-1" data-reveal-item>
-        {site.about.title}
-      </h2>
-      <div class="flex flex-col gap-4 text-body text-muted">
-        {site.about.body.map((paragraph) => (
-          <p data-reveal-item>{paragraph}</p>
-        ))}
+    <div class="site-wrap py-section-y" data-reveal>
+      <h2 class={heading2}>{site.about.title}</h2>
+      <div class="mt-10 grid items-start gap-12 two-col:grid-cols-[18.75rem_minmax(0,40rem)]">
+        <Image
+          src={aboutPhoto}
+          alt={site.about.photoAlt}
+          widths={[300, 600]}
+          sizes="300px"
+          class="aspect-[4/5] w-full max-w-75 rounded-card object-cover"
+          data-reveal-item
+        />
+        <div data-reveal-item>
+          <p class="text-lead leading-[1.6]">{site.about.body[0]}</p>
+          <p class="mt-4 text-body-lg leading-[1.65] text-muted">{site.about.body[1]}</p>
+          <ul class="mt-7 flex flex-wrap gap-2.5">
+            {site.about.facts.map((fact) => (
+              <li class="pill border-line px-3.5 py-2 text-small">{fact}</li>
+            ))}
+          </ul>
+          <p class="mt-7 text-small leading-[1.7] text-muted">
+            <span class="font-semibold text-fg">{site.tools.label}</span>{' '}
+            {site.tools.items.join(', ')}
+          </p>
+          {site.about.profiles.length > 0 && (
+            <ul class="mt-2 flex flex-wrap gap-x-6">
+              {site.about.profiles.map((profile) => (
+                <li>
+                  <a
+                    href={profile.href}
+                    class="inline-flex min-h-(--target-min) items-center text-small text-fg underline underline-offset-4 hover:text-accent"
+                  >
+                    {profile.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
-      <Image
-        src={abedPhoto}
-        alt={site.about.photoAlt}
-        widths={[160, 320, 512]}
-        sizes="(min-width: 1024px) 256px, 160px"
-        class="aspect-square w-full max-w-40 object-cover lg:max-w-none"
-        data-reveal-item
-      />
     </div>
   </section>
 
   <section class="section-line" data-line>
-    <div class="site-wrap py-10 sm:py-12" data-reveal>
-      <h2 class="max-w-130 text-final font-bold tracking-final sm:text-final-lg">
-        {site.finalCta.title}
-      </h2>
-      <p class="mt-4 max-w-115 text-body text-muted">{site.finalCta.body}</p>
-      <div class="mt-6">
+    <div class="site-wrap py-section-y" data-reveal>
+      <h2 class="max-w-[20ch] text-cta-heading font-bold">{site.finalCta.title}</h2>
+      <p class="mt-5 max-w-[34em] text-greeting leading-[1.6] text-muted">{site.finalCta.body}</p>
+      <div class="mt-8">
         <BookCta location="final" />
       </div>
+      <p class="mt-5 text-small text-muted">{site.finalCta.reassurance}</p>
+      <p class="mt-2 text-small text-muted">
+        {site.finalCta.emailLead}{' '}
+        <a href={`mailto:${site.footer.email}`} class="inline-link">
+          {site.footer.email}
+        </a>
+      </p>
     </div>
   </section>
-
-  <PrivacyNotice />
 
   <SiteFooter slot="footer" />
 </Base>

@@ -1,9 +1,7 @@
 // The only motion code in the initial page. It waits until the page has loaded
-// and the browser is idle, then fetches GSAP and the Three.js scene only when
+// and the browser is idle, then fetches GSAP and the dotted portrait only when
 // the visitor's settings and connection allow them. The static page never
 // depends on anything loaded here.
-
-import { SCENE } from './graph';
 
 type Cleanup = () => void;
 
@@ -51,35 +49,22 @@ async function startGsap(): Promise<void> {
   }
 }
 
-async function startScene(container: HTMLElement): Promise<void> {
+async function startPortrait(container: HTMLElement): Promise<void> {
   try {
-    const { init } = await import('./scene');
+    const { init } = await import('./portrait');
     if (stopped) return;
     cleanups.push(init(container));
   } catch (error) {
-    onLoadFailure('The 3D scene', error);
+    onLoadFailure('The dotted portrait', error);
   }
 }
 
-function watchScene(): void {
-  const container = document.querySelector<HTMLElement>('[data-scene]');
+// The hero portrait (spec 0014) loads at every width: it is above the fold, so
+// there is no viewport gate. Pages without it (privacy, 404) never download it.
+function watchPortrait(): void {
+  const container = document.querySelector<HTMLElement>('[data-portrait]');
   if (!container || isSlowConnection()) return;
-  // Phones and tablets keep the static drawing and never download Three.js. Read once:
-  // widening the window later keeps the drawing, narrowing it keeps a running scene.
-  if (!window.matchMedia(`(min-width: ${String(SCENE.minWidth)}px)`).matches) return;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return;
-      observer.disconnect();
-      void startScene(container);
-    },
-    { rootMargin: '200px' },
-  );
-  observer.observe(container);
-  cleanups.push(() => {
-    observer.disconnect();
-  });
+  void startPortrait(container);
 }
 
 function start(): void {
@@ -91,7 +76,7 @@ function start(): void {
   });
 
   if (hasMotionHooks()) void startGsap();
-  watchScene();
+  watchPortrait();
 }
 
 function whenIdle(callback: () => void): void {

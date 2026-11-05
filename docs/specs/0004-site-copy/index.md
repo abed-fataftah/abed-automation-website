@@ -2,6 +2,7 @@
 
 **Date**: 2026-10-29
 **Status**: In Progress
+**Updated by**: [0014](../0014-homepage-redesign/index.md) (2026-11-05), new homepage copy from the redesign handoff; "30 minute" becomes "30-minute", guarded by check:copy.
 
 ## Summary
 

@@ -1,96 +1,130 @@
 # Design system: Abed Automation (abedautomation.com)
 
-The source of truth for the look of the site. Token values live in the `@theme` block of `src/styles/global.css`; this file explains how to use them. Built by spec 0003 (`docs/specs/0003-design-system-ui-foundation/`). Page briefs: `docs/design/pages/home.md` and `docs/design/pages/404.md`. Visual reference: `docs/design/prototype/abedautomation-prototype.html` (open it in a browser; never copy its Google Fonts link, booking note, or overlay 404). Original handoff notes: `docs/design/handoff.md`. Stack: Astro 7, Tailwind v4, TypeScript, Netlify (spec 0001). Dark theme only. English only, left to right.
+The source of truth for the look of the site. Token values live in the `@theme` block of `src/styles/global.css`; this file explains how to use them. Built by spec 0003 (`docs/specs/0003-design-system-ui-foundation/`) and updated by the homepage redesign, spec 0014 (`docs/specs/0014-homepage-redesign/`), which merged the approved handoff in `docs/design/handoff/` (read its `handoff.md` first; page files in `docs/design/handoff/pages/`). Layout truth for the homepage: the design board at https://claude.ai/artifact/2pUjxVjZaQLgffPYZY5fzL ("Homepage, desktop" at 1280 and "Homepage, phone" at 390), copied in `docs/design/handoff/reference/Main.dc.html` (reference only, never built). Older references (`docs/design/pages/`, `docs/design/prototype/`, `docs/design/handoff.md`) describe the first launch design and are kept for history. Stack: Astro 7, Tailwind v4, TypeScript, Cloudflare Pages. Dark theme only. English only, left to right.
 
 ## 1. Principles
-1. Plain and personal: one person, first person voice ("Hi, I’m Abed."). Never write "we", "our team", or any team wording.
-2. Warm charcoal page, off-white text, one coral accent used in three places only: the main button, the hero underline, the focus ring.
-3. Structure comes from 1px lines and spacing, never from boxes. No cards, no pills, no icons inside buttons, no arrows, no gradients, no shadows, no glow.
-4. One main action on every page: "Book a Free Call", always opening `site.bookingUrl`.
-5. Works with no JavaScript. Motion (Release 2) never changes layout and never blocks reading or booking.
-6. Never invent testimonials, logos, figures, credentials, results, or prices.
+1. **One person, plainly.** The page shows one developer, his face, and his real work, in first person ("Hi, I’m Abed."). Never "we", "our team", or any team wording. Never invented numbers, logos, or quotes.
+2. **One bold element.** The dotted portrait in the hero is the only eye catching thing. Everything around it stays calm: flat dark surfaces, no gradients, no shadows, no glow. The redesign adds no new entrance animations (the existing spec 0008 reveals stay).
+3. **Coral means "act" or "look here".** `accent` is only for booking buttons, the focus ring, the hero underline, step rules and numbers, and small category tags. It never fills a large area.
+4. **Both services are equal.** Websites and web apps, and AI automation, always get the same structure, size, and weight.
+5. **One main action:** booking the free call, always through `BookCta.astro` and `site.bookingUrl`.
+6. **Works with no JavaScript.** Motion and the live portrait never change layout and never block reading or booking.
+7. Plain English, short sentences, sentence case everywhere. Never: public prices, contact forms, placeholder text or links, all caps labels, arrows in button text, testimonials, client logos, or result claims.
 
 ## 2. Color roles
 | Token | Value | Use | Contrast |
 |---|---|---|---|
-| `bg` | #1A1816 | Page background | base |
-| `fg` | #F2EDE4 | Headings, body, secondary button text and border, nav hover | 15.18 on bg |
-| `muted` | #B9B1A4 | Intro, descriptions, nav links, tools label, footer | 8.34 on bg |
-| `line` | #3A3631 | 1px dividers only | 1.48, decorative |
-| `accent` | #FF6B57 | Primary button fill, hero underline, focus ring | 6.32 on bg |
-| `on-accent` | #1A1816 | Text on primary button | 6.32 on accent |
-| `accent-hover` | #FF8571 | Primary button hover | 7.46 with on-accent |
-| `accent-pressed` | #E85A47 | Primary button pressed | 5.05 with on-accent |
-Rules: coral is a button fill or a line, never body text. Muted text is never smaller than 14px. No other colors may be added without a new token.
+| `bg` | #1A1816 | Page background, pupils in the portrait | base |
+| `surface` | #24211E | Service cards, Work image wells | fg 13.7, muted 7.5 |
+| `fg` | #F2EDE4 | Headings, body, links, portrait dots | 15.18 on bg |
+| `muted` | #B9B1A4 | Supporting text, nav links, footer | 8.34 on bg |
+| `line` | #3A3631 | Section dividers, Work card and fact chip borders | 1.48, decorative only |
+| `accent` | #FF6B57 | Buttons, focus ring, underline, step rules and numbers, tags | 6.32 on bg, 5.7 on surface |
+| `on-accent` | #1A1816 | Text on coral buttons | 6.32 on accent |
+| `accent-hover` | #FF8571 | Button hover | 7.46 with on-accent |
+| `accent-pressed` | #E85A47 | Button pressed | 5.05 with on-accent |
+| `portrait-sclera` | #CFC8BF | Eye whites in the portrait | canvas only |
+Rules: coral may be text (step numbers, tags), so it is held to 4.5:1 on `bg` and `surface`. Muted text is never smaller than 14px. `line` is never the only boundary of a control. No other colors may be added without a new token. The handoff names `--color-text` and `--color-text-muted` are `fg` and `muted` here.
 
 ## 3. Typography
-Family: Schibsted Grotesk (variable), sans-serif, self hosted through Astro's `fonts` option in `astro.config.mjs` (Fontsource provider, files downloaded at build time and served from the site's own domain), Latin subset, weight range 400 to 700, preloaded with `<Font cssVariable="--font-schibsted" preload />` in `Base.astro`, `font-display: swap`. Fallback stack: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif (with a size matched fallback). Weights used: 400 and 700. No other font.
-| Role | Size / line | Weight | Tracking | Where |
-|---|---|---|---|---|
-| Hero title (h1) | 32px / 1.1 below 640px; 40px / 1.08 from 640px | 700 | −1px | Hero only |
-| Final CTA title (h2) | 24px / 1.15 below 640px; 28px / 1.15 from 640px | 700 | −0.5px | Final CTA only |
-| Section title (h2) | 20px / 1.25 | 700 | 0 | Services, About, Privacy |
-| Body | 16px / 1.6 | 400 | 0 | About text, intro |
-| Privacy subheading (h3) | 16px / 1.6 | 700 | 0 | Privacy notice topics only, in `fg` |
-| Small | 14px / 1.5 | 400 | 0 | Nav, descriptions, tools line, footer, eyebrow |
-| Note | 13px / 1.5 | 400 | 0 | Placeholder labels only |
-| Brand name | 16px / 1.6 | 700 | 0 | Header |
-| Button label | 15px | 700 | 0 | Both buttons |
-Hero title max width 640px. Intro max width 460px. Use curly punctuation in all text: ’ “ ”.
+Family: Schibsted Grotesk (variable), self hosted through Astro's `fonts` option in `astro.config.mjs` (Fontsource provider, files downloaded at build time and served from the site's own domain), Latin subset, weights 400 to 700, preloaded with `<Font cssVariable="--font-schibsted" preload />` in `Base.astro`, `font-display: swap`. Fallback: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif (size matched). Weights used: 400 body, 500 text links, 600 card and step titles, labels, and buttons, 700 h1 and h2. No other font.
+
+| Role | Token | Size | Weight | Line height | Tracking | Where |
+|---|---|---|---|---|---|---|
+| Hero h1 | `text-hero` | 34 to 56px | 700 | 1.08 | −0.02em | Hero headline, max width 18ch |
+| CTA h2 | `text-cta-heading` | 30 to 44px | 700 | 1.12 | −0.015em | Final CTA heading, max width 20ch |
+| Section h2 | `text-section` | 28 to 36px | 700 | 1.2 | −0.01em | Services, Work, How it works, About; also the h1 of `/privacy` and the 404 page |
+| Card h3 | `text-card-title` | 22px | 600 | 1.3 | 0 | Service and Work card titles; privacy h2s |
+| Step h3 | `text-step-title` | 20px | 600 | 1.3 | 0 | How it works titles |
+| Lead | `text-lead` | 19px | 400 | 1.55 (hero), 1.6 (About) | 0 | Hero line (muted, max 34em), first About paragraph (`fg`) |
+| Greeting | `text-greeting` | 18px | 400 | 1.5 (1.6 in the CTA) | 0 | "Hi, I’m Abed." (muted), final CTA paragraph (muted) |
+| Body large | `text-body-lg` | 17px | 400 | 1.6 to 1.65 | 0 | Service body, second About paragraph, Work intro, privacy text, large buttons, text links |
+| Body | `text-body` | 16px | 400 | 1.6 (lists 1.8) | 0 | Lists, card body, step body |
+| Small | `text-small` | 15px | 400 (600 for labels) | 1.5 | 0 | Nav, "Good places to start" (600), fact chips, tools line, reassurance lines, header button, step numbers (600, coral) |
+| Caption | `text-caption` | 14px | 400 (600 for categories) | 1.5 | 0 | Footer, Work category and "In progress" tag |
+Use curly punctuation in all text: ’ “ ”.
 
 ## 4. Spacing and layout
-Spacing: Tailwind scale, 1 unit = 4px, allowed steps 4, 8, 12, 16, 24, 32, 48, 64, 96.
-Container: max 1120px, centered. Page padding 16px below 640px, 24px from 640px. Breakpoints: 640px and 1024px (Tailwind `sm` and `lg`). Mobile design width 390px; check 320px for sideways scroll.
-Grid: one column. Services: 1 column below 640px, 2 equal columns from 640px. About: 1 column below 640px; 2 columns (heading across the top, text, photo) from 640px to 1023px; 3 columns `1fr 2fr 1fr`, gap 24px from 1024px.
-Vertical rhythm: hero padding 48px (below 640px), 56px (640 to 1023px), 64px (1024px and up). About and final CTA padding 40px (below 640px), 48px (from 640px). Privacy padding 32px. Tools line padding 16px. Services padding 32px; from 640px each column has 24px side padding, the first column 0 on its left edge. Every section is separated by a 1px `line` border on top.
-Header: static, not sticky. Below 640px logo and name on one row, nav links on a second row, gap 12px. From 640px one row, name left, nav right.
+- Container: `site-wrap` utility, max 1120px (`--container-site`), centered, side padding `--spacing-page-x` (20 to 48px).
+- Sections: padding `py-section-y` (56 to 96px) top and bottom. The hero uses `pt-hero-top` (32 to 72px) on top and `pb-section-y` at the bottom.
+- Every section after the hero has a 1px top divider in `line`, running full width (the `section-line` utility).
+- Section h2 to content gap: 40px. The Work h2 has 12px to its intro line, then 40px to the cards.
+- Gaps: hero columns 48px, About columns 48px, cards 24px, steps 32px vertical and 24px horizontal, fact chips 10px, header items 32px apart from 900px, nav links 24px.
+- Breakpoints: `sm` 640px, `two-col` 900px (`--breakpoint-two-col`), `lg` 1024px. Check 320, 390, 768, and 1280 for sideways scroll.
+
+| Area | Below 640px | 640 to 899px | 900 to 1023px | 1024px and up |
+|---|---|---|---|---|
+| Header | Row 1: logo and "Book a call". Row 2: nav links, wrapping | same | one row | one row |
+| Hero | 1 column: text, then portrait (max 460px wide) | same | 2 columns: text grows from 440px, portrait grows from 320px to 460px | same |
+| Services | 1 column | 1 column | 2 equal columns | same |
+| Work | 1 column | 1 column | 2 equal columns; a lone card spans the row up to 720px | same |
+| How it works | 1 column | 2 columns | 2 columns | 4 columns |
+| About | 1 column: photo (max 300px), then text | same | photo 300px, text max 640px, top aligned | same |
+| Footer | wraps to two rows | one row if it fits | one row: copyright left, links right | same |
+The header is static, not sticky. Every in page target has `scroll-margin-top: 16px`.
 
 ## 5. Shape
-Radius: 6px on buttons only. All else 0. Borders: 1px `line` for dividers, 1px `fg` for the secondary button. Shadows: none. Focus ring: 2px solid `accent`, offset 3px, on `:focus-visible` for every link and button.
+- Radii: buttons `rounded-button` (8px); cards and the About photo `rounded-card` (12px); fact chips and the "In progress" tag `rounded-pill`; the hero underline is a flat stroke.
+- Borders: 1px `line` on Work cards and fact chips (`pill border-line`); the "In progress" tag has a 1px `accent` border (`pill border-accent`). Service cards have no border; they use `surface`.
+- Step rule: a 2px solid `accent` top border on each step (`step-rule`), square ends.
+- Shadows: none. Gradients: none (the hero underline's one color gradient is a flat stroke).
+- Focus ring: 2px solid `accent`, offset 3px, on `:focus-visible` for every link and button.
 
 ## 6. Components
-| Component | Build | States and rules |
+All components are custom built; no UI library. `Base.astro` provides the skip link, a `header` slot, `<main id="main">`, and a `footer` slot. Every string comes from `src/content/site.ts`.
+
+| Component | Build | Rules and states |
 |---|---|---|
-| Skip link | Custom `<a href="#main">` as the first element in `<body>` | Hidden off screen; visible on focus at top 8px, left 16px, fill `fg`, text `bg`, 700, padding 12px 16px, radius 6px, z-index 50. |
-| Header | `<header>` with logo link and `<nav aria-label="Main">` | Logo link goes to `#top`. |
-| Logo | `Logo.astro`: the AD monogram as an inline SVG, height 34px, width auto, `aria-hidden="true"` because the name sits next to it | A and D use `currentColor` (`fg`), the brackets use `fill-accent`. Redrawn from `src/assets/ad-monogram.png`. Favicon uses the monogram only (feature 11). |
-| Nav link | `<a>` 14px `muted`, min height 44px, padding 0 8px | Default `muted`; hover `fg` + underline (offset 4px); pressed same as hover; focus ring; no disabled state. |
-| Primary button | `BookCta.astro`, styled by the `btn-primary` utility (only ever through `BookCta`) | Height 48px, padding 0 20px, radius 6px, 15px 700 `on-accent` on `accent`. Default `accent`; hover `accent-hover`; pressed `accent-pressed` (colors fade over 150ms, section 11); focus ring; no disabled or loading state (it is a link). Full width below 640px, auto width from 640px. Opens the Cal.com page. |
-| Secondary button | `<a class="btn-secondary">` | Height 48px, 1px `fg` border, text `fg`, same radius and padding. Default; hover border `accent`; focus ring. Used only on the 404 page. |
-| Hero underline | `<u class="hero-underline" data-underline>` around "AI automation" | 3px `accent` stroke at the old 6px offset position, drawn by the `hero-underline` utility as a one color `linear-gradient` background (a flat stroke, allowed under principle 3: that rule bans visible color blends). Each wrapped line gets its own stroke. Forced colors fall back to a real 3px underline, offset 6px. Redraws on return to the hero (section 11). |
-| Tools line | `<section id="tools">`: label in an inline `<p>`, names in an inline `<ul role="list">`, one `<li>` per `site.tools.items` entry | 14px, padding 16px top and bottom; label `muted`, items `fg`. Each " / " separator is written in the template inside an `aria-hidden="true"` span, `muted`, after every item but the last. Each name and its separator sit in one `whitespace-nowrap` span, so a wrapped line always starts with a name. Plain text only: no logos, icons, images, or links (spec 0006). |
-| Service block | `<section>` with `<h2>` and `<p>` | No card, no icon. |
-| About block | `<section id="about">` | Photo `src/assets/abed.png` through Astro `<Image>`, square, max 160px below 1024px, fills its column from 1024px, alt text in `site.about.photoAlt`. |
-| Footer | `<footer>` | Copyright, mailto link, Privacy link (`/#privacy`, so it works from the 404 page too). Links min height 44px, same style. Below 640px stacked, gap 12px; from 640px one row, space between, the two links 24px apart. |
-| Privacy notice | `PrivacyNotice.astro`: `<section id="privacy">` after the final CTA, `<h2>` then one `<h3>` and `<p>` per `site.privacy.sections` entry, then the `Last updated` line with a `<time>` | 1px `line` border on top, padding 32px top and bottom. Text *Small* in `muted`, max width 640px, 16px between topics. Every word from `site.privacy` (spec 0007); the date is formatted at build time (en-GB, UTC). |
-| Inline link | `<a>` inside a sentence (privacy notice) | `fg`, underline, offset 4px; hover underline `accent`; focus ring. Same tab, plain `https://` or `mailto:` only. Exempt from the 44px rule (section 9). |
-All components must be custom built; no UI library is used. Every section's inner container uses the `site-wrap` utility (max 1120px, 16px side padding, 24px from 640px). `Base.astro` provides the skip link, a `header` slot, `<main id="main">`, and a `footer` slot.
+| Skip link | `<a href="#main">`, first element in `<body>` | Hidden off screen; visible on focus at top 8px, left 16px, fill `fg`, text `bg`, 700, padding 12px 16px, radius 8px, z-index 50. |
+| Header | `SiteHeader.astro`: logo link, `<nav aria-label="Main">`, header booking button | Logo goes to `#top`. Nav: Services, Work (only when Work renders), How it works, About. On `/privacy` and the 404 page the links point to `/#…`. DOM order (logo, nav, button) is the tab order; below 900px the button sits on row 1 beside the logo. Below 390px the name "Abed Automation" is visually hidden (`sr-only`, still the link's accessible name), so the monogram and button fit on row 1 down to 320px. |
+| Logo | `Logo.astro`: the AD monogram as an inline SVG, height 34px, `aria-hidden="true"` because the name sits next to it | A and D use `currentColor` (`fg`), the brackets `fill-accent`. Redrawn from `src/assets/ad-monogram.png`. Favicons and the sharing card use the same paths (`src/seo/monogram.ts`). |
+| Nav link | `<a>` 15px `muted`, no underline, min height 44px | Hover `fg`; focus ring; no current state. |
+| Booking button | `BookCta.astro` (the only component that renders a booking link), `btn-primary` utility | Large (default): 17px, 600, padding 12px 24px, min height 48px. Header (`size="header"`, adds `btn-header`): 15px, padding 10px 18px, min height 44px, label `site.nav.book`. Fill `accent`, text `on-accent`, radius 8px. Hover `accent-hover`; pressed `accent-pressed`; focus ring; no disabled or loading state (it is a link). Same tab. Carries `data-book-cta` and the Umami event with its `location`: `header`, `hero`, `final`, `not-found`. |
+| Text link | `text-link` utility ("See my work", "Back to home", the 404 home link) | 17px, 500, `fg`, underline offset 5px, padding 12px 0 (44px target). Hover `accent`; focus ring. |
+| Inline link | `inline-link` utility, inside a sentence (privacy notice, final CTA email) | `fg`, underline offset 4px; hover underline `accent`; focus ring. Exempt from the 44px rule (section 9). |
+| Dotted portrait | `DottedPortrait.astro` plus `src/motion/portrait.ts` | See section 12. |
+| Service card | `<article>` in `index.astro`, one markup path for both | `surface`, radius 12px, padding 32px: h3, body (12px gap), "Good places to start" `<p>` (600, 24px above, 8px below), bulleted `<ul>`. Static. |
+| Work card | `<article>` in `index.astro`, only when `site.work.items` is not empty | 1px `line` border, radius 12px, clips its 16:10 image (`surface` well). Body padding 24px 28px 28px: category (14px, 600, coral), optional "In progress" tag, h3, body, optional GitHub text link. The card is not clickable; only its own link is. |
+| "In progress" tag | `<p class="pill border-accent">` | 14px, coral, pill radius, padding 2px 10px. |
+| Step | `<li class="step-rule">` inside `<ol role="list">` | Number (15px, 600, coral, `aria-hidden` because the list numbers it), h3, body. |
+| Fact chip | `<li class="pill border-line">` | 15px, padding 8px 14px. |
+| Tools line | One `<p>` in About | `site.tools.label` (600, `fg`) then `site.tools.items` joined with ", " (`muted`). Plain text only: no logos, icons, or links (spec 0006). |
+| About photo | Astro `<Image>` of `src/assets/abed-about.jpg` | Max 300px wide, 4:5, radius 12px, alt `site.about.photoAlt`. |
+| Profile links | `<ul>` of links in About, one per `site.about.profiles` entry | 15px `fg`, underline, min height 44px; none rendered when the list is empty. |
+| Footer | `SiteFooter.astro` | Copyright (build year), mailto link, "Privacy" → `/privacy`. 14px `muted`; links min height 44px, 20px apart; hover `fg` with underline. |
+| Privacy notice | `PrivacyNotice.astro` on `src/pages/privacy.astro` | Column max 680px. One h2 (22px, 600, 40px above) and paragraph (17px, line height 1.65, `muted`) per `site.privacy.sections` entry, then "Last updated" (15px) with a `<time>`, then "Back to home". Date formatted at build time (en-GB, UTC). |
 
 ## 7. Patterns
-Forms: none (no forms on this site). Validation, toasts and inline messages: none. Cards and grids: none; use dividers. Navigation: anchor links only (`#tools`, `#services`, `#about`, `#privacy`), each target has `scroll-margin-top: 16px`. Empty and error pages: only the 404 page (`src/pages/404.astro`): header, "404", title, one sentence, secondary button to `/`, footer. 404 nav links point to `/#tools`, `/#services`, `/#about`.
+- **Forms:** none (ground rule). Booking happens on Cal.com. Validation, toasts, and inline messages: none.
+- **Cards and grids:** two equal cards per row from 900px, one per row below. Card heights follow their content.
+- **Lists:** "Good places to start" is a bulleted `<ul>`. Steps are an `<ol>`. Facts are a plain list.
+- **Navigation:** in page anchors (`#services`, `#work`, `#how`, `#about`) and one booking button. Smooth scrolling only with reduced motion off.
+- **Unfinished content:** never shipped. A block with no real content is left out of the build (the Work section, its nav link, and "See my work" all depend on `site.work.items`; profile links on `site.about.profiles`).
+- **Pages:** `/` (home), `/privacy` (the notice, indexable, in the sitemap, no JSON-LD), and the 404 page (`noindex`; code, h1, one sentence, a large booking button and a home link in one row from 640px).
 
 ## 8. Right to left and languages
 Not applicable: English only, left to right. Do not add language switching or `dir` handling.
 
 ## 9. Accessibility
-- Contrast: all ratios in section 2; any new color pair must be checked by code first (4.5 for text, 3.0 for non-text). `pnpm check:design` (`scripts/check-design.mjs`, part of `pnpm verify`) recomputes every pair from `global.css` and fails on a drop; it also fails on a raw color value or arbitrary color class outside `global.css`. A new color means a token, a pair in the script, and a line in section 2.
-- Every link and button is at least 44px tall; both buttons are 48px. The one exception is an inline link inside a sentence (privacy notice), which follows the WCAG 2.5.8 inline exception and keeps the focus ring.
-- Tab order: skip link, logo, Tools, Services, About, hero button, footer email, footer Privacy (and the final CTA button, in page order).
-- One `<h1>` per page. Landmarks: `<header>`, `<nav>`, `<main id="main">`, `<footer>`.
+- Contrast: all ratios in section 2. `pnpm check:design` (`scripts/check-design.mjs`, part of `pnpm verify`) recomputes every pair from `global.css` and fails on a drop; it also fails on a raw color value or arbitrary color class outside `global.css`. A new color means a token, a pair in the script, and a line in section 2.
+- Every link and button is at least 44px tall; the large booking buttons are 48px. The one exception is an inline link inside a sentence, which follows the WCAG 2.5.8 inline exception and keeps the focus ring.
+- Tab order: skip link, logo, nav links, header booking button, hero booking button, "See my work" (when Work renders), then content links in page order, then the footer links.
+- One `<h1>` per page. Landmarks: `<header>`, `<nav aria-label="Main">`, `<main id="main">`, `<footer>`.
 - The coral underline is decoration; the words carry the meaning.
-- Motion: smooth scrolling on anchor links, scroll reveals, and hover fades are all off when `prefers-reduced-motion` is set (section 11). Focus inside a section that has not revealed yet shows it at once, and print always shows everything.
+- The portrait: the still image has alt `site.home.portraitAlt`; once the live canvas is drawn it carries `role="img"` with the same label (copied from the image), and the image leaves the accessibility tree, so the label is read once.
+- Motion: smooth scrolling, scroll reveals, hover fades, and the live portrait are all off when `prefers-reduced-motion` is set (sections 11 and 12). Focus inside a section that has not revealed yet shows it at once, and print always shows everything.
 
 ## 10. Do and do not
 1. Do read every color from a token. Do not write a raw hex value in a component.
-2. Do keep "Book a Free Call" as the only filled button. Do not add a second filled button.
-3. Do use `site.bookingUrl` for every booking link. Do not type the URL anywhere else.
-4. Do use lines and spacing for structure. Do not add cards, shadows, gradients, pills, or arrow icons.
-5. Do write in first person singular. Do not write "we", "our team", or "our clients".
-6. Do keep placeholders visible in square brackets until the real content exists. Do not ship a placeholder.
-7. Do keep coral off body text. Do not use coral smaller than a 2px line unless it is a button fill.
-8. Do check 320px, 390px, 768px, and 1280px for sideways scroll. Do not let wide content push the page sideways.
-9. Do host fonts and images yourself. Do not load anything from a third party on first load.
-10. Do add alt text to every informative image. Do not add prices, testimonials, client logos, or result claims.
+2. Do read every booking link from `site.ts` through `BookCta`. Do not type the URL anywhere else.
+3. Do keep both service cards identical in structure. Do not emphasize one service with color or size.
+4. Do use coral only for actions and markers. Do not fill a section or card with coral.
+5. Do show the still portrait first. Do not make the hero depend on JavaScript.
+6. Do load the portrait code with a dynamic `import()`. Do not put it in the entry chunk.
+7. Do not add effects to the portrait (dots gathering, coral spotlight, eyes closing, sand dots) unless Abed approves them. They were tried and left off.
+8. Do leave a block out until its real content exists. Do not ship a `[BRACKETED]` placeholder.
+9. Do write in first person singular and sentence case. Do not write "we", all caps labels, or arrows in button text.
+10. Do host fonts and images yourself. Do not load anything from a third party on first load, and do not add shadows, gradients, or new entrance animations.
 
 ## 11. Motion
 Quiet and editorial, on top of the finished static page (spec 0008). The page is complete with no JavaScript; motion only ever starts from a state the script sets itself.
@@ -110,43 +144,35 @@ Hooks (data attributes in the markup; `gsap.ts` reads nothing else):
 
 | Hook | Put it on | Effect |
 |---|---|---|
-| `data-reveal` | a section's content wrapper | one reveal group; fades up as a block unless it holds items |
-| `data-reveal-item` | children of a `data-reveal` group | each item reveals on its own trigger, staggered when several trigger together; the wrapper then never animates |
-| `data-line` plus the `section-line` utility | a section that has a top divider | the divider draws once (`--line-scale`); replaces `border-t border-line` |
+| `data-reveal` | a section's content wrapper (every section after the hero) | one reveal group; fades up as a block unless it holds items |
+| `data-reveal-item` | children of a `data-reveal` group (cards, steps, the About photo and text) | each item reveals on its own trigger, staggered when several trigger together; the wrapper then never animates |
+| `data-line` plus the `section-line` utility | every section after the hero | the divider draws once (`--line-scale`) |
 | `data-underline` plus the `hero-underline` utility | the hero `<u>` | the replaying underline (`--underline-scale`) |
 
 Rules:
 - Nothing on screen when motion starts ever moves or disappears. Each target is judged by its own top edge, again after a resize across 640px.
 - Animate only `opacity` and transforms (lines through `--line-scale` in a `scaleX`); the underline animates only `background-size`. Never `visibility`, `display`, `height`, `width`, `clip-path`, or anything that moves layout.
 - Never hide content in CSS while waiting for JavaScript. CSS defaults (`--line-scale: 1`, `--underline-scale: 1`) always mean fully drawn, and an `@media print` rule forces every hook to its finished state.
-- Off with reduced motion: GSAP never loads, hovers are instant, and turning reduced motion on mid visit returns the page to static at once.
+- Off with reduced motion: GSAP never loads, hovers are instant, the underline shows at full width, there is no smooth scrolling, and turning reduced motion on mid visit returns the page to static at once.
 - Focus moving into a group that has not revealed yet finishes that group and its line in the same frame.
-- No scroll scrubbing, pinning, parallax, smooth scroll libraries, or GSAP driven hovers. No motion on the hero text, header, footer, or the 404 page.
-- The header and footer lines, and the dividers between the service columns, stay plain static borders.
+- No scroll scrubbing, pinning, parallax, smooth scroll libraries, or GSAP driven hovers. No motion on the hero text, header, footer, `/privacy`, or the 404 page.
 
-## 12. Hero scene
-A decorative workflow graph beside the hero text (spec 0009): dots joined by 1px lines, flowing left to right, that sway gently while small dots travel along the lines like work moving through an automation. It carries no words and no meaning a visitor needs; the box is `aria-hidden`.
+## 12. Dotted portrait
+A portrait of Abed drawn in dots beside the hero text (spec 0014), whose eyes and head follow the pointer. It is the page's one bold element.
 
-Placement: from 1024px the hero is two columns inside the 1120px container, text on the left, the scene box filling the right column, vertically centred. Below 1024px the box sits 32px under the hero button, full width up to 640px. The box has a fixed 16:10 aspect ratio, so nothing in it ever moves layout.
+Placement: from 900px the hero is two columns, text on the left (grows from 440px), the portrait square on the right (grows from 320px, max 460px), vertically centered. Below 900px the portrait sits under the hero text at full content width, max 460px.
 
-Two drawings, one source (`src/motion/graph.ts` holds the graph, the camera, and every value below):
-- **Static SVG** (`HeroScene.astro`), inline in the HTML, drawn at build time. Everyone sees it first. Phones and tablets, and visitors with JavaScript off, reduced motion on, a slow connection, or no WebGL, only ever see this.
-- **Live scene** (`src/motion/scene.ts`), desktop only (1024px and up when the loader checks). It fades in over the SVG in 300ms from the identical pose, then the SVG is hidden. Any failure (no WebGL, lost context, reduced motion turned on) puts the SVG back.
+Two layers, one look:
+- **Still image** (`DottedPortrait.astro`): `<div data-portrait>` around an Astro `<Image>` of `src/assets/portrait-fallback.png` (920×920, transparent, served as PNG because the dots compress better than WebP), `loading="eager"`, `fetchpriority="high"`, with alt `site.home.portraitAlt`. Everyone sees it first. Visitors with JavaScript off, reduced motion on, Save Data, or a `2g` or `slow-2g` connection only ever see this. The server HTML never holds a canvas.
+- **Live canvas** (`src/motion/portrait.ts`, data in `src/motion/portrait-dots.json`, both reached only through `import()` in `loader.ts` after `load` plus idle time, at every width). It is created over the image with the `portrait-canvas` class, draws the same pose, fades in over 300ms, then the still image steps back (opacity 0, out of the accessibility tree). Any failure (no 2D context, a color token missing, the chunk failing to load) leaves the image in place with one `console.warn`.
 
-Look: nodes and travelling dots in `fg`, lines in `muted` at 45% opacity, 1 CSS px wide. Nothing else: no coral, no glow, gradient, shadow, or bloom. Print always shows the SVG.
+Look: dots in `fg`, eye whites in `portrait-sclera`, pupils in `bg`, read from the theme variables at start. No coral, glow, gradient, or shadow. Print always shows the still image.
 
-Values (the `SCENE` object in `graph.ts` is the source; keep this table in step with it):
-
-| Value | Setting |
-|---|---|
-| Sway | ±18° around the vertical axis, one full back and forth every 20s |
-| Tilt | ±3° around the horizontal axis, every 26s |
-| Frame rate | at most 30 fps; paused while the box is out of view or the tab is hidden |
-| Node dot | 1.1% of the box width (about 6px at 536px) |
-| Travelling dot | 0.8% of the box width; 1.2s per line whatever its length; first after 1s, then at least 1.6s apart; at most 2 at once; a random branch at each node |
-| Crossfade | 300ms |
-
-Rules:
-- The scene is the hero's only motion besides the underline, and the agreed exception to "nothing on screen moves when motion starts": it starts from exactly the pose the SVG shows.
-- No pointer, scroll, or touch reaction; no camera controls.
-- Three.js loads only on desktop through the motion loader, and its download stays under the `check:bundle` budget.
+Behavior (the `TUNING` object in `portrait.ts` holds every value, copied unchanged from the approved reference; change them only with Abed's approval):
+- A mouse or pen anywhere on the page: the eyes look toward it (easing 0.22 per frame) and the head follows more slowly (0.09). The head turns up to 2.4% of the portrait width sideways and 2.6% up or down; the eye openings widen up to 22% looking up and narrow up to 30% looking down.
+- The pointer leaving the window: it looks straight ahead.
+- A touch tap: it looks at the tap for 1.6s, then straight ahead.
+- Keyboard focus on any booking button (`[data-book-cta]`): the eyes look at it; focus leaving: straight ahead.
+- It draws only while something moves and the canvas is on screen; when it settles, no animation frame loop runs.
+- Reduced motion on at load: the module never downloads. Turned on mid visit: tracking stops, the canvas is removed, and the still image returns.
+- `pnpm check:bundle` fails if the portrait module or its dots data is reachable from any chunk a page loads up front, or if its gzipped download goes over its budget.

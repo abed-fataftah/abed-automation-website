@@ -10,11 +10,15 @@ const SCAN_DIRS = ['src/components', 'src/layouts', 'src/pages', 'src/content', 
 const SCAN_EXTENSIONS = ['.astro', '.ts', '.css'];
 
 // Foreground on background, minimum ratio: 4.5 for text, 3.0 for non text.
-// `line` on `bg` is a decorative divider and is not checked.
+// `line` on `bg` is a decorative divider and is not checked. Coral is also text
+// (step numbers, tags), so it is held to 4.5 on both page and card (spec 0014).
 const PAIRS = [
   { fg: 'fg', bg: 'bg', min: 4.5 },
   { fg: 'muted', bg: 'bg', min: 4.5 },
-  { fg: 'accent', bg: 'bg', min: 3.0 },
+  { fg: 'fg', bg: 'surface', min: 4.5 },
+  { fg: 'muted', bg: 'surface', min: 4.5 },
+  { fg: 'accent', bg: 'bg', min: 4.5 },
+  { fg: 'accent', bg: 'surface', min: 4.5 },
   { fg: 'on-accent', bg: 'accent', min: 4.5 },
   { fg: 'on-accent', bg: 'accent-hover', min: 4.5 },
   { fg: 'on-accent', bg: 'accent-pressed', min: 4.5 },

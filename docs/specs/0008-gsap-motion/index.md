@@ -2,6 +2,7 @@
 
 **Date**: 2026-10-30
 **Status**: In Progress
+**Updated by**: [0014](../0014-homepage-redesign/index.md) (2026-11-05), reveal and line hooks extend to every section after the hero; the motion itself is unchanged.
 
 ## Summary
 

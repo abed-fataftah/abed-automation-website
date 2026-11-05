@@ -2,6 +2,7 @@
 
 **Date**: 2026-10-29
 **Status**: In Progress
+**Updated by**: [0014](../0014-homepage-redesign/index.md) (2026-11-05), the tools line moves into About as one line, "Tools I work with: …". The list and its rules stay.
 
 ## Summary
 

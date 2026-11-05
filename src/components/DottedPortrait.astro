@@ -1,0 +1,22 @@
+---
+// The hero portrait (spec 0014). The server HTML holds only this container and the
+// still image, so the hero is complete with JavaScript off, with reduced motion, and
+// while loading. src/motion/portrait.ts (reached only through the motion loader)
+// adds the live canvas over it and copies the image alt as the canvas label.
+import { Image } from 'astro:assets';
+import portrait from '@/assets/portrait-fallback.png';
+import { site } from '@/content/site';
+---
+
+<div data-portrait class="relative aspect-square w-full max-w-115">
+  <Image
+    src={portrait}
+    alt={site.home.portraitAlt}
+    widths={[460, 920]}
+    format="png"
+    sizes="(min-width: 30rem) 460px, 100vw"
+    loading="eager"
+    fetchpriority="high"
+    class="block size-full"
+  />
+</div>

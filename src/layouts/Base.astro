@@ -23,12 +23,16 @@ const countVisits = CF_PAGES === '1' && CF_PAGES_BRANCH === 'main';
 
 // Search and sharing tags (spec 0011). Every URL resolves against the `site`
 // setting, so deploy previews still point at the live domain. Only indexable
-// pages get a canonical, og:url, and structured data.
-const canonical = noindex ? undefined : new URL(Astro.url.pathname, Astro.site).href;
+// pages get a canonical and og:url, and only the home page gets structured data
+// (spec 0014). Pages build as files (`privacy.html`), so the clean URL drops
+// any `.html` and `index` ending: `/` and `/privacy`.
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/(^|\/)index$/, '$1') || '/';
+const canonical = noindex ? undefined : new URL(path, Astro.site).href;
 const ogImage = new URL('/og.png', Astro.site).href;
 
 const jsonLd =
   canonical &&
+  path === '/' &&
   JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [

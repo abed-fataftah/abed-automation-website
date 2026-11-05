@@ -2,6 +2,7 @@
 
 **Date**: 2026-10-29
 **Status**: Accepted
+**Updated by**: [0014](../0014-homepage-redesign/index.md) (2026-11-05), the homepage redesign merges its tokens and design.md: cards, pills, a surface color, a new type scale, and an 8px button radius. Existing color values stay.
 
 ## Summary
 

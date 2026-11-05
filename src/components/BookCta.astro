@@ -1,23 +1,26 @@
 ---
-// The only component that renders a booking link. Every "Book a Free Call"
-// button uses it, so the URL lives in one place and clicks are counted here:
-// Umami's tracker sends the named event, with the button's location, before
-// it follows the link (spec 0010). Without the tracker the attributes do nothing.
+// The only component that renders a booking link. Every booking button uses it,
+// so the URL lives in one place and clicks are counted here: Umami's tracker
+// sends the named event, with the button's location, before it follows the link
+// (spec 0010). Without the tracker the attributes do nothing. `data-book-cta` is
+// also what the dotted portrait looks at while a button has keyboard focus.
 import { site } from '@/content/site';
 
 interface Props {
   // Where the button sits, so clicks can be told apart. Add a value for a new button.
-  location: 'hero' | 'final';
-  label?: string;
+  location: 'header' | 'hero' | 'final' | 'not-found';
+  // `large` everywhere except the header.
+  size?: 'large' | 'header';
   class?: string;
 }
 
-const { location, label = site.cta.bookLabel, class: className } = Astro.props;
+const { location, size = 'large', class: className } = Astro.props;
+const label = size === 'header' ? site.nav.book : site.cta.bookLabel;
 ---
 
 <a
   href={site.bookingUrl}
-  class:list={['btn-primary', className]}
+  class:list={['btn-primary', size === 'header' && 'btn-header', className]}
   data-book-cta
   data-umami-event={site.analytics.bookEvent}
   data-umami-event-location={location}

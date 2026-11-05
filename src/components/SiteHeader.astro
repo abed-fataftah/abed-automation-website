@@ -1,7 +1,12 @@
 ---
-// The site header: logo and name linking to the top, then the in page nav.
-// On the home page the links are plain anchors; other pages pass `home="/"`
-// so they jump to the sections on the home page instead.
+// The site header: logo and name linking to the top, the in page nav, and the
+// header booking button. On the home page the links are plain anchors; other
+// pages pass `home="/"` so they jump to the sections on the home page instead.
+// Below 900px: logo and button on the first row, nav links wrapping on the second.
+// Below 390px the name is visually hidden (still read by screen readers) so the
+// monogram and button fit on row 1. From 900px: one row. The DOM order (logo,
+// nav, button) is the tab order; only the visual order changes.
+import BookCta from '@/components/BookCta.astro';
 import Logo from '@/components/Logo.astro';
 import { site } from '@/content/site';
 
@@ -11,29 +16,36 @@ interface Props {
 
 const { home = '' } = Astro.props;
 
+// The Work link follows the same rule as the Work section (spec 0014 AC-12).
+const hasWork = site.work.items.length > 0;
+
 const links = [
-  { href: `${home}#tools`, label: site.nav.tools },
   { href: `${home}#services`, label: site.nav.services },
+  ...(hasWork ? [{ href: `${home}#work`, label: site.nav.work }] : []),
+  { href: `${home}#how`, label: site.nav.how },
   { href: `${home}#about`, label: site.nav.about },
 ];
 ---
 
-<header id="top" class="border-b border-line">
-  <div class="site-wrap flex flex-col items-start gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+<header id="top">
+  <div class="site-wrap flex flex-wrap items-center gap-x-3 gap-y-1 py-5 two-col:gap-x-8">
     <a
       href={`${home}#top`}
-      class="flex min-h-(--target-min) items-center gap-3 text-body font-bold no-underline"
+      class="mr-auto flex min-h-(--target-min) items-center gap-3 text-body font-bold no-underline"
     >
-      <Logo />
-      {site.name}
+      <Logo class="shrink-0" />
+      <span class="max-[390px]:sr-only">{site.name}</span>
     </a>
-    <nav aria-label={site.nav.label}>
-      <ul class="-ml-2 flex gap-2 sm:ml-0 sm:gap-4">
+    <nav
+      aria-label={site.nav.label}
+      class="order-3 basis-full two-col:order-none two-col:basis-auto"
+    >
+      <ul class="flex flex-wrap gap-x-6">
         {links.map(({ href, label }) => (
           <li>
             <a
               href={href}
-              class="inline-flex min-h-(--target-min) items-center px-2 text-small text-muted no-underline hover:text-fg hover:underline hover:underline-offset-4"
+              class="inline-flex min-h-(--target-min) items-center text-small text-muted no-underline hover:text-fg"
             >
               {label}
             </a>
@@ -41,5 +53,6 @@ const links = [
         ))}
       </ul>
     </nav>
+    <BookCta location="header" size="header" class="order-2 two-col:order-none" />
   </div>
 </header>
