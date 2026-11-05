@@ -1,7 +1,7 @@
 # 0014. Homepage redesign: approved handoff, dotted portrait hero, Work gate, privacy page
 
 **Date**: 2026-11-05
-**Status**: Proposed
+**Status**: In Progress
 
 ## Summary
 

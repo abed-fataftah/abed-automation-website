@@ -215,11 +215,11 @@ Apply the new design from the handoff in `docs/design/handoff/` (read `handoff.m
 **Done when:** the page matches `docs/design/handoff/design.md` at 320, 390, 768, and 1280 with no sideways scrolling; the hero works with JavaScript off (still portrait) and with reduced motion (static portrait, no drawing); the portrait code and its data stay out of the entry chunk; all three booking buttons use the `site.ts` URL with their own analytics location; `/privacy` holds the full notice and is in the sitemap; no placeholder ships (the Work section and its links stay out until your real content exists); and `pnpm verify` passes.
 spec [0014](../specs/0014-homepage-redesign/index.md) · code in `src/`, `scripts/`, `astro.config.mjs`
 - [x] Design it (spec): `/architect homepage redesign`
-- [ ] Build it: `/develop homepage redesign`
-  - [ ] Tokens, `design.md`, new copy in `site.ts`, and the copy and design guards (AC-2, AC-20)
-  - [ ] The readable new page without the live portrait: header, hero still image, Services, gated Work, How it works, About, final CTA, `/privacy`, 404 (AC-1, AC-3, AC-4, AC-11 to AC-19, AC-21)
-  - [ ] Live dotted portrait through the loader, with its bundle marker and budget (AC-5 to AC-9)
-  - [ ] Remove Three.js, add your LinkedIn and GitHub URLs, `pnpm verify` clean (AC-10, AC-15, AC-22)
+- [x] Build it: `/develop homepage redesign`
+  - [x] Tokens, `design.md`, new copy in `site.ts`, and the copy and design guards (AC-2, AC-20)
+  - [x] The readable new page without the live portrait: header, hero still image, Services, gated Work, How it works, About, final CTA, `/privacy`, 404 (AC-1, AC-3, AC-4, AC-11 to AC-19, AC-21)
+  - [x] Live dotted portrait through the loader, with its bundle marker and budget (AC-5 to AC-9)
+  - [x] Remove Three.js, add your LinkedIn and GitHub URLs, `pnpm verify` clean (AC-10, AC-15, AC-22)
 - [ ] Verify it: `/check verify homepage redesign`
 
 ## Deferred
