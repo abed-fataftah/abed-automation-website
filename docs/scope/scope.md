@@ -29,7 +29,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 14 | Three.js 3D scene | Release 2 | in-progress |
 | 15 | Visit & booking click analytics | Launch | in-progress |
 | 16 | Deploy & go live | Launch | done |
-| 17 | Homepage redesign | Release 3 | planned |
+| 17 | Homepage redesign | Release 3 | in-progress |
 
 ## Foundations
 
@@ -210,14 +210,22 @@ spec [0001](../specs/0001-astro-static-site-netlify/index.md), [0012](../specs/0
 
 The approved homepage redesign (design board approved 2026-11-04): visitors see real work and a clear process before they are asked to book. Brand, stack, and ground rules stay the same.
 
-### 17. Homepage redesign · planned · needs a decision
+### 17. Homepage redesign · in-progress
 Apply the new design from the handoff in `docs/design/handoff/` (read `handoff.md` first): new page order (Header, Hero, Services, Work, How it works, About, Final CTA, Footer), a dotted portrait in the hero whose eyes follow the pointer (replacing the Three.js scene), the tools line moved into About, the privacy notice moved to its own `/privacy` page, a new header booking button, and the 404 page restyled. It changes the decisions in specs 0004, 0006, 0007, 0008, 0009, and 0010, and absorbs the deferred Selected Work item as the Work section.
 **Done when:** the page matches `docs/design/handoff/design.md` at 320, 390, 768, and 1280 with no sideways scrolling; the hero works with JavaScript off (still portrait) and with reduced motion (static portrait, no drawing); the portrait code and its data stay out of the entry chunk; all three booking buttons use the `site.ts` URL with their own analytics location; `/privacy` holds the full notice and is in the sitemap; no placeholder ships (the Work section and its links stay out until your real content exists); and `pnpm verify` passes.
-- [ ] Design it (spec): `/architect homepage redesign`
+spec [0014](../specs/0014-homepage-redesign/index.md) · code in `src/`, `scripts/`, `astro.config.mjs`
+- [x] Design it (spec): `/architect homepage redesign`
+- [ ] Build it: `/develop homepage redesign`
+  - [ ] Tokens, `design.md`, new copy in `site.ts`, and the copy and design guards (AC-2, AC-20)
+  - [ ] The readable new page without the live portrait: header, hero still image, Services, gated Work, How it works, About, final CTA, `/privacy`, 404 (AC-1, AC-3, AC-4, AC-11 to AC-19, AC-21)
+  - [ ] Live dotted portrait through the loader, with its bundle marker and budget (AC-5 to AC-9)
+  - [ ] Remove Three.js, add your LinkedIn and GitHub URLs, `pnpm verify` clean (AC-10, AC-15, AC-22)
+- [ ] Verify it: `/check verify homepage redesign`
 
 ## Deferred
 Out of scope for launch, kept so the plan stays honest.
-- **Selected Work**: moved into feature 17 as the Work section (n8n workflows, and SKF labeled "In progress"), shipped only once you supply the real text, screenshots, and alt text
+- **Selected Work**: moved into feature 17 as the Work section (n8n workflows, and SKF labeled "In progress"), shipped only once you supply the real text, screenshots, and alt text (the gate is built by spec 0014; adding content is data only)
+- **A fifth "How it works" step** (for example a written proposal after the call): not decided yet, so none is shown · from spec 0014 · needs a decision
 - **Privacy notice for Malaysia**: before running the business from Malaysia, check the notice against the PDPA, including whether a Malay version is needed, and decide whether to name a location · from spec 0007 · needs a decision
 
 ## Legend

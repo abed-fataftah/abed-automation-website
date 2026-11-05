@@ -2,6 +2,7 @@
 
 **Date**: 2026-10-30
 **Status**: In Progress
+**Updated by**: [0014](../0014-homepage-redesign/index.md) (2026-11-05), the notice moves to its own page at /privacy; the footer links there. The wording stays.
 
 ## Summary
 
