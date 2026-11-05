@@ -43,3 +43,10 @@ _Steps derived from spec 0014 acceptance criteria. `/check verify` runs these; `
 
 ## Acceptance-criteria coverage
 - AC-1: UI 1, 2 · AC-2: Commands 2 · AC-3: UI 3 · AC-4: UI 4 · AC-5: UI 5, 7, 12 · AC-6: UI 6, 7, 8 · AC-7: UI 9, 10 · AC-8: UI 11 · AC-9: Commands 5, 6 · AC-10: Commands 7 · AC-11: UI 13 · AC-12: Commands 8 · AC-13: UI 14 · AC-14: UI 2 · AC-15: UI 15 · AC-16: UI 16 · AC-17: UI 18, Commands 4 · AC-18: UI 19 · AC-19: UI 9, 17 · AC-20: Commands 3 · AC-21: UI 8, 20 · AC-22: Commands 1
+
+## Added by /develop (2026-11-05)
+- [ ] At a true 390px viewport (no scrollbar), the header shows logo and "Book a call" on row 1 and the nav on row 2; at 375px and 320px the button drops under the logo, nothing overlaps or clips → AC-1, AC-3
+- [ ] After the canvas fades in, the still image goes to opacity 0 (so a turned head shows no ghost dots); turning on reduced motion mid visit removes the canvas and the image is visible and back in the accessibility tree → AC-5, AC-7
+- [ ] Touch: tap far from the portrait, it looks at the tap, then straight ahead after about 1.6s → AC-6
+- [ ] Temporarily import `./portrait-dots.json` statically from `loader.ts`, build, `pnpm check:bundle` → exit 1 naming the dots data (the marker is the first eye's x value read from the JSON); revert → AC-9
+- [ ] "Tools I work with:" and "Prefer email?" each have a space before the following text → AC-15, AC-16
