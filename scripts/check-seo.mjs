@@ -65,7 +65,9 @@ function checkHeadings(file, html) {
   }
 }
 
-function checkPage(file, { title, description, indexable }) {
+// `url` is the page's canonical URL (indexable pages only); JSON-LD is expected
+// only where `jsonLd` is set, which is the home page (spec 0014).
+function checkPage(file, { title, description, indexable, url = home, jsonLd = false }) {
   const buffer = read(file);
   if (!buffer) return;
   const html = buffer.toString('utf8');
@@ -97,7 +99,7 @@ function checkPage(file, { title, description, indexable }) {
 
   // AC-2
   const canonicals = links.filter((l) => l.rel === 'canonical');
-  if (indexable) expect('canonical', one('canonical', canonicals)?.href, home);
+  if (indexable) expect('canonical', one('canonical', canonicals)?.href, url);
   else none('canonical', canonicals);
 
   // AC-3
@@ -122,7 +124,7 @@ function checkPage(file, { title, description, indexable }) {
   for (const [name, wanted] of Object.entries(twitter)) {
     expect(name, one(name, meta('name', name))?.content, wanted);
   }
-  if (indexable) expect('og:url', one('og:url', meta('property', 'og:url'))?.content, home);
+  if (indexable) expect('og:url', one('og:url', meta('property', 'og:url'))?.content, url);
   else none('og:url', meta('property', 'og:url'));
 
   // AC-5
@@ -141,7 +143,7 @@ function checkPage(file, { title, description, indexable }) {
   const blocks = [
     ...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi),
   ];
-  if (indexable) {
+  if (jsonLd) {
     if (blocks.length !== 1) {
       errors.push(`${file}: expected one JSON-LD block, found ${blocks.length}`);
     } else {
@@ -235,8 +237,11 @@ function checkSitemap() {
   const child = read('sitemap-0.xml')?.toString('utf8');
   if (child) {
     const locs = [...child.matchAll(/<loc>([^<]*)<\/loc>/g)].map(([, loc]) => loc);
-    if (locs.length !== 1 || locs[0] !== home) {
-      errors.push(`dist/sitemap-0.xml: lists ${JSON.stringify(locs)}, expected only ${home}`);
+    const wanted = [home, at('/privacy')];
+    if (JSON.stringify([...locs].sort()) !== JSON.stringify([...wanted].sort())) {
+      errors.push(
+        `dist/sitemap-0.xml: lists ${JSON.stringify(locs)}, expected ${JSON.stringify(wanted)}`,
+      );
     }
   }
   const robots = read('robots.txt')?.toString('utf8');
@@ -254,6 +259,13 @@ checkPage('index.html', {
   title: site.meta.title,
   description: site.meta.description,
   indexable: true,
+  jsonLd: true,
+});
+checkPage('privacy.html', {
+  title: site.privacy.metaTitle,
+  description: site.privacy.metaDescription,
+  indexable: true,
+  url: at('/privacy'),
 });
 checkPage('404.html', {
   title: site.notFound.title,
@@ -273,4 +285,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log('check:seo: ok (2 pages, card, icons, sitemap, robots.txt)');
+console.log('check:seo: ok (3 pages, card, icons, sitemap, robots.txt)');
