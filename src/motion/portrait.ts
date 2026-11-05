@@ -292,6 +292,9 @@ function mountDottedPortrait(
     backTimer = window.setTimeout(home, TUNING.touchHoldMs);
   };
   const onOut = (e: PointerEvent): void => {
+    // A lifted finger fires pointerout with no relatedTarget right after
+    // pointerup; the touch hold timer owns the return, so ignore it here.
+    if (e.pointerType === 'touch') return;
     if (!e.relatedTarget) home();
   };
   const onFocus = (e: FocusEvent): void => {
