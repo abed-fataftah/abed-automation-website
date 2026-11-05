@@ -6,6 +6,29 @@
 // no added spaces; each string carries its own spaces and punctuation.
 export type PrivacyPart = string | { text: string; href: string } | { email: true };
 
+// One service card. Both cards share this shape, so neither can stand out (spec 0014).
+export interface Service {
+  title: string;
+  body: string;
+  // The "Good places to start" list.
+  starts: string[];
+}
+
+// One Work card. Text, screenshot, and alt are required, so an unfinished card
+// cannot be added; the Work section renders only when at least one exists.
+export interface WorkItem {
+  category: string;
+  title: string;
+  body: string;
+  // A file name in src/assets/work/ (1600×1000, 16:10, WebP, PNG, or JPG).
+  image: string;
+  imageAlt: string;
+  // Shows the "In progress" tag.
+  inProgress?: true;
+  // An https://github.com link (checked by check:copy).
+  link?: { label: string; href: string };
+}
+
 export interface SiteContent {
   name: string;
   bookingUrl: string;
@@ -39,9 +62,12 @@ export interface SiteContent {
   nav: {
     // The aria-label of <nav>.
     label: string;
-    tools: string;
     services: string;
+    work: string;
+    how: string;
     about: string;
+    // The header booking button.
+    book: string;
   };
   home: {
     eyebrow: string;
@@ -52,33 +78,60 @@ export interface SiteContent {
       after: string;
     };
     intro: string;
+    // The "See my work" link; shown only when Work renders.
+    secondary: string;
+    // Alt of the still portrait; the live canvas copies it.
+    portraitAlt: string;
   };
   tools: {
     label: string;
-    // Display order. Only tools Abed confirmed using (spec 0006).
+    // Display order. Only tools Abed confirmed using (spec 0006). Shown in About.
     items: string[];
   };
   services: {
-    automation: { title: string; body: string };
-    web: { title: string; body: string };
+    heading: string;
+    startLabel: string;
+    web: Service;
+    automation: Service;
+  };
+  work: {
+    heading: string;
+    intro: string;
+    inProgressLabel: string;
+    items: WorkItem[];
+  };
+  how: {
+    heading: string;
+    steps: { title: string; body: string }[];
   };
   about: {
     title: string;
-    // One item per paragraph.
-    body: string[];
-    // The photo itself is `src/assets/abed.png`, imported by the page.
+    // The intro paragraph, then the background paragraph.
+    body: [string, string];
+    // The photo itself is `src/assets/abed-about.jpg`, imported by the page.
     photoAlt: string;
+    facts: string[];
+    // https links on linkedin.com or github.com (checked by check:copy).
+    profiles: { label: string; href: string }[];
   };
   finalCta: {
     title: string;
     body: string;
+    reassurance: string;
+    // Followed by the footer email as a mailto link.
+    emailLead: string;
   };
   privacy: {
+    // The page h1.
     title: string;
+    metaTitle: string;
+    metaDescription: string;
+    // The link back to the home page.
+    back: string;
     updatedLabel: string;
     // ISO date (YYYY-MM-DD) of the last wording change; formatted when rendered.
     updated: string;
-    // One entry per h3 and paragraph, in display order (spec 0007).
+    // One entry per h2 and paragraph, in display order (spec 0007, spec 0014).
     sections: { heading: string; body: PrivacyPart[] }[];
   };
   footer: {
@@ -108,7 +161,7 @@ export const site = {
   meta: {
     title: 'Abed Automation · AI automation, websites, and web apps',
     description:
-      'Abed Fataftah builds AI automation, websites, and custom web apps for small businesses. Start with a free 30 minute call.',
+      'Abed Fataftah builds AI automation, websites, and custom web apps for small businesses. Start with a free 30-minute call.',
     founder: 'Abed Fataftah',
     card: {
       tagline: 'AI automation, websites, and web apps for small businesses.',
@@ -123,9 +176,11 @@ export const site = {
   },
   nav: {
     label: 'Main',
-    tools: 'Tools',
     services: 'Services',
+    work: 'Work',
+    how: 'How it works',
     about: 'About',
+    book: 'Book a call',
   },
   home: {
     eyebrow: 'Hi, I’m Abed.',
@@ -135,7 +190,9 @@ export const site = {
       after: ', websites, and web apps for small businesses.',
     },
     intro:
-      'I help you cut repetitive work and get the website or app your business needs. It starts with a free 30 minute call.',
+      'I help you cut repetitive work and get the website or app your business needs. It starts with a free 30-minute call.',
+    secondary: 'See my work',
+    portraitAlt: 'Portrait of Abed Fataftah drawn in dots',
   },
   tools: {
     label: 'Tools I work with:',
@@ -152,31 +209,76 @@ export const site = {
     ],
   },
   services: {
-    automation: {
-      title: 'AI Automation',
-      body: 'I connect the tools you already use, such as Gmail, Slack, and Telegram, and add AI to handle the repetitive steps in between. Sorting incoming messages, drafting replies, and routine updates are good places to start.',
-    },
+    heading: 'Services',
+    startLabel: 'Good places to start',
     web: {
-      title: 'Websites and Web Apps',
-      body: 'I build business websites and custom web applications, from a clear site that explains what you offer to a tool shaped around how you work. The focus is practical features that work as intended.',
+      title: 'Websites and web apps',
+      body: 'I build business websites and custom web applications. The focus is practical features that work as intended.',
+      starts: ['A clear site that explains what you offer', 'A tool shaped around how you work'],
     },
+    automation: {
+      title: 'AI automation',
+      body: 'I connect the tools you already use, such as Gmail, Slack, and Telegram, and add AI to handle the repetitive steps in between.',
+      starts: ['Sorting incoming messages', 'Drafting replies', 'Routine updates'],
+    },
+  },
+  work: {
+    heading: 'Work',
+    intro: 'A few things I’ve built, and one I’m still building.',
+    inProgressLabel: 'In progress',
+    // Empty until the real text, screenshots, and alt text exist (spec 0014 AC-12).
+    items: [],
+  },
+  how: {
+    heading: 'How it works',
+    steps: [
+      {
+        title: 'Free 30-minute call',
+        body: 'You tell me what you need, and I share how I’d approach it.',
+      },
+      { title: 'Clear steps', body: 'I break the work into clear, manageable steps.' },
+      {
+        title: 'Straightforward updates',
+        body: 'I keep communication straightforward as the work moves along.',
+      },
+      {
+        title: 'Checked before handover',
+        body: 'I check that what I build works as intended.',
+      },
+    ],
   },
   about: {
     title: 'About',
     body: [
       'I’m Abed Fataftah, the developer behind Abed Automation. I work remotely with businesses to turn practical needs into working software: websites, web applications, and AI automation.',
-      'Before this, I spent five years running a lighting retail business, handling sales, customers, and daily operations. It taught me how much time everyday tasks can take, and to start from the problem the software needs to solve. I also hold a master’s degree in Computer Science.',
-      'My projects include a website for an event and talent agency and AI assistant workflows built with n8n. I’m currently building an ecommerce platform, which is still in development.',
-      'I start by understanding the business problem, then break the work into clear, manageable steps. I keep communication straightforward and check that what I build works as intended.',
+      'Before this, I spent five years running a lighting retail business, handling sales, customers, and daily operations. It taught me how much time everyday tasks can take, and to start from the problem the software needs to solve.',
     ],
     photoAlt: 'Abed Fataftah, wearing a navy suit jacket over a dark shirt.',
+    facts: [
+      '5 years running a retail business',
+      'Master’s degree in Computer Science',
+      'Works remotely',
+    ],
+    profiles: [
+      {
+        label: 'LinkedIn',
+        href: 'https://www.linkedin.com/in/abed-al-rahman-fataftah-96b507435/',
+      },
+      { label: 'GitHub', href: 'https://github.com/abed-fataftah' },
+    ],
   },
   finalCta: {
     title: 'Have a website, web app, or automation need? Let’s talk.',
-    body: 'In a free 30 minute call with no obligation, you tell me what you need and I’ll share how I’d approach it.',
+    body: 'In a free 30-minute call with no obligation, you tell me what you need and I’ll share how I’d approach it.',
+    reassurance: 'No cookies. Calls are never recorded.',
+    emailLead: 'Prefer email?',
   },
   privacy: {
     title: 'Privacy',
+    metaTitle: 'Privacy · Abed Automation',
+    metaDescription:
+      'How abedautomation.com counts visits without cookies, and what happens to your details when you book a call or email.',
+    back: 'Back to home',
     updatedLabel: 'Last updated',
     updated: '2026-11-03',
     sections: [

@@ -17,6 +17,8 @@ const RULES = [
   { name: 'placeholder', pattern: /\b(?:todo|tbd|lorem|sample copy)\b/gi },
   { name: 'straight-quote', pattern: /['"]/g },
   { name: 'hard-year', pattern: /\b(?:19|20)\d{2}\b/g },
+  // Spec 0014: the call is a "30-minute call" everywhere.
+  { name: 'thirty-minute', pattern: /\b30 minute/gi },
 ];
 
 // Character limits. A key that is an object (the split heading) is measured
@@ -102,6 +104,32 @@ if (
       );
     }
   });
+});
+
+// Spec 0014 rule: profile and Work links are plain https links to the expected
+// hosts only.
+function checkLink(path, href, hosts) {
+  let url;
+  try {
+    url = new URL(href);
+  } catch {
+    errors.push(`${path}: not a valid URL "${href}"`);
+    return;
+  }
+  if (url.protocol !== 'https:') errors.push(`${path}: must start with https:// "${href}"`);
+  if (!hosts.includes(url.hostname)) {
+    errors.push(`${path}: host must be ${hosts.join(' or ')} "${href}"`);
+  }
+}
+(site.about?.profiles ?? []).forEach((profile, i) => {
+  checkLink(`about.profiles[${i}].href`, profile.href, [
+    'www.linkedin.com',
+    'linkedin.com',
+    'github.com',
+  ]);
+});
+(site.work?.items ?? []).forEach((item, i) => {
+  if (item.link) checkLink(`work.items[${i}].link.href`, item.link.href, ['github.com']);
 });
 
 for (const [path, max] of Object.entries(MAX_LENGTH)) {

@@ -1,42 +1,60 @@
 @import 'tailwindcss';
 
-/* Design tokens from the approved handoff (direction I2, "Charcoal coral, plainer").
+/* Design tokens: spec 0003, merged with the homepage redesign handoff (spec 0014).
    This file is the only place a color value may live; `pnpm check:design` enforces it
    and checks every contrast pair. See design.md for how each token is used. */
 @theme {
   /* Remove Tailwind's default palette, so only the tokens below exist. */
   --color-*: initial;
 
-  --color-bg: #1a1816; /* page background */
-  --color-fg: #f2ede4; /* headings, body text, secondary button text and border */
-  --color-muted: #b9b1a4; /* intro, descriptions, nav links, footer; never below 14px */
-  --color-line: #3a3631; /* 1px dividers only */
-  --color-accent: #ff6b57; /* primary button fill, hero underline, focus ring; never text */
-  --color-on-accent: #1a1816; /* text on the primary button */
+  --color-bg: #1a1816; /* page background; pupils in the portrait */
+  --color-surface: #24211e; /* service cards, Work image wells */
+  --color-fg: #f2ede4; /* headings, body text, links; dots in the portrait */
+  --color-muted: #b9b1a4; /* supporting text, nav links, footer; never below 14px */
+  --color-line: #3a3631; /* dividers, Work card and fact chip borders; decorative only */
+  --color-accent: #ff6b57; /* buttons, focus ring, underline, step rules and numbers, tags */
+  --color-on-accent: #1a1816; /* text on coral buttons */
   --color-accent-hover: #ff8571;
   --color-accent-pressed: #e85a47;
+  --color-portrait-sclera: #cfc8bf; /* eye whites in the dotted portrait; canvas only */
 
-  --text-hero: 2rem;
-  --text-hero--line-height: 1.1;
-  --text-hero-lg: 2.5rem; /* from 640px */
-  --text-hero-lg--line-height: 1.08;
-  --text-final: 1.5rem;
-  --text-final--line-height: 1.15;
-  --text-final-lg: 1.75rem; /* from 640px */
-  --text-final-lg--line-height: 1.15;
-  --text-title: 1.25rem;
-  --text-title--line-height: 1.25;
-  --text-body: 1rem;
+  /* Type roles (design.md section 3). Line height and tracking ride with each size. */
+  --text-hero: clamp(2.125rem, 4.6vw, 3.5rem); /* 34 to 56px */
+  --text-hero--line-height: 1.08;
+  --text-hero--letter-spacing: -0.02em;
+  --text-cta-heading: clamp(1.875rem, 3.8vw, 2.75rem); /* 30 to 44px */
+  --text-cta-heading--line-height: 1.12;
+  --text-cta-heading--letter-spacing: -0.015em;
+  --text-section: clamp(1.75rem, 3.2vw, 2.25rem); /* 28 to 36px */
+  --text-section--line-height: 1.2;
+  --text-section--letter-spacing: -0.01em;
+  --text-card-title: 1.375rem; /* 22px */
+  --text-card-title--line-height: 1.3;
+  --text-step-title: 1.25rem; /* 20px */
+  --text-step-title--line-height: 1.3;
+  --text-lead: 1.1875rem; /* 19px */
+  --text-lead--line-height: 1.55;
+  --text-greeting: 1.125rem; /* 18px */
+  --text-greeting--line-height: 1.5;
+  --text-body-lg: 1.0625rem; /* 17px */
+  --text-body-lg--line-height: 1.6;
+  --text-body: 1rem; /* 16px */
   --text-body--line-height: 1.6;
-  --text-small: 0.875rem;
+  --text-small: 0.9375rem; /* 15px */
   --text-small--line-height: 1.5;
-  --text-note: 0.8125rem; /* placeholder labels only */
-  --text-note--line-height: 1.5;
+  --text-caption: 0.875rem; /* 14px */
+  --text-caption--line-height: 1.5;
 
-  --tracking-hero: -1px;
-  --tracking-final: -0.5px;
+  --spacing-page-x: clamp(1.25rem, 5vw, 3rem); /* 20 to 48px side padding */
+  --spacing-section-y: clamp(3.5rem, 8vw, 6rem); /* 56 to 96px above and below a section */
+  --spacing-hero-top: clamp(2rem, 6vw, 4.5rem); /* 32 to 72px above the hero */
 
-  --radius-button: 6px; /* buttons only; everything else has no radius */
+  /* Two columns for the hero, Services, Work, About, and a one row header. */
+  --breakpoint-two-col: 56.25rem; /* 900px */
+
+  --radius-button: 0.5rem; /* 8px */
+  --radius-card: 0.75rem; /* 12px: service and Work cards, About photo */
+  --radius-pill: 9999px; /* fact chips, "In progress" tag */
 
   --container-site: 70rem; /* 1120px */
 }
@@ -112,13 +130,13 @@
     --underline-scale: 1 !important;
   }
 
-  /* The hero scene always prints as its static drawing (spec 0009). */
-  [data-scene] canvas {
+  /* The hero always prints its still portrait (spec 0014). */
+  [data-portrait] canvas {
     display: none !important;
   }
 
-  [data-scene-fallback] {
-    display: block !important;
+  [data-portrait] img {
+    opacity: 1 !important;
   }
 }
 
@@ -128,20 +146,16 @@
   }
 }
 
-/* Inner container for every section: max 1120px, 16px side padding, 24px from 640px. */
+/* Inner container for every section: max 1120px, 20 to 48px side padding. */
 @utility site-wrap {
   margin-inline: auto;
   max-width: var(--container-site);
-  padding-inline: 1rem;
-
-  @variant sm {
-    padding-inline: 1.5rem;
-  }
+  padding-inline: var(--spacing-page-x);
 }
 
 /* Top divider of a home page section, drawn by a pseudo element so motion can grow it
    from the left through --line-scale (1, fully drawn, unless src/motion/gsap.ts sets it).
-   The transparent border keeps today's 1px of layout, and in forced colors it shows
+   The transparent border keeps 1px of layout, and in forced colors it shows
    as a full line on its own, under the pseudo element. */
 @utility section-line {
   position: relative;
@@ -161,49 +175,43 @@
   }
 }
 
-/* The 3px coral stroke under the hero emphasis. A one color gradient renders as a flat
-   stroke (allowed under design.md principle 3) whose width --underline-scale controls;
-   clone gives each wrapped line its own stroke. Padding 0 puts the stroke within 1px of
-   the old 6px offset underline at 320, 390, and 1280 (measured against screenshots);
-   inline padding never moves layout. Forced colors fall back to a real underline. */
+/* The coral stroke under the hero emphasis: 0.07em thick, 0.02em above the bottom of
+   the inline box. A one color gradient renders as a flat stroke whose width
+   --underline-scale controls. The emphasis never wraps (it is two short words).
+   Forced colors fall back to a real underline. */
 @utility hero-underline {
   padding-bottom: 0;
   background-image: linear-gradient(var(--color-accent), var(--color-accent));
-  background-position: left bottom;
+  background-position: left bottom 0.02em;
   background-repeat: no-repeat;
-  background-size: calc(var(--underline-scale, 1) * 100%) 3px;
+  background-size: calc(var(--underline-scale, 1) * 100%) 0.07em;
   text-decoration: none;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
+  white-space: nowrap;
 
   @media (forced-colors: active) {
     background: none;
-    text-decoration: underline 3px;
-    text-underline-offset: 6px;
+    text-decoration: underline 0.07em;
+    text-underline-offset: 0.1em;
   }
 }
 
-/* The one filled button. Used only through BookCta.astro. Its color fades come from the
-   link transition rule in the base layer.
-   The transparent border keeps the edge visible in Windows high contrast mode. */
+/* The coral booking button, large size. Used only through BookCta.astro. Its color
+   fades come from the link transition rule in the base layer. The transparent border
+   keeps the edge visible in Windows high contrast mode. */
 @utility btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   min-height: var(--button-height);
-  padding: 0 20px;
+  padding: 12px 24px;
   border: 1px solid transparent;
   border-radius: var(--radius-button);
   background-color: var(--color-accent);
   color: var(--color-on-accent);
-  font-size: 0.9375rem;
-  font-weight: 700;
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+  line-height: 1.4;
   text-decoration: none;
-
-  @variant sm {
-    width: auto;
-  }
 
   @media (hover: hover) {
     &:hover {
@@ -216,29 +224,79 @@
   }
 }
 
-/* Outlined button, used only on the 404 page. */
-@utility btn-secondary {
+/* The header size of the booking button, applied on top of btn-primary. */
+@utility btn-header {
+  min-height: var(--target-min);
+  padding: 10px 18px;
+  font-size: var(--text-small);
+}
+
+/* A standalone text link ("See my work", "Back to home"), with a 44px tall target. */
+@utility text-link {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: var(--button-height);
-  padding: 0 20px;
-  border: 1px solid var(--color-fg);
-  border-radius: var(--radius-button);
-  background-color: transparent;
+  min-height: var(--target-min);
+  padding-block: 12px;
   color: var(--color-fg);
-  font-size: 0.9375rem;
-  font-weight: 700;
-  text-decoration: none;
+  font-size: var(--text-body-lg);
+  font-weight: 500;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 5px;
 
-  @variant sm {
-    width: auto;
+  &:hover {
+    color: var(--color-accent);
   }
+}
 
-  @media (hover: hover) {
-    &:hover {
-      border-color: var(--color-accent);
-    }
+/* A link inside a sentence (privacy notice, final CTA email). Exempt from the 44px
+   target rule (WCAG 2.5.8 inline exception); keeps the focus ring. */
+@utility inline-link {
+  color: var(--color-fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+
+  &:hover {
+    text-decoration-color: var(--color-accent);
   }
+}
+
+/* Fact chips and the "In progress" tag; the color of the border is set where used. */
+@utility pill {
+  display: inline-flex;
+  align-items: center;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: var(--radius-pill);
+}
+
+/* The 2px coral rule on top of each How it works step. */
+@utility step-rule {
+  border-top: 2px solid var(--color-accent);
+  padding-top: 20px;
+}
+
+/* The live portrait canvas, created by src/motion/portrait.ts over the still image.
+   It fades in once its first frame is drawn; the still image then steps back, so the
+   moving dots never show the still dots behind them. */
+@utility portrait-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+
+  &.is-ready {
+    opacity: 1;
+  }
+}
+
+/* Tailwind emits a theme color as a :root variable only when something uses it. The
+   portrait reads these three with getComputedStyle, so they are referenced here. */
+[data-portrait] {
+  --portrait-dot: var(--color-fg);
+  --portrait-sclera: var(--color-portrait-sclera);
+  --portrait-pupil: var(--color-bg);
 }
