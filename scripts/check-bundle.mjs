@@ -1,24 +1,38 @@
-// Spec 0001 rule, checked per spec 0002: GSAP and Three.js load only through
-// dynamic import(), never in the JavaScript a page loads up front.
+// Spec 0001 rule, checked per spec 0002: GSAP and the dotted portrait load only
+// through dynamic import(), never in the JavaScript a page loads up front.
 // Reads every page in dist/, follows static imports from each entry point, and
-// fails if any of those chunks contains a library marker. Then measures the
-// Three.js scene, loaded later through import(), against a gzipped size budget
-// (spec 0009).
+// fails if any of those chunks contains a marker. Then measures the portrait,
+// loaded later through import(), against a gzipped size budget (spec 0014).
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { gzipSync } from 'node:zlib';
 
 const DIST = resolve('dist');
 
-// Gzipped KB for the scene's dynamic import closure: the first measured size plus
-// about 10%, rounded up to 5 KB, never above 180 (spec 0009). Measured 135.3 KB
-// on three 0.186.1.
-const SCENE_BUDGET_KB = 150;
+// Gzipped KB for the portrait's dynamic import closure (module plus dots data):
+// the first measured size plus about 10%, rounded up to 5 KB, never above 60
+// (spec 0014). Measured 10.3 KB.
+const PORTRAIT_BUDGET_KB = 15;
+const PORTRAIT_MARKER = 'abed-dotted-portrait';
+
+// The dots data has no text of its own, so its marker is the first eye's x value,
+// read from the data file, as the minifier writes it (`x:.4656`) or as JSON.
+const dots = JSON.parse(readFileSync(resolve('src/motion/portrait-dots.json'), 'utf8'));
+const eyeX = String(dots.eyes?.[0]?.x ?? '').replace(/^0\./, '');
+if (!/^\d+$/.test(eyeX)) {
+  console.error('check:bundle failed: src/motion/portrait-dots.json has no eyes[0].x.');
+  process.exit(1);
+}
+const DOTS_MARKER = new RegExp(String.raw`["']?x["']?\s*:\s*0?\.${eyeX}(?!\d)`);
 
 const MARKERS = [
   { library: 'GSAP', marker: 'GSAP target' },
-  { library: 'Three.js', marker: '__THREE__' },
+  { library: 'The dotted portrait', marker: PORTRAIT_MARKER },
+  { library: 'The portrait dots data', marker: DOTS_MARKER },
 ];
+
+const hasMarker = (code, marker) =>
+  typeof marker === 'string' ? code.includes(marker) : marker.test(code);
 
 // Attributes may come in any order, quoted with " or ', or unquoted.
 const SCRIPT_TAG = /<script\b[^>]*>/gi;
@@ -95,7 +109,7 @@ while (queue.length > 0) {
 
   const code = readFileSync(file, 'utf8');
   for (const { library, marker } of MARKERS) {
-    if (code.includes(marker)) {
+    if (hasMarker(code, marker)) {
       fail(
         `${library} found in ${relative(DIST, file)}, which pages load up front. ` +
           'Load it through a dynamic import() (see src/motion/AGENTS.md).',
@@ -106,10 +120,10 @@ while (queue.length > 0) {
 }
 
 console.log(
-  `check:bundle: ${pages.length} pages, ${seen.size} up front chunks, no GSAP or Three.js.`,
+  `check:bundle: ${pages.length} pages, ${seen.size} up front chunks, no GSAP or portrait.`,
 );
 
-// Scene budget: an import() target in the up front chunks, plus everything it
+// Portrait budget: an import() target in the up front chunks, plus everything it
 // reaches statically, minus what pages already load up front.
 function closureOf(target) {
   const files = new Set();
@@ -131,25 +145,25 @@ const dynamicTargets = new Set(
       .filter(Boolean),
   ),
 );
-const sceneClosure = [...dynamicTargets]
+const portraitClosure = [...dynamicTargets]
   .map(closureOf)
-  .find((files) => files.some((file) => readFileSync(file, 'utf8').includes('__THREE__')));
+  .find((files) => files.some((file) => readFileSync(file, 'utf8').includes(PORTRAIT_MARKER)));
 
-if (sceneClosure) {
-  const bytes = sceneClosure
+if (portraitClosure) {
+  const bytes = portraitClosure
     .filter((file) => file.endsWith('.js'))
     .reduce((sum, file) => sum + gzipSync(readFileSync(file)).length, 0);
   const kb = (bytes / 1024).toFixed(1);
-  if (bytes > SCENE_BUDGET_KB * 1024) {
-    fail(`the Three.js scene is ${kb} KB gzipped, over the ${SCENE_BUDGET_KB} KB budget.`);
+  if (bytes > PORTRAIT_BUDGET_KB * 1024) {
+    fail(`the dotted portrait is ${kb} KB gzipped, over the ${PORTRAIT_BUDGET_KB} KB budget.`);
   }
   console.log(
-    `check:bundle passed: Three.js scene ${kb} KB gzipped (budget ${SCENE_BUDGET_KB} KB).`,
+    `check:bundle passed: dotted portrait ${kb} KB gzipped (budget ${PORTRAIT_BUDGET_KB} KB).`,
   );
 } else {
   const home = join(DIST, 'index.html');
-  if (existsSync(home) && /\sdata-scene[\s>=]/.test(readFileSync(home, 'utf8'))) {
-    fail('the home page has [data-scene] but no dynamic import reaches Three.js.');
+  if (existsSync(home) && /\sdata-portrait[\s>=]/.test(readFileSync(home, 'utf8'))) {
+    fail('the home page has [data-portrait] but no dynamic import reaches the portrait.');
   }
-  console.log('check:bundle passed: no Three.js scene to measure.');
+  console.log('check:bundle passed: no dotted portrait to measure.');
 }

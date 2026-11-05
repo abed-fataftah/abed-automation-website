@@ -13,3 +13,6 @@ config/
 docs/design/prototype/
 # Homepage redesign handoff (feature 17), kept exactly as delivered.
 docs/design/handoff/
+
+# Generated portrait data (docs/design/assets/make-portrait-dots.py), kept as one line.
+src/motion/portrait-dots.json
