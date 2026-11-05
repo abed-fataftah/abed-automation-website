@@ -14,7 +14,7 @@ _Steps derived from spec 0014 acceptance criteria. `/check verify` runs these; `
 - [x] With motion on, switch reduced motion on mid visit → tracking stops, canvas removed, image no longer `aria-hidden` → AC-7
 - [x] DevTools network request blocking on the portrait chunk, reload → still image stays, one `console.warn`, rest of the page normal → AC-8
 - [x] Emulate Save Data or `2g` (Chromium) → no portrait chunk requested → AC-5
-- [ ] Click each booking button (header, hero, final CTA, 404 body) with the Umami tracker allowed → Cal.com opens in the same tab; Umami shows `book-call` with `header`, `hero`, `final`, `not-found` → AC-11
+- [x] Click each booking button (header, hero, final CTA, 404 body) with the Umami tracker allowed → Cal.com opens in the same tab; Umami shows `book-call` with `header`, `hero`, `final`, `not-found` → AC-11 (passed on production `https://abedautomation.com` after PR #14 deployed, 2026-11-05, desktop Chrome: all four opened Cal.com in the same tab, no booking made; Umami Events activity showed four `book-call` events with `location` `header`, `hero`, `final`, `not-found`)
 - [x] Services → two cards, same structure and size, Websites and web apps first → AC-13
 - [x] About → `abed-about.jpg` at max 300px wide, 4:5, exact alt; two paragraphs; three fact chips; `Tools I work with: n8n, OpenAI, …, PostgreSQL`; profile links only for entries present → AC-15
 - [x] Final CTA → heading, body, large button, `No cookies. Calls are never recorded.`, `Prefer email?` with a mailto link → AC-16
