@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Abed Automation homepage</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#F3EEE7}a:hover{color:#FF6B57}
+a:focus-visible{outline:2px solid #FF6B57;outline-offset:3px;border-radius:4px}
+</style>
+</helmet>
+<div style="font-family: 'Schibsted Grotesk', system-ui, sans-serif; color: #F3EEE7; background: #1A1816; width: 100%; box-sizing: border-box;">
+
+<header style="max-width: 1120px; margin: 0 auto; padding: 20px clamp(20px, 5vw, 48px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; box-sizing: border-box;">
+<a href="#top" style="font-size: 18px; font-weight: 700; text-decoration: none; color: #F3EEE7; padding: 10px 0;">Abed Automation</a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 15px;">
+<a href="#services" style="color: #B5ADA3; text-decoration: none; padding: 12px 0;">Services</a>
+<a href="#work" style="color: #B5ADA3; text-decoration: none; padding: 12px 0;">Work</a>
+<a href="#how" style="color: #B5ADA3; text-decoration: none; padding: 12px 0;">How it works</a>
+<a href="#about" style="color: #B5ADA3; text-decoration: none; padding: 12px 0;">About</a>
+</nav>
+<a href="https://cal.com/abed-automation/intro-call" onFocus="{{lookAt}}" onBlur="{{lookAway}}" style="display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 10px 18px; border-radius: 8px; background: #FF6B57; color: #1A1816; font-size: 15px; font-weight: 600; text-decoration: none;">Book a call</a>
+</header>
+
+<section id="top" style="max-width: 1120px; margin: 0 auto; padding: clamp(32px, 6vw, 72px) clamp(20px, 5vw, 48px) clamp(56px, 8vw, 96px); display: flex; flex-wrap: wrap; align-items: center; gap: 48px; box-sizing: border-box;">
+<div style="flex: 1 1 440px; min-width: 0;">
+<p style="margin: 0 0 16px; font-size: 18px; color: #B5ADA3;">Hi, I'm Abed.</p>
+<h1 style="margin: 0; max-width: 18ch; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.08; font-weight: 700; letter-spacing: -0.02em;">I build <span style="position: relative; display: inline-block; white-space: nowrap;">AI automation<span ref="{{setLine}}" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0.02em; height: 0.07em; border-radius: 2px; background: #FF6B57; transform-origin: left center;"></span></span>, websites, and web apps for small businesses.</h1>
+<p style="margin: 24px 0 0; max-width: 34em; font-size: 19px; line-height: 1.55; color: #B5ADA3;">I help you cut repetitive work and get the website or app your business needs. It starts with a free 30-minute call.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 32px;">
+<a href="https://cal.com/abed-automation/intro-call" onFocus="{{lookAt}}" onBlur="{{lookAway}}" style="display: inline-flex; align-items: center; min-height: 48px; box-sizing: border-box; padding: 12px 24px; border-radius: 8px; background: #FF6B57; color: #1A1816; font-size: 17px; font-weight: 600; text-decoration: none;">Book a Free Call</a>
+<a href="#work" style="font-size: 17px; font-weight: 500; text-underline-offset: 5px; padding: 12px 0;">See my work</a>
+</div>
+</div>
+<figure style="flex: 1 1 320px; max-width: 460px; margin: 0;">
+<canvas ref="{{setCanvas}}" role="img" aria-label="Portrait of Abed Fataftah drawn in dots" style="display: block; width: 100%; aspect-ratio: 1 / 1;"></canvas>
+</figure>
+</section>
+
+<section id="services" style="border-top: 1px solid #3A3530;">
+<div style="max-width: 1120px; margin: 0 auto; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 48px); box-sizing: border-box;">
+<h2 style="margin: 0 0 40px; font-size: clamp(28px, 3.2vw, 36px); font-weight: 700; letter-spacing: -0.01em;">Services</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 24px;">
+<article style="flex: 1 1 340px; min-width: 0; padding: 32px; border-radius: 12px; background: #24211E; box-sizing: border-box;">
+<h3 style="margin: 0; font-size: 22px; font-weight: 600;">Websites and web apps</h3>
+<p style="margin: 12px 0 0; font-size: 17px; line-height: 1.6; color: #B5ADA3;">I build business websites and custom web applications. The focus is practical features that work as intended.</p>
+<p style="margin: 24px 0 8px; font-size: 15px; font-weight: 600;">Good places to start</p>
+<ul style="margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.8;">
+<li>A clear site that explains what you offer</li>
+<li>A tool shaped around how you work</li>
+</ul>
+</article>
+<article style="flex: 1 1 340px; min-width: 0; padding: 32px; border-radius: 12px; background: #24211E; box-sizing: border-box;">
+<h3 style="margin: 0; font-size: 22px; font-weight: 600;">AI automation</h3>
+<p style="margin: 12px 0 0; font-size: 17px; line-height: 1.6; color: #B5ADA3;">I connect the tools you already use, such as Gmail, Slack, and Telegram, and add AI to handle the repetitive steps in between.</p>
+<p style="margin: 24px 0 8px; font-size: 15px; font-weight: 600;">Good places to start</p>
+<ul style="margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.8;">
+<li>Sorting incoming messages</li>
+<li>Drafting replies</li>
+<li>Routine updates</li>
+</ul>
+</article>
+</div>
+</div>
+</section>
+
+<section id="work" style="border-top: 1px solid #3A3530;">
+<div style="max-width: 1120px; margin: 0 auto; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 48px); box-sizing: border-box;">
+<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 36px); font-weight: 700; letter-spacing: -0.01em;">Work</h2>
+<p style="margin: 12px 0 40px; font-size: 17px; color: #B5ADA3;">A few things I've built, and one I'm still building.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 24px;">
+<article style="flex: 1 1 400px; min-width: 0; border: 1px solid #3A3530; border-radius: 12px; overflow: hidden;">
+<div style="aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box; background: #24211E; border-bottom: 1px dashed #FF6B57; text-align: center; font-size: 14px; color: #FF6B57;">[Screenshot of the n8n workflow, private data blurred]</div>
+<div style="padding: 24px 28px 28px;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; color: #FF6B57;">AI automation</p>
+<h3 style="margin: 8px 0 0; font-size: 22px; font-weight: 600;">AI assistant workflows</h3>
+<p style="margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #B5ADA3;">Built with n8n. <span style="color: #FF6B57;">[What starts the workflow, what the AI does, and where the result goes.]</span></p>
+<p style="margin: 16px 0 0; font-size: 15px; color: #FF6B57;">[GitHub link, if you want one]</p>
+</div>
+</article>
+<article style="flex: 1 1 400px; min-width: 0; border: 1px solid #3A3530; border-radius: 12px; overflow: hidden;">
+<div style="aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box; background: #24211E; border-bottom: 1px dashed #FF6B57; text-align: center; font-size: 14px; color: #FF6B57;">[Screenshot or design preview of SKF]</div>
+<div style="padding: 24px 28px 28px;">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; color: #FF6B57;">Web app</p>
+<p style="margin: 0; padding: 2px 10px; border: 1px solid #FF6B57; border-radius: 999px; font-size: 13px; color: #FF6B57;">In progress</p>
+</div>
+<h3 style="margin: 8px 0 0; font-size: 22px; font-weight: 600;">SKF ecommerce platform</h3>
+<p style="margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #B5ADA3;">Still in development. <span style="color: #FF6B57;">[What it will let customers do.]</span></p>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<section id="how" style="border-top: 1px solid #3A3530;">
+<div style="max-width: 1120px; margin: 0 auto; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 48px); box-sizing: border-box;">
+<h2 style="margin: 0 0 40px; font-size: clamp(28px, 3.2vw, 36px); font-weight: 700; letter-spacing: -0.01em;">How it works</h2>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 32px 24px;">
+<li style="flex: 1 1 220px; min-width: 0; padding-top: 20px; border-top: 2px solid #FF6B57;">
+<p style="margin: 0; font-size: 15px; font-weight: 600; color: #FF6B57;">1</p>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600;">Free 30-minute call</h3>
+<p style="margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: #B5ADA3;">You tell me what you need, and I share how I'd approach it.</p>
+</li>
+<li style="flex: 1 1 220px; min-width: 0; padding-top: 20px; border-top: 2px solid #FF6B57;">
+<p style="margin: 0; font-size: 15px; font-weight: 600; color: #FF6B57;">2</p>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600;">Clear steps</h3>
+<p style="margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: #B5ADA3;">I break the work into clear, manageable steps.</p>
+</li>
+<li style="flex: 1 1 220px; min-width: 0; padding-top: 20px; border-top: 2px solid #FF6B57;">
+<p style="margin: 0; font-size: 15px; font-weight: 600; color: #FF6B57;">3</p>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600;">Straightforward updates</h3>
+<p style="margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: #B5ADA3;">I keep communication straightforward as the work moves along.</p>
+</li>
+<li style="flex: 1 1 220px; min-width: 0; padding-top: 20px; border-top: 2px solid #FF6B57;">
+<p style="margin: 0; font-size: 15px; font-weight: 600; color: #FF6B57;">4</p>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600;">Checked before handover</h3>
+<p style="margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: #B5ADA3;">I check that what I build works as intended.</p>
+</li>
+</ol>
+</div>
+</section>
+
+<section id="about" style="border-top: 1px solid #3A3530;">
+<div style="max-width: 1120px; margin: 0 auto; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 48px); box-sizing: border-box;">
+<h2 style="margin: 0 0 40px; font-size: clamp(28px, 3.2vw, 36px); font-weight: 700; letter-spacing: -0.01em;">About</h2>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px;">
+<div style="flex: 0 1 300px; min-width: 0;">
+<img src="/_blob/6bb9550196ca1dac2d699e4c0b52cd24" alt="Abed Fataftah, wearing a navy suit jacket over a dark shirt." style="display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 12px;">
+</div>
+<div style="flex: 1 1 420px; min-width: 0; max-width: 640px;">
+<p style="margin: 0; font-size: 19px; line-height: 1.6;">I'm Abed Fataftah, the developer behind Abed Automation. I work remotely with businesses to turn practical needs into working software: websites, web applications, and AI automation.</p>
+<p style="margin: 16px 0 0; font-size: 17px; line-height: 1.65; color: #B5ADA3;">Before this, I spent five years running a lighting retail business, handling sales, customers, and daily operations. It taught me how much time everyday tasks can take, and to start from the problem the software needs to solve.</p>
+<ul style="list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px;">
+<li style="padding: 8px 14px; border: 1px solid #3A3530; border-radius: 999px; font-size: 15px;">5 years running a retail business</li>
+<li style="padding: 8px 14px; border: 1px solid #3A3530; border-radius: 999px; font-size: 15px;">Master's degree in Computer Science</li>
+<li style="padding: 8px 14px; border: 1px solid #3A3530; border-radius: 999px; font-size: 15px;">Works remotely</li>
+</ul>
+<p style="margin: 28px 0 0; font-size: 15px; line-height: 1.7; color: #B5ADA3;"><span style="font-weight: 600; color: #F3EEE7;">Tools I work with:</span> n8n, OpenAI, Claude, TypeScript, React, Astro, Tailwind CSS, Node.js, PostgreSQL</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 16px; font-size: 15px; color: #FF6B57;">
+<p style="margin: 0;">[LinkedIn link]</p>
+<p style="margin: 0;">[GitHub link]</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="border-top: 1px solid #3A3530;">
+<div style="max-width: 1120px; margin: 0 auto; padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 48px); box-sizing: border-box;">
+<h2 style="margin: 0; max-width: 20ch; font-size: clamp(30px, 3.8vw, 44px); line-height: 1.12; font-weight: 700; letter-spacing: -0.015em;">Have a website, web app, or automation need? Let's talk.</h2>
+<p style="margin: 20px 0 0; max-width: 34em; font-size: 18px; line-height: 1.6; color: #B5ADA3;">In a free 30-minute call with no obligation, you tell me what you need and I'll share how I'd approach it.</p>
+<div style="margin-top: 32px;">
+<a href="https://cal.com/abed-automation/intro-call" onFocus="{{lookAt}}" onBlur="{{lookAway}}" style="display: inline-flex; align-items: center; min-height: 48px; box-sizing: border-box; padding: 12px 24px; border-radius: 8px; background: #FF6B57; color: #1A1816; font-size: 17px; font-weight: 600; text-decoration: none;">Book a Free Call</a>
+</div>
+<p style="margin: 20px 0 0; font-size: 15px; color: #B5ADA3;">No cookies. Calls are never recorded.</p>
+<p style="margin: 8px 0 0; font-size: 15px; color: #B5ADA3;">Prefer email? <a href="mailto:abed@abedautomation.com">abed@abedautomation.com</a></p>
+</div>
+</section>
+
+<footer style="border-top: 1px solid #3A3530;">
+<div style="max-width: 1120px; margin: 0 auto; padding: 28px clamp(20px, 5vw, 48px); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; font-size: 14px; color: #B5ADA3; box-sizing: border-box;">
+<p style="margin: 0;">© 2026 Abed Automation</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 20px;">
+<a href="mailto:abed@abedautomation.com" style="color: #B5ADA3;">abed@abedautomation.com</a>
+<a href="#privacy" style="color: #B5ADA3;">Privacy</a>
+</div>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dotsGatherOnLoad":{"editor":"boolean","default":false,"section":"Portrait effects"},"coralSpotlight":{"editor":"boolean","default":false,"section":"Portrait effects"},"eyesCloseOnLeave":{"editor":"boolean","default":false,"section":"Portrait effects"},"dotsMoveLikeSand":{"editor":"boolean","default":false,"section":"Portrait effects"},"$preview":{"width":1280,"height":4000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    if (!this._h) {
+      this._h = {
+        setCanvas: (el) => { this.canvasEl = el; },
+        setLine: (el) => { this.lineEl = el; },
+        lookAt: (e) => { this.lookAtEl(e.currentTarget); },
+        lookAway: () => { this.focusEl = null; this.home(); }
+      };
+    }
+    return this._h;
+  }
+
+  opt(name) {
+    const p = this.props || {};
+    if (name === 'gather') return !this.reduce && !!p.dotsGatherOnLoad;
+    if (name === 'spotlight') return !!p.coralSpotlight;
+    if (name === 'close') return !this.reduce && !!p.eyesCloseOnLeave;
+    if (name === 'sand') return !this.reduce && !!p.dotsMoveLikeSand;
+    return false;
+  }
+
+  componentDidMount() {
+    this.eye = { x: 0, y: 0 };
+    this.head = { x: 0, y: 0 };
+    this.target = { x: 0, y: 0 };
+    this.lid = 0;
+    this.lidTarget = 0;
+    this.ptr = null;
+    this.gatherT0 = 0;
+    this.raf = 0;
+    this.reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (!this.reduce && this.lineEl && this.lineEl.animate) {
+      this.lineEl.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 700, delay: 300, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)', fill: 'both' });
+    }
+    fetch('/_blob/1eb8e845ab57b4c3c249116c6e72c022')
+      .then((r) => r.json())
+      .then((data) => {
+        this.prepare(data);
+        this.resize();
+        if (this.opt('gather')) this.startGather();
+        this.draw(performance.now());
+      })
+      .catch(() => {});
+    if (window.ResizeObserver && this.canvasEl) {
+      this.ro = new ResizeObserver(() => { this.resize(); this.draw(performance.now()); });
+      this.ro.observe(this.canvasEl);
+    }
+    if (this.reduce) return;
+    this.onMove = (e) => {
+      if (e.pointerType === 'touch') return;
+      this.setPtr(e.clientX, e.clientY);
+      this.lidTarget = 0;
+      if (this.focusEl) this.kick();
+      else this.aimAt(e.clientX, e.clientY);
+    };
+    this.onDown = (e) => {
+      if (e.pointerType !== 'touch') return;
+      this.setPtr(e.clientX, e.clientY);
+      this.aimAt(e.clientX, e.clientY);
+      clearTimeout(this.backTimer);
+      this.backTimer = setTimeout(() => { this.ptr = null; this.home(); }, 1600);
+    };
+    this.onOut = (e) => {
+      if (e.relatedTarget) return;
+      this.ptr = null;
+      if (this.opt('close')) this.lidTarget = 1;
+      this.home();
+    };
+    window.addEventListener('pointermove', this.onMove);
+    window.addEventListener('pointerdown', this.onDown);
+    document.addEventListener('pointerout', this.onOut);
+  }
+
+  componentDidUpdate(prev) {
+    const p = this.props || {};
+    const q = prev || {};
+    if (p.dotsGatherOnLoad && !q.dotsGatherOnLoad) this.startGather();
+    if (!p.eyesCloseOnLeave) this.lidTarget = 0;
+    this.kick();
+  }
+
+  componentWillUnmount() {
+    if (this.onMove) window.removeEventListener('pointermove', this.onMove);
+    if (this.onDown) window.removeEventListener('pointerdown', this.onDown);
+    if (this.onOut) document.removeEventListener('pointerout', this.onOut);
+    if (this.ro) this.ro.disconnect();
+    if (this.raf) cancelAnimationFrame(this.raf);
+    clearTimeout(this.backTimer);
+  }
+
+  prepare(data) {
+    const n = data.n;
+    const eyes = data.eyes.map((e) => Object.assign({}, e, { rx: e.rx * 0.84, ry: 0.0085, ir: 0.0105 }));
+    const D = { u: [], w: [], r: [], d: [], ox: [], oy: [], dl: [], step: 1 / n };
+    for (let j = 0; j < n; j++) {
+      for (let i = 0; i < n; i++) {
+        const k = j * n + i;
+        const v = data.v[k] / 255;
+        if (v <= 0.03) continue;
+        const u = (i + 0.5) / n;
+        const w = (j + 0.5) / n;
+        let inEye = false;
+        for (let e = 0; e < eyes.length; e++) {
+          const ex = (u - eyes[e].x) / (eyes[e].rx * 1.08);
+          const ey = (w - eyes[e].y) / (eyes[e].ry * 1.25);
+          if (ex * ex + ey * ey < 1) inEye = true;
+        }
+        if (inEye) continue;
+        D.u.push(u); D.w.push(w); D.r.push(0.52 * Math.pow(v, 0.75)); D.d.push(data.d[k] / 255);
+        D.ox.push((Math.random() - 0.5) * 1.4); D.oy.push((Math.random() - 0.5) * 1.4); D.dl.push(Math.random() * 0.35);
+      }
+    }
+    this.dots = D;
+    this.eyes = eyes.map((e) => {
+      const i = Math.min(n - 1, Math.floor(e.x * n));
+      const j = Math.min(n - 1, Math.floor(e.y * n));
+      return Object.assign({}, e, { depth: data.d[j * n + i] / 255 });
+    });
+  }
+
+  resize() {
+    const c = this.canvasEl;
+    if (!c) return;
+    const w = c.clientWidth || 400;
+    const dpr = window.devicePixelRatio || 1;
+    c.width = Math.round(w * dpr);
+    c.height = Math.round(w * dpr);
+    this.size = w;
+    this.dpr = dpr;
+  }
+
+  setPtr(cx, cy) {
+    const c = this.canvasEl;
+    if (!c) return;
+    const r = c.getBoundingClientRect();
+    this.ptr = { x: cx - r.left, y: cy - r.top };
+  }
+
+  startGather() {
+    if (this.reduce || !this.dots) return;
+    this.gatherT0 = performance.now();
+    this.kick();
+  }
+
+  lookAtEl(el) {
+    if (this.reduce || !el) return;
+    this.focusEl = el;
+    const r = el.getBoundingClientRect();
+    this.aimAt(r.left + r.width / 2, r.top + r.height / 2);
+  }
+
+  home() {
+    this.target = { x: 0, y: 0 };
+    this.kick();
+  }
+
+  aimAt(px, py) {
+    const c = this.canvasEl;
+    if (!c) return;
+    const r = c.getBoundingClientRect();
+    const dx = px - (r.left + r.width * 0.5);
+    const dy = py - (r.top + r.height * 0.33);
+    const d = Math.hypot(dx, dy) || 1;
+    const k = Math.min(1, d / (r.width * 0.7));
+    this.target = { x: (dx / d) * k, y: (dy / d) * k };
+    this.kick();
+  }
+
+  kick() {
+    if (!this.raf) this.raf = requestAnimationFrame(() => this.step());
+  }
+
+  step() {
+    this.raf = 0;
+    const now = performance.now();
+    const t = this.target;
+    this.eye.x += (t.x - this.eye.x) * 0.22;
+    this.eye.y += (t.y - this.eye.y) * 0.22;
+    this.head.x += (t.x - this.head.x) * 0.09;
+    this.head.y += (t.y - this.head.y) * 0.09;
+    this.lid += (this.lidTarget - this.lid) * 0.25;
+    let gathering = false;
+    if (this.gatherT0) {
+      if (now - this.gatherT0 < 1400) gathering = true;
+      else this.gatherT0 = 0;
+    }
+    this.draw(now);
+    const moving = Math.abs(t.x - this.eye.x) + Math.abs(t.y - this.eye.y) + Math.abs(t.x - this.head.x) + Math.abs(t.y - this.head.y);
+    if (moving > 0.003 || Math.abs(this.lidTarget - this.lid) > 0.01 || gathering) this.kick();
+  }
+
+  draw(now) {
+    const c = this.canvasEl;
+    if (!c || !this.dots || !this.size) return;
+    const g = c.getContext('2d');
+    const w = this.size;
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, c.width, c.height);
+    g.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    const sx = this.head.x * 0.024 * w;
+    const sy = this.head.y * 0.026 * w;
+    const D = this.dots;
+    const st = D.step * w;
+    const gt = this.gatherT0 ? (now - this.gatherT0) / 1100 : 1;
+    const P = this.ptr;
+    const spot = this.opt('spotlight') && P;
+    const sand = this.opt('sand') && P;
+    const SR = 0.16 * w;
+    const AR = 0.14 * w;
+    const push = 0.035 * w;
+    const base = new Path2D();
+    const coral = new Path2D();
+    for (let k = 0; k < D.u.length; k++) {
+      let x = D.u[k] * w + D.d[k] * sx;
+      let y = D.w[k] * w + D.d[k] * sy;
+      let rr = D.r[k] * st;
+      if (gt < 1) {
+        let l = (gt - D.dl[k]) / 0.65;
+        l = l < 0 ? 0 : l > 1 ? 1 : l;
+        const e = 1 - Math.pow(1 - l, 3);
+        x += D.ox[k] * w * (1 - e);
+        y += D.oy[k] * w * (1 - e);
+        rr *= 0.3 + 0.7 * e;
+      }
+      let inSpot = false;
+      if (sand || spot) {
+        const dx = x - P.x;
+        const dy = y - P.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        if (sand && dist < AR) {
+          const f = Math.pow(1 - dist / AR, 2) * push;
+          x += (dx / dist) * f;
+          y += (dy / dist) * f;
+        }
+        if (spot && dist < SR) inSpot = true;
+      }
+      const p = inSpot ? coral : base;
+      p.moveTo(x + rr, y);
+      p.arc(x, y, rr, 0, Math.PI * 2);
+    }
+    g.fillStyle = '#F3EEE7';
+    g.fill(base);
+    g.fillStyle = '#FF6B57';
+    g.fill(coral);
+    const eyeAlpha = gt < 1 ? Math.max(0, Math.min(1, (gt - 0.8) / 0.2)) : 1;
+    if (eyeAlpha <= 0) return;
+    g.globalAlpha = eyeAlpha;
+    for (let e = 0; e < this.eyes.length; e++) {
+      const E = this.eyes[e];
+      const look = this.eye.y;
+      const cx = E.x * w + E.depth * sx;
+      const rx = E.rx * w;
+      const ry = E.ry * w * (1 + 0.22 * Math.max(0, -look) - 0.3 * Math.max(0, look));
+      const cy = E.y * w + E.depth * sy + look * E.ry * w * 0.15;
+      g.save();
+      g.beginPath();
+      g.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      g.clip();
+      const f = ry * 0.5;
+      const sclera = new Path2D();
+      for (let y = cy - ry; y <= cy + ry; y += f) {
+        for (let x = cx - rx; x <= cx + rx; x += f) {
+          const nx = (x - cx) / rx;
+          const ny = (y - cy) / ry;
+          const dd = nx * nx + ny * ny;
+          if (dd > 1) continue;
+          const rr = f * 0.55 * (1 - 0.5 * dd);
+          sclera.moveTo(x + rr, y);
+          sclera.arc(x, y, rr, 0, Math.PI * 2);
+        }
+      }
+      g.fillStyle = '#CFC8BF';
+      g.fill(sclera);
+      const pr = E.ir * w;
+      const px = cx + this.eye.x * rx * 0.38;
+      const py = cy + this.eye.y * ry * 0.7;
+      g.fillStyle = '#1A1816';
+      g.beginPath();
+      g.arc(px, py, pr, 0, Math.PI * 2);
+      g.fill();
+      g.fillStyle = '#F3EEE7';
+      g.beginPath();
+      g.arc(px - pr * 0.45, py - pr * 0.4, Math.max(0.8, pr * 0.14), 0, Math.PI * 2);
+      g.fill();
+      if (this.lid > 0.01) {
+        const lidY = cy - ry + 2 * ry * this.lid;
+        g.fillStyle = '#1A1816';
+        g.fillRect(cx - rx, cy - ry, 2 * rx, lidY - (cy - ry));
+        const skin = new Path2D();
+        for (let y = cy - ry; y < lidY; y += f) {
+          for (let x = cx - rx; x <= cx + rx; x += f) {
+            const rr = f * 0.5;
+            skin.moveTo(x + rr, y);
+            skin.arc(x, y, rr, 0, Math.PI * 2);
+          }
+        }
+        g.fillStyle = '#E9E2D9';
+        g.fill(skin);
+        g.fillStyle = '#1A1816';
+        g.fillRect(cx - rx, lidY - 0.6, 2 * rx, 1.2);
+      }
+      g.restore();
+    }
+    g.globalAlpha = 1;
+  }
+}
+</script>
+</body>
+</html>

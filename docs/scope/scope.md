@@ -29,6 +29,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 14 | Three.js 3D scene | Release 2 | in-progress |
 | 15 | Visit & booking click analytics | Launch | in-progress |
 | 16 | Deploy & go live | Launch | done |
+| 17 | Homepage redesign | Release 3 | planned |
 
 ## Foundations
 
@@ -205,9 +206,18 @@ spec [0001](../specs/0001-astro-static-site-netlify/index.md), [0012](../specs/0
   - [x] Teardown after 7 days: Netlify files and `CONTEXT` removed, Netlify project deleted, `pnpm verify` clean (spec 0013 AC-10)
 - [x] Verify it: `/check verify deploy & go live` (2026-11-04, with the documented exceptions in spec 0013 `verify.md`)
 
+## Release 3: Redesign
+
+The approved homepage redesign (design board approved 2026-11-04): visitors see real work and a clear process before they are asked to book. Brand, stack, and ground rules stay the same.
+
+### 17. Homepage redesign · planned · needs a decision
+Apply the new design from the handoff in `docs/design/handoff/` (read `handoff.md` first): new page order (Header, Hero, Services, Work, How it works, About, Final CTA, Footer), a dotted portrait in the hero whose eyes follow the pointer (replacing the Three.js scene), the tools line moved into About, the privacy notice moved to its own `/privacy` page, a new header booking button, and the 404 page restyled. It changes the decisions in specs 0004, 0006, 0007, 0008, 0009, and 0010, and absorbs the deferred Selected Work item as the Work section.
+**Done when:** the page matches `docs/design/handoff/design.md` at 320, 390, 768, and 1280 with no sideways scrolling; the hero works with JavaScript off (still portrait) and with reduced motion (static portrait, no drawing); the portrait code and its data stay out of the entry chunk; all three booking buttons use the `site.ts` URL with their own analytics location; `/privacy` holds the full notice and is in the sitemap; no placeholder ships (the Work section and its links stay out until your real content exists); and `pnpm verify` passes.
+- [ ] Design it (spec): `/architect homepage redesign`
+
 ## Deferred
 Out of scope for launch, kept so the plan stays honest.
-- **Selected Work**: GitHub automation projects and the ecommerce UI concept, each clearly labeled as a demo, concept, or work in progress, and only ones you approve · needs a decision
+- **Selected Work**: moved into feature 17 as the Work section (n8n workflows, and SKF labeled "In progress"), shipped only once you supply the real text, screenshots, and alt text
 - **Privacy notice for Malaysia**: before running the business from Malaysia, check the notice against the PDPA, including whether a Malay version is needed, and decide whether to name a location · from spec 0007 · needs a decision
 
 ## Legend

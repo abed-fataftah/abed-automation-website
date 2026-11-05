@@ -11,3 +11,5 @@ config/
 
 # Design reference from the handoff, kept exactly as delivered (spec 0003).
 docs/design/prototype/
+# Homepage redesign handoff (feature 17), kept exactly as delivered.
+docs/design/handoff/

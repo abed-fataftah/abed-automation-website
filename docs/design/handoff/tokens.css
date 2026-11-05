@@ -1,0 +1,84 @@
+/*
+ * Abed Automation homepage redesign: design tokens
+ * Format: Tailwind CSS v4 @theme block. Merge into src/styles/global.css (do not add a second file).
+ *
+ * MERGE RULE: global.css already holds approved tokens from spec 0003. Read it first.
+ *   - Where a token below has an existing equivalent, keep the EXISTING name and value and map
+ *     this design onto it. Values marked [APPROX] were estimated without access to global.css;
+ *     the existing value always wins for those.
+ *   - Values marked [VERIFIED] were read from the live site (abedautomation.com, 2026-11-04).
+ *   - Values marked [NEW] do not exist yet: add them.
+ *
+ * Dark only. There is no light theme.
+ */
+
+@theme {
+  /* Colour roles --------------------------------------------------------------------------- */
+  --color-bg: #1a1816; /* [VERIFIED] page background */
+  --color-surface: #24211e; /* [NEW] service cards, image wells */
+  --color-text: #f3eee7; /* [APPROX] warm off-white body and heading text: use the existing token */
+  --color-text-muted: #b5ada3; /* [APPROX] supporting text: use the existing secondary token */
+  --color-accent: #ff6b57; /* [VERIFIED] coral: buttons, focus ring, step rules, underline, tags */
+  --color-accent-hover: #ff8574; /* [APPROX] button hover: use the existing hover value if one exists */
+  --color-on-accent: #1a1816; /* [VERIFIED] button text on coral */
+  --color-line: #3a3530; /* [NEW] decorative hairlines and card borders (not a control boundary) */
+
+  /* Dotted portrait (canvas only; read by dotted-portrait.ts with getComputedStyle) */
+  --color-portrait-dot: var(--color-text);
+  --color-portrait-sclera: #cfc8bf; /* [NEW] eye whites, softer than text so the eyes do not glow */
+  --color-portrait-pupil: var(--color-bg);
+
+  /* Typography ------------------------------------------------------------------------------ */
+  --font-sans: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif; /* [VERIFIED] */
+  /* Weights in use: 400 body, 500 text links, 600 card and step titles and buttons, 700 h1 and h2 */
+
+  --text-hero: clamp(2.125rem, 4.6vw, 3.5rem); /* 34px to 56px, line-height 1.08, -0.02em */
+  --text-cta-heading: clamp(1.875rem, 3.8vw, 2.75rem); /* 30px to 44px, line-height 1.12 */
+  --text-section: clamp(1.75rem, 3.2vw, 2.25rem); /* 28px to 36px, h2, -0.01em */
+  --text-card-title: 1.375rem; /* 22px, h3 in Services and Work */
+  --text-step-title: 1.25rem; /* 20px, h3 in How it works */
+  --text-lead: 1.1875rem; /* 19px, hero supporting line and first About paragraph */
+  --text-greeting: 1.125rem; /* 18px, "Hi, I'm Abed." and the final CTA paragraph */
+  --text-body-lg: 1.0625rem; /* 17px, service and About body, buttons */
+  --text-body: 1rem; /* 16px, lists, card body, step body */
+  --text-small: 0.9375rem; /* 15px, nav, tags, facts, tools line, reassurance lines, header button */
+  --text-caption: 0.875rem; /* 14px, footer */
+
+  /* Spacing and layout ---------------------------------------------------------------------- */
+  --container-page: 70rem; /* 1120px content width */
+  --spacing-page-x: clamp(1.25rem, 5vw, 3rem); /* 20px to 48px side padding */
+  --spacing-section-y: clamp(3.5rem, 8vw, 6rem); /* 56px to 96px top and bottom of each section */
+  --spacing-hero-top: clamp(2rem, 6vw, 4.5rem); /* 32px to 72px */
+
+  /* Breakpoint for the two-column hero, About, Services, and Work */
+  --breakpoint-two-col: 56.25rem; /* 900px: class prefix `two-col:` */
+  /* Tailwind defaults also used: sm 40rem (640px) and lg 64rem (1024px) for How it works */
+
+  /* Shape ----------------------------------------------------------------------------------- */
+  --radius-button: 0.5rem; /* 8px */
+  --radius-card: 0.75rem; /* 12px: service cards, work cards, About photo */
+  --radius-pill: 9999px; /* fact chips, "In progress" tag */
+
+  /* Motion ---------------------------------------------------------------------------------- */
+  --ease-draw: cubic-bezier(0.2, 0.7, 0.2, 1); /* hero underline draw */
+  --duration-draw: 700ms; /* underline draw, starts after a 300ms delay */
+}
+
+/*
+ * Focus ring (all links and buttons): outline 2px solid var(--color-accent); outline-offset 3px;
+ * border-radius 4px. Keep the existing focus style from spec 0003 if it already matches.
+ *
+ * No shadows, no gradients, no z-index layers are used in this design.
+ *
+ * Contrast, computed with the WCAG 2 formula (normal text needs 4.5:1, large text 3:1):
+ *   text #F3EEE7       on bg #1A1816       15.34:1
+ *   text #F3EEE7       on surface #24211E  13.88:1
+ *   muted #B5ADA3      on bg #1A1816        7.98:1
+ *   muted #B5ADA3      on surface #24211E   7.22:1
+ *   accent #FF6B57     on bg #1A1816        6.32:1  (also used as text: tags, step numbers)
+ *   accent #FF6B57     on surface #24211E   5.71:1
+ *   on-accent #1A1816  on accent #FF6B57    6.32:1
+ *   on-accent #1A1816  on hover #FF8574     7.47:1
+ *   line #3A3530       on bg #1A1816        1.46:1  decorative only, never the only boundary of a control
+ * Re-check these pairs if any [APPROX] value is replaced by the existing token.
+ */
